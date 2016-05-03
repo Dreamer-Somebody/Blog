@@ -1,0 +1,185 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('../../fonts/icomoon.eot?r36atj');
+    src:    url('../../fonts/icomoon.eot?r36atj#iefix') format('embedded-opentype'),
+        url('../../fonts/icomoon.ttf?r36atj') format('truetype'),
+        url('../../fonts/icomoon.woff?r36atj') format('woff'),
+        url('../../fonts/icomoon.svg?r36atj#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-good:before {
+    content: "\e900";
+}
+.icon-home3:before {
+    content: "\e901";
+}
+.icon-file-text:before {
+    content: "\e902";
+}
+.icon-price-tag:before {
+    content: "\e903";
+}
+.icon-clock:before {
+    content: "\e904";
+}
+.icon-bubble:before {
+    content: "\e905";
+}
+.icon-bubbles:before {
+    content: "\e906";
+}
+.icon-switch:before {
+    content: "\e907";
+}
+.icon-link:before {
+    content: "\e908";
+}
+.icon-eye:before {
+    content: "\e909";
+}
+.icon-life:before {
+    content: "\e90a";
+}
+.icon-question:before {
+    content: "\e90b";
+}
+.icon-loop:before {
+    content: "\e90c";
+}
+.icon-code:before {
+    content: "\e90d";
+}
+.icon-weibo:before {
+    content: "\e90e";
+}
+.icon-github:before {
+    content: "\e90f";
+}
+.icon-unfold:before {
+    content: "\e910";
+}
+.icon-home:before {
+    content: "\e911";
+}
+.icon-news:before {
+    content: "\e912";
+}
+.icon-search:before {
+    content: "\e913";
+}
+.icon-top:before {
+    content: "\e914";
+}
+.icon-fold:before {
+    content: "\e915";
+}
+.icon-menu:before {
+    content: "\e916";
+}
+
+
+div#sidebar {
+    position: fixed;
+    width:150px;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: #343434;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+div#head {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    padding: 20px 0 30px;
+    text-align: center;
+    background-color: #28282E;
+    color: #fff;
+}
+
+div#avatar {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    border: 2px #fff solid;
+    border-radius: 50%;
+    overflow: hidden;
+    background:url("../../img/skyside.png");
+}
+
+p#size_small {
+    display: block;
+    width: 90%;
+    margin: -10px auto 0;
+    font-size: 13px;
+    font-family: consolas,Microsoft YaHei;
+    color: rgba(255, 255, 255, .6);
+}
+
+div#body {
+    position: relative;
+}
+ul{
+    margin:0;
+    padding:0;
+}
+
+div#body li {
+    font-size: 14px;
+    color: #888;
+    list-style-type: none;
+    padding: 12px;
+    border-bottom:1px solid rgba(124,117,117,.2);
+    transition:all 0.3s;
+}
+
+#body a {
+    display: inline-block;
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+li.active{
+    background-color: #FF5E53;
+}
+ul#nav>li:hover{
+    background-color: #FF5E53;
+}
+i{
+    color:#fff;
+    display:inline-block;
+    margin:0 20px;
+}
+i.icon-unfold,i.icon-fold{
+    position: relative;
+    margin:0;
+    left:25px;
+}
+ul.sublist{
+    text-align: center;
+    overflow: hidden;
+    transition:height 0.3s;
+}
+ul#tech{
+    height: 172px;  
+}
+ul.sublist.hide{
+    height: 0 !important;
