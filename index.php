@@ -7,6 +7,7 @@
 <body>
 	<?php
 	include_once("components/sidebar/sidebar.php");
+	include_once("components/head/head.php");
 	?>
 </body>
 </html>
