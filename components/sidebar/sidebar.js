@@ -1,25 +1,24 @@
 $(document).ready(function($) {
     $("i").click(function(event) {
-    	event.preventDefault();
+        event.preventDefault();
+        //由于jquery对象与普通DOM对象不同，不能使用普通DOM对象的方法，
+        // 所以$this.dataset.type报type属性未定义的错误，此处只能用this.dataset.type。
+        type =this.dataset.type;
         var $this = $(this);
-        if ($this.hasClass('icon-fold')) {
-            $this.removeClass("icon-fold");
-            $id = $this.attr("class");
-            $this.addClass("icon-unfold");
-            if ($("ul#" + $id).hasClass("hide")) {
-                $("ul#" + $id).removeClass("hide");
+        if (!($this.hasClass('rotate'))) {
+            $this.addClass("rotate");
+            if ($("ul#"+type).hasClass("hide")) {
+                $("ul#"+type).removeClass("hide");
             }
-        } else if ($this.hasClass('icon-unfold')) {
-            $this.removeClass("icon-unfold");
-            $id = $this.attr("class");
-            $this.addClass("icon-fold");
-            $("ul#" + $id).addClass("hide");
+        } else {
+            $this.removeClass("rotate");
+            $("ul#"+type).addClass("hide");
         }
     });
     $("ul#nav a").click(function(event) {
-    	event.preventDefault();
-    	var $target=event.target;
-    	$("ul#nav li").removeClass("active");
-    	$($target.parentNode).addClass('active');
+        event.preventDefault();
+        var $target = event.target;
+        $("ul#nav li").removeClass("active");
+        $($target.parentNode).addClass('active');
     });
 });

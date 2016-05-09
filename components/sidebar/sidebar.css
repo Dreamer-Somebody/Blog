@@ -1,4 +1,4 @@
-ul,li {
+div#sidebar ul,div#sidebar li {
     margin: 0;
     padding: 0;
 }
@@ -12,6 +12,7 @@ div#sidebar {
     height: 100%;
     background-color: #343434;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    transition:all 1s;
 }
 
 div#head {
@@ -46,8 +47,12 @@ div#avatar,
 i.icon-unfold,
 i.icon-fold {
     position: relative;
+    transition: all .3s;
 }
 
+i.icon-fold.rotate{
+    transform: rotate(-180deg);
+}
 
 
 div#body li {
@@ -75,16 +80,10 @@ ul#nav li:hover {
     background-color: #FF5E53;
 }
 
-i {
+#sidebar i {
     color: #fff;
     display: inline-block;
     margin: 0 20px;
-}
-
-i.icon-unfold,
-i.icon-fold {
-    margin: 0;
-    left: 25px;
 }
 
 ul.sublist {
@@ -100,3 +99,4 @@ ul#tech {
 
 ul.sublist.hide {
     height: 0 !important;
+}
