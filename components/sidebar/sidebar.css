@@ -1,4 +1,14 @@
-ul,li {
+div#sidebar {
+    position: fixed;
+    width: 150px;
+    height: 100%;
+    z-index: 20;
+    background-color: #343434;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.4);
+    transition:all 1s;
+}
+
+div#sidebar ul,div#sidebar li {
     margin: 0;
     padding: 0;
 }
@@ -6,13 +16,7 @@ div#sidebar,div#head{
     left: 0px;
     top: 0px;
 }
-div#sidebar {
-    position: fixed;
-    width: 150px;
-    height: 100%;
-    background-color: #343434;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-}
+
 
 div#head {
     padding: 20px 0 30px;
@@ -28,7 +32,7 @@ div#avatar {
     border: 2px #fff solid;
     border-radius: 50%;
     overflow: hidden;
-    background: url("../../img/skyside.png");
+    background: url("/blog/img/avatar/skyside.png");
 }
 
 p#size_small {
@@ -46,8 +50,12 @@ div#avatar,
 i.icon-unfold,
 i.icon-fold {
     position: relative;
+    transition: all .3s;
 }
 
+i.icon-fold.rotate{
+    transform: rotate(-180deg);
+}
 
 
 div#body li {
@@ -75,16 +83,11 @@ ul#nav li:hover {
     background-color: #FF5E53;
 }
 
-i {
+
+#sidebar i {
     color: #fff;
     display: inline-block;
     margin: 0 20px;
-}
-
-i.icon-unfold,
-i.icon-fold {
-    margin: 0;
-    left: 25px;
 }
 
 ul.sublist {
@@ -100,3 +103,4 @@ ul#tech {
 
 ul.sublist.hide {
     height: 0 !important;
+}
