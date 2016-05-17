@@ -1,6 +1,7 @@
 body {
     padding: 0;
     margin: 0;
+<<<<<<< HEAD
     background-color: #F3F3F3;
 }
 
@@ -17,12 +18,25 @@ div#header {
 div#header:hover{
     opacity: 1;
 }
+=======
+}
+
+div#header {
+    height: 30px;
+    background-color: #fff;
+}
+
+>>>>>>> origin/master
 div.menu {
     position: absolute;
     width: 20px;
     height: 30px;
     left: 150px;
+<<<<<<< HEAD
     padding: 10px 12px; 
+=======
+    padding: 6px 12px; 
+>>>>>>> origin/master
     transition:left 1s;   
 }
 i.icon-menu:hover{
@@ -32,13 +46,20 @@ i.icon-menu:hover{
 i.icon-menu {
     font-size: 20px;
     cursor: pointer;
+<<<<<<< HEAD
     color: rgba(0, 0, 0, 0.5);
+=======
+    color: black;
+>>>>>>> origin/master
     transition:left,transform .3s;
 }
 
 div#header i.icon-search {
     font-weight: 600;
+<<<<<<< HEAD
     opacity: 0.3
+=======
+>>>>>>> origin/master
 }
 
 div#header form {
@@ -56,10 +77,15 @@ input[type="text"]#search {
     line-height: 1.5;
     height: 24px;
     width: 200px;
+<<<<<<< HEAD
     color: rgba(0, 0, 0, 0.5);
     background-color: #F9FAFC;
     border: 0;
     font-family: Microsoft YaHei;
+=======
+    background-color: #F9FAFC;
+    border: 0;
+>>>>>>> origin/master
 }
 
 input[type="text"]#search:focus {

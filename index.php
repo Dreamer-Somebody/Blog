@@ -3,14 +3,18 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>天边的博客</title>
+<<<<<<< HEAD
 	<link rel="stylesheet" href="/blog/index.css" />
 	<link rel="stylesheet" href="/blog/common/article.css" />
+=======
+>>>>>>> origin/master
 </head>
 <body>
 	<?php
 	include_once("components/sidebar/sidebar.php");
 	include_once("components/head/head.php");
 	?>
+<<<<<<< HEAD
 	<div id="container">
 		<div id="pic">
 		<a id="switch">
@@ -46,5 +50,7 @@
 	</div>
 	<script src="/blog/common/jquery.js"></script>
 	<script src="/blog/index.js"></script>
+=======
+>>>>>>> origin/master
 </body>
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 div#sidebar {
     position: fixed;
     width: 150px;
@@ -8,6 +9,8 @@ div#sidebar {
     transition:all 1s;
 }
 
+=======
+>>>>>>> origin/master
 div#sidebar ul,div#sidebar li {
     margin: 0;
     padding: 0;
@@ -16,7 +19,18 @@ div#sidebar,div#head{
     left: 0px;
     top: 0px;
 }
+<<<<<<< HEAD
 
+=======
+div#sidebar {
+    position: fixed;
+    width: 150px;
+    height: 100%;
+    background-color: #343434;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    transition:all 1s;
+}
+>>>>>>> origin/master
 
 div#head {
     padding: 20px 0 30px;
@@ -83,7 +97,10 @@ ul#nav li:hover {
     background-color: #FF5E53;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 #sidebar i {
     color: #fff;
     display: inline-block;

@@ -10,7 +10,11 @@
 <div id="header">
 <div class="menu"><i class="icon-menu"></i></div>
 <form action="../../page/search.php" method="get">
+<<<<<<< HEAD
 	<input type="text" id="search" name="search" placeholder="搜索文章关键字..."/> 
+=======
+	<input type="text" id="search" name="search" placeholder="搜索文章关键字"/> 
+>>>>>>> origin/master
 	<button class="btn-search" type="submit"><i class="icon-search"></i></button>
 </form>
 </div>
