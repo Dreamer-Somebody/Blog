@@ -1,3 +1,5 @@
+/*文章列表显示相关CSS*/
+
 #container {
     position: relative;
     width: 1130px;
@@ -5,6 +7,10 @@
     border-radius: 5px;
     -webkit-transition: -webkit-transform 1s;
     transition: transform 1s;
+}
+
+div#container a:hover{
+    opacity: .6;
 }
 
 div#content {
@@ -30,7 +36,72 @@ div#classify {
     height: 300px;
     background-color: #FFF;
 }
+p#header{
+    font-size: 18px;
+}
+p#header{
+    padding: 5px 0;
+    margin: 0;
+    font-weight: 700;
+    display: inline-block;
+    border-bottom: 2px solid #FF5E53;
+}
 
-p#header {
-    border-bottom: 1px solid #FF5E53
+div#classify h3{
+    padding: 0 10px;
+    font-size: 14px;
+    border-left: 4px solid #FF5E53;
+}
+
+div.article{
+    position: relative;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+div.article a{
+    color: #555;
+}
+
+div.article span.tags{
+    font-size: 12px;
+    padding: 5px;
+    margin-right: 15px;
+    color: #FFF;
+    background-color: #FF5E53;
+    line-height: 14px;
+    border-radius: 2px;
+}
+
+div.article span.tags::after{
+    content: '';
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #FF5E53;
+}
+
+p.info1,p.info2{
+    padding: 5px 0;
+    font-size: 12px;
+    color: #999;
+}
+p.info2{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+p.info2 i{
+    margin: 0 5px;
+}
+
+div.article p.content{
+    text-indent: 2em;
+    margin: 10px 20px 40px;
+    font-size: 16px;
+    color: rgba(0,0,0,0.8);
 }

@@ -9,7 +9,7 @@
 <body>
 <div id="header">
 <div class="menu"><i class="icon-menu"></i></div>
-<form action="../../page/search.php" method="get">
+<form action="/blog/common/search.php" method="get">
 	<input type="text" id="search" name="search" placeholder="搜索文章关键字..."/> 
 	<button class="btn-search" type="submit"><i class="icon-search"></i></button>
 </form>

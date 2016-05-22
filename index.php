@@ -32,16 +32,26 @@
 				$row = $result->fetch_array();
 				echo "<div class='article'>";
 				echo "<span class='tags'>".$row['class']."</span>";
-				echo "<p class='title'>".$row['title']."</p>";
+				echo "<a href='".$row['link']."'><strong class='title'>".$row['title']."</strong></a>";
 				echo "<p class='info1'>".$row['user']." 发表于 ".$row['pub_time']."</p>";
 				echo "<p class='content'>".$row['content']."</p>";
-				echo "<p class='info2'>"."阅读(".$row['click'].") 评论(".$row['comment'].") 赞(".$row['fav'].") "
-				."关键字: ".$row['keywords']."</p>";
+				echo "<p class='info2'>"."<i class='icon-eye'></i>阅读(".$row['click'].") <i class='icon-bubbles'></i>评论(".$row['comment'].") <i class='icon-good'></i>赞(".$row['fav'].") "
+				."<i class='icon-price-tag'></i>关键字: ".$row['keywords']."</p>";
 				echo "</div>";
 			}
 			?>
 		</div>
-		<div id="classify">分类相关</div>
+		<div id="classify">
+			<div class="time">
+				<h3>文章归档</h3>
+			</div>
+			<div class="category">
+				<h3>文章分类</h3>
+			</div>
+			<div class="tags">
+				<h3>标签分类</h3>
+			</div>
+		</div>
 		</div>
 	</div>
 	<script src="/blog/common/jquery.js"></script>

@@ -13,8 +13,10 @@ div#container div#pic img.hide{
 }
 div#container a#switch{
 	position: absolute;
+	opacity: 0;
 	cursor: pointer;
 	right: 0;
+	top: 212px;
 	color:#fff;
 	font-size: 12px;
 	padding:7px;
@@ -22,7 +24,10 @@ div#container a#switch{
 	z-index: 10;
 	background-color:rgba(0,0,0,0.4);
 	border-radius: 5px;
-	transition: background-color 1s;
+	transition: all 1s;
+}
+div#container div#pic:hover a#switch{
+    opacity: 1;
 }
 div#container i.icon-loop{
 	margin: 0 6px;

@@ -48,6 +48,7 @@ div#header form {
     padding: 6px 12px;
     vertical-align: middle;
     display: inline-block;
+
 }
 
 input[type="text"]#search {
@@ -59,6 +60,7 @@ input[type="text"]#search {
     color: rgba(0, 0, 0, 0.5);
     background-color: #F9FAFC;
     border: 0;
+    border-radius: 15px;
     font-family: Microsoft YaHei;
 }
 
