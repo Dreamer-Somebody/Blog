@@ -19,7 +19,7 @@ div#content {
 }
 
 div#show_article,div#classify {
-    padding: 20px;
+    padding: 10px 20px;
     margin-top: 20px;
     border-radius: 5px;
     background-color: #FFF;
@@ -33,8 +33,6 @@ div#show_article {
 div#classify {
 	margin-left: 50px;
 	flex: 1 0 18%;
-    height: 300px;
-    background-color: #FFF;
 }
 p#header{
     font-size: 18px;
@@ -64,7 +62,7 @@ div.article a{
     color: #555;
 }
 
-div.article span.tags{
+div.article a.tags{
     font-size: 12px;
     padding: 5px;
     margin-right: 15px;
@@ -74,7 +72,7 @@ div.article span.tags{
     border-radius: 2px;
 }
 
-div.article span.tags::after{
+div.article a.tags::after{
     content: '';
     display: inline-block;
     position: absolute;
@@ -104,4 +102,27 @@ div.article p.content{
     margin: 10px 20px 40px;
     font-size: 16px;
     color: rgba(0,0,0,0.8);
+}
+
+div.content a:hover{
+    text-decoration: underline;
+}
+
+div#classify ul{
+    margin-left: 14px;
+    padding: 0;
+}
+
+div#classify ul li{
+    padding: 5px;
+    margin: 5px 5px;
+    font-size: 12px;
+
+    list-style-type: none;
+    display: inline-block;
+    background-color: #FF5E53;
+}
+
+div#classify a{
+    color: #FFF;
 }

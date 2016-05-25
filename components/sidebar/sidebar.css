@@ -1,6 +1,6 @@
 div#sidebar {
     position: fixed;
-    width: 150px;
+    width: 160px;
     height: 100%;
     z-index: 20;
     background-color: #343434;
@@ -60,7 +60,7 @@ i.icon-fold.rotate{
 
 div#body li {
     font-size: 14px;
-    color: #888;
+    overflow: hidden;
     list-style-type: none;
     transition: all 0.3s;
 }

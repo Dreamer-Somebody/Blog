@@ -21,7 +21,7 @@ div.menu {
     position: absolute;
     width: 20px;
     height: 30px;
-    left: 150px;
+    left: 160px;
     padding: 10px 12px; 
     transition:left 1s;   
 }
