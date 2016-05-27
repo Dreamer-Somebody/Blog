@@ -1,3 +1,6 @@
+<?php
+	include_once("common/include.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +10,6 @@
 	<link rel="stylesheet" href="/blog/common/article.css" />
 </head>
 <body>
-	<?php
-	include_once("components/sidebar/sidebar.php");
-	include_once("components/head/head.php");
-	?>
 	<div id="container">
 		<div id="pic">
 		<a id="switch">
@@ -23,32 +22,16 @@
 		<div id="show_article">
 			<p id="header">最新文章</p>
 			<?php
-			include_once("common/db_fns.php");
-			$conn = db_connect();
-			$query = "select * from article order by pub_time desc limit 0,10";
-			$result = $conn->query($query);
-			$rows= $result->num_rows;
-			for($i=1;$i<=$rows;$i++){
-				$row = $result->fetch_array();
-				echo "<div class='article'>";
-				echo "<a class='tags' href=''>".$row['class']."</a>";
-				echo "<a href='".$row['link']."'><strong class='title'>".$row['title']."</strong></a>";
-				echo "<p class='info1'>".$row['user']." 发表于 ".$row['pub_time']."</p>";
-				//411是137个汉字
-			    if(strlen($row['content'])>411){
-				    $row['content']= substr($row['content'], 0, 411)."...";
-			    }
-				echo "<a href='".$row['link']."'><p class='content'>".$row['content']."</p></a>";
-				echo "<p class='info2'>"."<i class='icon-eye'></i>阅读(".$row['click'].") <i class='icon-bubbles'></i>评论(".$row['comment'].") <i class='icon-good'></i>赞(".$row['fav'].") "
-				."<i class='icon-price-tag'></i>关键字: ".$row['keywords']."</p>";
-				echo "</div>";
-			}
+			    $query = "select * from article order by pub_time desc";
+			    @$page= $_GET['page']?$_GET['page']:1;
+			    show_article($query,$page);
 			?>
 		</div>
 		<div id="classify">
 			<div class="date">
 				<h3>文章归档</h3>
 				<?php
+				$conn= db_connect();
 				$query = "select pub_time from article order by pub_time desc";
 			    $result = $conn->query($query);
 			    $rows= $result->num_rows;
@@ -68,7 +51,7 @@
 					}
 				}
 				while (list($key,$val)=each($dates)) {
-					echo "<li><a href=''>".$key." (".$val.")"."</a></li>";
+					echo "<li><a href=''>{$key} ({$val})</a></li>";
 				}
 				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
@@ -83,7 +66,7 @@
 			    echo "<ul class='category'>";
 				for($i=1;$i<=$rows;$i++){
 					$row = $result->fetch_array();
-					echo "<li><a href=''>".$row['class']."</a></li>";
+					echo "<li><a href=''>{$row['class']}</a></li>";
 				}
 				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
@@ -108,7 +91,7 @@
 					}
 				}
 				while (list($val)=each($tags)) {
-					echo "<li><a href=''>".$val."</a></li>";
+					echo "<li><a href=''>{$val}</a></li>";
 				}
 				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
@@ -123,7 +106,7 @@
 			    echo "<ul class='hot'>";
 				for($i=1;$i<=$rows;$i++){
 					$row = $result->fetch_array();
-					echo "<li><a href='".$row['link']."'>".$row['title']."</a></li>";
+					echo "<li><a href='{$row['link']}'>{$row['title']}</a></li>";
 				}	
 				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
