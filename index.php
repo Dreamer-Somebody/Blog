@@ -24,7 +24,7 @@
 			<?php
 			    $query = "select * from article order by pub_time desc";
 			    @$page= $_GET['page']?$_GET['page']:1;
-			    show_article($query,$page);
+			    show_article_list($query,$page);
 			?>
 		</div>
 		<div id="classify">
@@ -51,9 +51,9 @@
 					}
 				}
 				while (list($key,$val)=each($dates)) {
-					echo "<li><a href=''>{$key} ({$val})</a></li>";
+					echo "<li><a href='/blog/sort.php?key=article_id&value={$key}'>{$key} ({$val})</a></li>";
 				}
-				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
+				echo "<li><a href='/blog/sort.php?key=article_id'>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
 				?>
 			</div>
@@ -66,9 +66,9 @@
 			    echo "<ul class='category'>";
 				for($i=1;$i<=$rows;$i++){
 					$row = $result->fetch_array();
-					echo "<li><a href=''>{$row['class']}</a></li>";
+					echo "<li><a href='/blog/sort.php?key=class&value={$row['class']}'>{$row['class']}</a></li>";
 				}
-				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
+				echo "<li><a href='/blog/sort.php?key=class'>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
 				?>
 
@@ -83,6 +83,9 @@
 			    echo "<ul class='tags'>";
 				for($i=1;$i<=$rows;$i++){
 					$row = $result->fetch_array();
+					if($row['keywords']==null){
+						continue;
+					}
 					$tagss= explode(',',$row['keywords']);
 					$len= count($tagss);
 					for($j=0;$j<$len;$j++)
@@ -91,16 +94,16 @@
 					}
 				}
 				while (list($val)=each($tags)) {
-					echo "<li><a href=''>{$val}</a></li>";
+					echo "<li><a href='/blog/sort.php?key=keywords&value={$val}'>{$val}</a></li>";
 				}
-				echo "<li><a href=''>更多 &nbsp;&gt;&gt;</a></li>";
+				echo "<li><a href='/blog/sort.php?key=keywords'>更多 &nbsp;&gt;&gt;</a></li>";
 				echo "</ul>";
 				?>
 			</div>
 			<div class="hot">
 				<h3>推荐文章</h3>
 				<?php
-				$query = "select title,link from article order by click,fav desc;";
+				$query = "select title,link from article order by click,fav desc limit 0,7;";
 			    $result = $conn->query($query);
 			    $rows= $result->num_rows;
 			    echo "<ul class='hot'>";

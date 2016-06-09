@@ -1,6 +1,6 @@
 $(document).ready(function($) {
-    $("i").click(function(event) {
-        event.preventDefault();
+	 $("i.icon-fold").on("click",function(event) {
+	   event.preventDefault();
         //由于jquery对象与普通DOM对象不同，不能使用普通DOM对象的方法，
         // 所以$this.dataset.type报type属性未定义的错误，此处只能用this.dataset.type。
         type =this.dataset.type;
@@ -14,11 +14,10 @@ $(document).ready(function($) {
             $this.removeClass("rotate");
             $("ul#"+type).addClass("hide");
         }
-    });
+	 });
     $("ul#nav a").click(function(event) {
-        event.preventDefault();
         var $target = event.target;
         $("ul#nav li").removeClass("active");
         $($target.parentNode).addClass('active');
-    });
+    }); 
 });

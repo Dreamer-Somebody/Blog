@@ -10,6 +10,7 @@
 
 div#content a:hover{
     opacity: .6;
+    left: -5px;
 }
 
 div#content {
@@ -18,6 +19,7 @@ div#content {
 }
 
 div#show_article,div#classify {
+    align-self: flex-start;
     padding: 10px 20px;
     margin-top: 20px;
     border-radius: 5px;
@@ -30,6 +32,7 @@ div#show_article {
 }
 
 div#classify {
+    align-self: flex-start;
 	margin-left: 50px;
 	flex: 1 0 18%;
 }
@@ -64,12 +67,15 @@ div.article a.tags{
 }
 
 div.article a.tags,div#classify a{
+    position: relative;
+    left: 0;
     font-size: 12px;
     padding: 5px 6px;
     color: #FFF;
     background-color: #FF5E53;
     line-height: 14px;
     border-radius: 2px;
+    transition: all 0.3s;
 }
 
 div.article a.tags::after{
@@ -133,7 +139,7 @@ ul#page_select li{
     font-size: 14px;
     display: inline-block;
     margin: 5px;
-    border: 1px solid #555;
+    border: 1px solid rgba(85,85,85,0.5);
 }
 
 ul#page_select a,ul#page_select span{  
@@ -145,9 +151,13 @@ ul#page_select a,ul#page_select span{
     line-height: 30px;
 }
 
-ul#page_select span#current{
+ul#page_select span.current{
     color: #FFF;
     background-color: #FF5E53;
+}
+
+ul#page_select li.current{
+    border: 1px solid #FF5E53;
 }
 
 ul#page_select li#total span{
