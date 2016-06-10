@@ -1,4 +1,4 @@
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 	 $("i.icon-fold").on("click",function(event) {
 	   event.preventDefault();
         //由于jquery对象与普通DOM对象不同，不能使用普通DOM对象的方法，

@@ -67,4 +67,7 @@ function show_article_list($query,$page= 1,$sub_query='',$num= 10){
 	echo "</ul>";
 	}	
 }
+function show_classify(){
+
+}
 ?>

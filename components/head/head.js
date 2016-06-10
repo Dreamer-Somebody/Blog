@@ -1,4 +1,4 @@
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 	var $i=0;
 	$("div.menu").click(function(event) {
         event.preventDefault();

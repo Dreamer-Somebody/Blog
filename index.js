@@ -1,4 +1,4 @@
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
 	$("div#pic a").click(function(event) {
 		event.preventDefault();
 		$number = Math.ceil(Math.random()*12);

@@ -139,7 +139,11 @@ ul#page_select li{
     font-size: 14px;
     display: inline-block;
     margin: 5px;
-    border: 1px solid rgba(85,85,85,0.5);
+    border: 1px solid #ddd;
+    transition: border .3s;
+}
+ul#page_select li:hover{
+    border-color: #999;
 }
 
 ul#page_select a,ul#page_select span{  
