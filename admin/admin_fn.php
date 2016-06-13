@@ -1,22 +1,21 @@
 <?php
 include("../common/db_fns.php");
+session_start();
 function login($username, $password) {
-// check username and password with db
-// if yes, return true
-// else throw exception
-
-  // connect to db
   $password= sha1($password);
   $conn = db_connect();
-  // check if username is unique
+  //转义输出
+  $username= mysqli_real_escape_string($conn,$username);
+  $password= mysqli_real_escape_string($conn,$password);
   $result = $conn->query("select * from user where username='{$username}' and password ='{$password}'");
   if (!$result) {
-     return false;
+    echo "出错了，请刷新页面重试...";
   }
   if ($result->num_rows>0) {
-     return true;
+    $_SESSION['valid_user']= "{$username}";
+    echo "登陆成功！";
   } else {
-     return false;
+    echo "账号或密码错误，请重试...";
   }
 }
 
@@ -29,21 +28,15 @@ function check_valid_user() {
 }
 
 function change_password($username, $old_password, $new_password) {
-// change password for username/old_password to new_password
-// return true or false
-
-  // if the old password is right
-  // change their password to new_password and return true
-  // else throw an exception
   login($username, $old_password);
   $conn = db_connect();
   $result = $conn->query("update user
                           set passwd = sha1('".$new_password."')
                           where username = '".$username."'");
   if (!$result) {
-    throw new Exception('Password could not be changed.');
+    throw new Exception('不能改密码');
   } else {
-    return true;  // changed successfully
+    return true;
   }
 }
 ?>

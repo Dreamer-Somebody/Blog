@@ -1,8 +1,8 @@
 jQuery(document).ready(function($) {
 	$("form").submit(function(event) {
 		event.preventDefault();
-		$user= $("input#user");
-		$pwd= $("input#pwd");
+		$user= $("input#user").val();
+		$pwd= $("input#pwd").val();
 		// $.post('control.php', {user: '$user',pwd:'$pwd'}, function($data) {
 		// 	if($data){
 		// 		window.location.href="index.php";
@@ -14,12 +14,15 @@ jQuery(document).ready(function($) {
 	$.ajax({
 		url: 'control.php',
 		type: 'post',
-		data: {user: '$user',pwd:'$pwd'},
+		data: {user: $user,pwd: $pwd},
 		success:function(msg){
-			alert("return: "+msg);
+			if(msg=="登陆成功！"){
+				window.location.href="index.php";
+			}else{
+				$("p#msg").html(msg);
+			}
 		}
 	});
-	
 	return false;
 	});
 });

@@ -6,7 +6,8 @@
 </head>
 <body>
 	<form action="" method="post">
-		账号：<input type="text" name="user" id="user"/>
+	    <p id="msg"></p>
+		账号：<input type="text" name="user" id="user"/></br>
 		密码：<input type="password" name="pwd" id="pwd"/>
 		<input type="submit" value="登陆" />
 	</form>
