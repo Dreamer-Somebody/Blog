@@ -12,7 +12,7 @@ function login($username, $password) {
     echo "出错了，请刷新页面重试...";
   }
   if ($result->num_rows>0) {
-    $_SESSION['valid_user']= "{$username}";
+    $_SESSION['user']= "{$username}";
     echo "登陆成功！";
   } else {
     echo "账号或密码错误，请重试...";
@@ -21,7 +21,7 @@ function login($username, $password) {
 
 function check_valid_user() {
   $result= false;
-  if (isset($_SESSION['valid_user'])){
+  if (isset($_SESSION['user'])){
   $result= true;
   }
   return $result;

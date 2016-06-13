@@ -19,7 +19,7 @@ jQuery(document).ready(function($) {
 			if(msg=="登陆成功！"){
 				window.location.href="index.php";
 			}else{
-				$("p#msg").html(msg);
+				$("div#msg p").html(msg);
 			}
 		}
 	});

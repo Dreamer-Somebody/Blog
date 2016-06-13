@@ -1,0 +1,49 @@
+#header{
+	/*position: absolute;*/
+	height: 350px;
+	background-color: #343434;
+}
+#content{
+	position: relative;
+	width:120px;
+    margin: 0 auto;
+	top: 30%;
+}
+#header img{
+	width: 120px;
+	margin: 0 auto;
+	border-radius: 50%;
+}
+#header p{
+	text-align: center;
+	color: #FFF;
+	font-size: 22px;
+	font-weight: 700;
+	padding: 10px;
+}
+form{
+	margin: 0 auto;
+	padding: 30px 25%;
+}
+div#msg{
+	height: 21px;
+	margin-bottom: 15px;
+}
+div#msg p{
+	display: inline;
+	color: #FF5E53;
+}
+input{
+	margin-right: 40px;
+}
+input:focus{
+	border: 2px solid #FF5E53;
+	outline: none;
+}
+input#submit{
+	padding: 4px 10px;
+	border: none;
+	background-color: #FF5E53;
+	color: #FFF;
+	font-family: Microsoft YaHei;
+}
