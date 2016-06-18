@@ -1,0 +1,32 @@
+ body{
+    	margin: 0;
+    }
+    #body p{
+    	color: #FFF;
+    	font-size:12px;
+    }
+    #header{
+    	position: fixed;
+    	width: 100%;
+    	background-color: #5A5A5F;
+    }
+    #header div{
+    	position: relative;
+    	left: 80%;
+    	height: 40px;
+    	color: #FFF;
+    }
+    #header p,#header a{
+    	display: inline-block;
+    	height: 100%;
+    	line-height: 40px;
+    	color: #FFF;
+    	margin:0 10px; 
+    }
+    #header a:hover{
+     	background-color: #7C7C83;
+     	transition: .5s;
+     }
+    #header a i{
+    	margin-right: 7px;
+    }

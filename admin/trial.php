@@ -15,7 +15,17 @@
     <script type="text/javascript" src="/blog/components/ueditor/utf8-php/ueditor.all.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
-        var ue = UE.getEditor('container');
+        var ue = UE.getEditor('container',{
+        	toolbars:[
+        	['fullscreen','anchor','source', 'undo', 'redo', 'bold','italic','underline','indent',
+        	'formatmatch','blockquote','pasteplain','preview','horizontal','removeformat','insertcode',
+        	'fontfamily','fontsize','paragraph','simpleupload','insertimage','link','searchreplace',
+        	'map','insertvideo','justifyleft','justifyright','justifycenter','justifyjustify','forecolor',
+        	'backcolor','insertorderedlist','insertunorderedlist','rowspacingtop','rowspacingbottom',
+        	'imagenone','imageleft','imageright','attachment','imagecenter', 'lineheight','edittip ',
+            'customstyle','autotypeset','background','music','inserttable', 'charts']
+            ]
+        });
     </script>
 </body>
 </html>

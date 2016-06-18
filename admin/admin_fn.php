@@ -39,4 +39,12 @@ function change_password($username, $old_password, $new_password) {
     return true;
   }
 }
+
+function get_index_page(){
+  $string= "<h1>信息摘要</h1>";
+  $string.= "<table>";
+  $string.= "<tr><td>当前用户：</td><td>{$_SESSION['user']}</td></tr>";
+  $string.= "</table>";
+  echo "$string";
+}
 ?>
