@@ -17,4 +17,8 @@ if(isset($_POST['user'])&&$_POST['user']!=''&&isset($_POST['pwd'])&&$_POST['pwd'
 	echo "账号和密码都不能为空！";
 }
 }
+if($action==get_page){
+	@$id= $_REQUEST['id'];
+	if($id=)
+}
 ?>

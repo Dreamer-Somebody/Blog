@@ -32,15 +32,15 @@ if(!check_valid_user()){
         </div>
         <div id="body">
             <ul id="nav">
-                <li class="active"><a href="control.php"><i class="icon-home3"></i>首页</a></li>
+                <li class="active"><a href="index.php"><i class="icon-home3"></i>首页</a></li>
                 <li>
-                    <a href="control.php?action=article_manage"><i class="icon-code"></i>文章管理</a>
+                    <a href="###" id="article"><i class="icon-code"></i>文章管理</a>
                 </li>
                 <li>
-                    <a href="control.php?action=comment_manage"><i class="icon-life"></i>评论管理</a>
+                    <a href="###" id="comment"><i class="icon-life"></i>评论管理</a>
                 </li>
                 <li>
-                    <a href="control.php?action=file_manage"><i class="icon-file-text"></i>文件管理</a>
+                    <a href="###" id="file"><i class="icon-file-text"></i>文件管理</a>
                 </li>
                   <li>
                     <a href="/blog/index.php"><i class="icon-news"></i>返回网站</a>
@@ -48,7 +48,8 @@ if(!check_valid_user()){
             </ul>
         </div>
     </div>
+    <div id="content"></div>
     <script src="/blog/common/jquery.js"></script>
-    <script src="/blog/components/sidebar/sidebar.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

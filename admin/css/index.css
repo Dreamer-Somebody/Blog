@@ -1,32 +1,58 @@
- body{
-    	margin: 0;
-    }
-    #body p{
-    	color: #FFF;
-    	font-size:12px;
-    }
-    #header{
-    	position: fixed;
-    	width: 100%;
-    	background-color: #5A5A5F;
-    }
-    #header div{
-    	position: relative;
-    	left: 80%;
-    	height: 40px;
-    	color: #FFF;
-    }
-    #header p,#header a{
-    	display: inline-block;
-    	height: 100%;
-    	line-height: 40px;
-    	color: #FFF;
-    	margin:0 10px; 
-    }
-    #header a:hover{
-     	background-color: #7C7C83;
-     	transition: .5s;
-     }
-    #header a i{
-    	margin-right: 7px;
-    }
+/*首页基础CSS开始*/
+
+body {
+    margin: 0;
+}
+#body p {
+    color: #FFF;
+    font-size: 12px;
+}
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #5A5A5F;
+}
+#header div {
+    position: relative;
+    left: 80%;
+    height: 40px;
+    color: #FFF;
+}
+#header p, #header a {
+    display: inline-block;
+    height: 100%;
+    line-height: 40px;
+    color: #FFF;
+    margin: 0 10px;
+    transition: background-color .5s;
+}
+#header a:hover {
+    background-color: #7C7C83;
+}
+#header a i {
+    margin-right: 7px;
+}
+#content {
+    margin: 50px 10px 0 170px;
+}
+
+/*首页基础CSS结束*/
+
+/*首页表格相关CSS开始*/
+
+table,tr,th,td{
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 10px;
+    width:100%;
+}
+td{
+    width:50%;
+    padding-left: 20px; 
+}
+th,tr:nth-child(even){
+    background-color: #F4F4F4;
+}
+
+/*表格CSS部分结束*/
