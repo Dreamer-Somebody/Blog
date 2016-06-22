@@ -32,7 +32,9 @@ if(!check_valid_user()){
         </div>
         <div id="body">
             <ul id="nav">
-                <li class="active"><a href="index.php"><i class="icon-home3"></i>首页</a></li>
+                <li class="active">
+                    <a href="index.php" id="index"><i class="icon-home3"></i>首页</a>
+                </li>
                 <li>
                     <a href="###" id="article"><i class="icon-code"></i>文章管理</a>
                 </li>
@@ -50,6 +52,7 @@ if(!check_valid_user()){
     </div>
     <div id="content"></div>
     <script src="/blog/common/jquery.js"></script>
+    <script src="/blog/components/sidebar/sidebar.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

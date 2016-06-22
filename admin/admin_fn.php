@@ -42,6 +42,26 @@ function change_password($username, $old_password, $new_password) {
   }
 }
 
+function get_page($id){
+  switch ($id) {
+    case 'index':
+      get_index_page();
+      break;
+    case 'article':
+      get_article_page();
+      break;
+    case 'comment':
+      get_comment_page();
+      break;
+    case 'file':
+      get_file_page();
+      break;
+    default:
+      echo "获取页面出错!";
+      break;
+  }
+}
+
 function get_index_page(){
   $string= "<h1>信息摘要</h1>";
   $string.= "<table>";
@@ -52,6 +72,26 @@ function get_index_page(){
   $string.= "<tr><td>分类总数：</td><td>".get_table_data('article','count(distinct class)')."</td></tr>";
   $string.= "<tr><td>浏览总数：</td><td>".get_table_data('article','sum(click)')."</td></tr>"; 
   $string.= "</table>";
+  echo "$string";
+}
+
+function get_article_page(){
+  $string= "<h1>文章管理</h1>";
+  $string.= "标题：<input type='text' value='未命名文章'></input></br>";
+  $string.= "文件名：<input type='text' value='未命名文章'></input>".".html</br>";
+  $string.= "标签名：<input type= 'text'></input>";
+  $string.= "<form action='control.php 'method='post'>
+  <script id='container' name='content' type='text/plain'></script>
+  <input type='submit' />
+</form>
+  <!-- 配置文件 -->
+    <script type='text/javascript' src='/blog/components/ueditor/utf8-php/ueditor.config.js'></script>
+    <!-- 编辑器源码文件 -->
+    <script type='text/javascript 'src='/blog/components/ueditor/utf8-php/ueditor.all.js'></script>
+    <!-- 实例化编辑器 -->
+    <script type='text/javascript'>
+        var ue = UE.getEditor('container');
+    </script>";
   echo "$string";
 }
 
