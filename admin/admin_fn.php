@@ -56,6 +56,9 @@ function get_page($id){
     case 'file':
       get_file_page();
       break;
+    case 'edit':
+      get_edit_page();
+      break;
     default:
       echo "获取页面出错!";
       break;
@@ -64,7 +67,7 @@ function get_page($id){
 
 function get_index_page(){
   $string= "<h1>信息摘要</h1>";
-  $string.= "<table>";
+  $string.= "<table id='index_table'>";
   $string.= "<tr><th colspan='2'>信息统计</th><tr>";
   $string.= "<tr><td>当前用户：</td><td>{$_SESSION['user']}</td></tr>";
   $string.= "<tr><td>文章总数：</td><td>".get_table_data('article')."</td></tr>";
@@ -76,6 +79,27 @@ function get_index_page(){
 }
 
 function get_article_page(){
+  $string= "<h1>文章管理</h1>";
+  $string.= "<a href='###' id='edit'>+ 编写新文章</a>";
+  $string.= "<table><tr><td>序号</td><td>文章编号</td><td>标题</td><td>发表时间</td><td colspan=2>操作</td></tr>";
+  $conn= db_connect();
+  $result= $conn->query("select article_id,title,pub_time from article order by pub_time desc");
+  $rows= $result->num_rows;
+  for($i=1;$i<=$rows;$i++){
+    $row = $result->fetch_array();
+    $string.= "<tr><td>{$i}</td>";
+    $string.= "<td>".$row['article_id']."</td>";
+    $string.= "<td>".$row['title']."</td>";
+    $string.= "<td>".$row['pub_time']."</td>";
+    $string.= "<td><a>编辑</a></td>";
+    $string.= "<td>删除</td>";
+    $string.= "</tr>";
+  }
+  $string.= "</table>";
+  echo "$string";
+}
+
+function get_edit_page(){
   $string= "<h1>文章管理</h1>";
   $string.= "标题：<input type='text' value='未命名文章'></input></br>";
   $string.= "文件名：<input type='text' value='未命名文章'></input>".".html</br>";
