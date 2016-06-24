@@ -81,7 +81,7 @@ function get_index_page(){
 function get_article_page(){
   $string= "<h1>文章管理</h1>";
   $string.= "<a href='###' id='edit'>+ 编写新文章</a>";
-  $string.= "<table><tr><td>序号</td><td>文章编号</td><td>标题</td><td>发表时间</td><td colspan=2>操作</td></tr>";
+  $string.= "<table><tr><th>序号</th><th>文章编号</th><th>标题</th><th>发表时间</th><th colspan=2>操作</th></tr>";
   $conn= db_connect();
   $result= $conn->query("select article_id,title,pub_time from article order by pub_time desc");
   $rows= $result->num_rows;

@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
     if ($("#content").text() === '') {
         get_page("index");
     }
-    $("a[id]").on('click', function(event) {
+    $("body").on('click', 'a[id]', function(event) {
         event.preventDefault();
         $id = $(this).attr('id');
         get_page($id);
