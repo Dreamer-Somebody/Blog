@@ -8,7 +8,7 @@
 </head>
 <body>
 <?php
-include("admin_fn.php");
+include_once("admin_fn.php");
 @$action= $_GET['action']||'';
  if($action == 'log-out') {
     unset($action);

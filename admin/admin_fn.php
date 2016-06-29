@@ -1,5 +1,5 @@
 <?php
-include("../common/db_fns.php");
+include_once("../common/db_fns.php");
 session_start();
 
 function login($username, $password) {
@@ -81,6 +81,7 @@ function get_index_page(){
 function get_article_page(){
   $string= "<h1>文章管理</h1>";
   $string.= "<a href='###' id='edit'>+ 编写新文章</a>";
+  $string.= "<a href='###' id='recycle'>- 回收站</a>";
   $string.= "<table><tr><th>序号</th><th>文章编号</th><th>标题</th><th>发表时间</th><th colspan=2>操作</th></tr>";
   $conn= db_connect();
   $result= $conn->query("select article_id,title,pub_time from article order by pub_time desc");
@@ -91,8 +92,8 @@ function get_article_page(){
     $string.= "<td>".$row['article_id']."</td>";
     $string.= "<td>".$row['title']."</td>";
     $string.= "<td>".$row['pub_time']."</td>";
-    $string.= "<td><a>编辑</a></td>";
-    $string.= "<td>删除</td>";
+    $string.= "<td><a href='###' id='edit'>编辑</a></td>";
+    $string.= "<td><a href='/blog/admin/control.php?action=del&id={$row['article_id']}' class='del'>删除</a></td>";
     $string.= "</tr>";
   }
   $string.= "</table>";
@@ -131,4 +132,16 @@ function get_table_data($table='',$col='count(*)'){
   return $row['data'];
 }
 
+function del_article($id){
+    $conn= db_connect();
+    $query= "insert into recycle select * from article where article_id={$id}";
+    $result= $conn->query($query);
+    $query2= "delete from article where article_id={$id}";
+    $result2= $conn->query($query2);
+    if(!$result2){
+      echo "false";
+    }else{
+      echo "true";
+    }
+}
 ?>
