@@ -20,7 +20,20 @@ if($action=='get_page'){
 	 get_page($id);
 }
 if($action=='del'){
-	@$id= $_REQUEST['id'];
-	del_article($id);
+	@$id= isset($_REQUEST['id'])?$_REQUEST['id']:'none';
+	@$real= isset($_REQUEST['real'])?$_REQUEST['real']:'false';
+	del_article($id,$real);
+}
+if($action=='recover'){
+	@$id=$_REQUEST['id'];
+	recover_article($id);
+}
+if($action=='insert_article'){
+	@$title= $_REQUEST['title'];
+	@$file_name= $_REQUEST['file_name'].".html";
+	@$class= $_REQUEST['class'];
+	@$tags= $_REQUEST['tags'];
+	@$content= $_REQUEST['content'];
+	insert_article($title,$file_name,$class,$tags,$content);
 }
 ?>
