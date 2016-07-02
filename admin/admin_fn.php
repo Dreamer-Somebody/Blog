@@ -43,7 +43,10 @@ function change_password($username, $old_password, $new_password) {
 }
 
 function get_page($id){
-  switch ($id) {
+  $string= preg_split('/[?=]+/i', $id);
+  $page= $string[0];
+  @$extra= $string[2]?$string:'';
+  switch ($page) {
     case 'index':
       get_index_page();
       break;
@@ -57,7 +60,7 @@ function get_page($id){
       get_file_page();
       break;
     case 'edit':
-      get_edit_page();
+      get_edit_page($extra);
       break;
     case 'recycle':
       get_recycle_page();
@@ -95,7 +98,7 @@ function get_article_page(){
     $string.= "<td>".$row['article_id']."</td>";
     $string.= "<td>".$row['title']."</td>";
     $string.= "<td>".$row['pub_time']."</td>";
-    $string.= "<td><a href='###' id='edit'>编辑</a></td>";
+    $string.= "<td><a href='###' id='edit?edit_id={$row['article_id']}'>编辑</a></td>";
     $string.= "<td><a href='/blog/admin/control.php?action=del&id={$row['article_id']}' class='del'>删除</a></td>";
     $string.= "<td><a href='/blog/admin/control.php?action=del&id={$row['article_id']}&real=true' class='del'>彻底删除</a></td>";
     $string.= "</tr>";
@@ -126,14 +129,40 @@ function get_recycle_page(){
   echo "$string";
 }
 
-function get_edit_page(){
+function get_edit_page($extra=''){
+  $title_value='';
+  $file_name_value='';
+  $class_value='';
+  $tags_value='';
+  $content='';
+  $new= 1;
+  $id='';
+  if($extra!=''){
+    $id= $extra[2];
+    $conn= db_connect();
+    $query= "select title,link,class,keywords,content from article where article_id='{$id}'";
+    $result= $conn->query($query);
+    $row= $result->fetch_array();
+    $file_name_value= substr(strrchr($row['link'], "/"), 1);
+    $file_name_value= explode('.', $file_name_value);
+    $file_name_value= $file_name_value[0];
+    $title_value= "{$row['title']}";
+    $class_value= "{$row['class']}";
+    $tags_value= "{$row['keywords']}";
+    $content= "{$row['content']}";
+    $new= 0;
+  }
   $string= "<h1>文章管理</h1>";
   $string.= "<form action='control.php?action=insert_article' method='post'>";
-  $string.= "标题：<input type='text' name='title' value='未命名文章'></input></br>";
-  $string.= "文件名：<input type='text' name='file_name' value='未命名文章'></input>".".html</br>";
-  $string.= "分类：<input type= 'text' name='class'></input>";
-  $string.= "标签名：<input type= 'text' name='tags'></input>";
-  $string.= "<script id='container' name='content' type='text/plain'></script>
+  $string.= "标题：<input type='text' name='title' value='{$title_value}'></input></br>";
+  $string.= "文件名：<input type='text' name='file_name' value='{$file_name_value}'></input>".".html</br>";
+  $string.= "分类：<input type= 'text' name='class' value='{$class_value}'></input>";
+  $string.= "标签名：<input type= 'text' name='tags' value='{$tags_value}'></input>";
+  $string.= "<input type='hidden' name='new' value='{$new}'></input>";
+  $string.= "<input type='hidden' name='id' value='{$id}'></input>";
+  $string.= "<script id='container' name='content' type='text/plain'>
+  {$content}
+  </script>
   <input type='submit' />
 </form>
   <!-- 配置文件 -->
@@ -202,20 +231,25 @@ function recover_article($id){
     }
 }
 
-function insert_article($title='未命名文章',$file_name='未命名文章.html',$class,$tags,$content){
+function insert_article($title='未命名文章',$file_name='untitled.html',$class,$tags,$content,$new,$id){
     $user= isset($_SESSION['user'])?$_SESSION['user']:'天边';
-    $article_id= get_article_id();
-    $link= get_article_link($article_id,$file_name);
+    $article_id= ($id=='')?get_article_id():$id;
+    $link= get_article_link($file_name);
     $conn= db_connect();
+    if($new=='1'){
     $query= "insert into article(article_id,title,link,user,content,class,keywords) 
-    values({$article_id},'{$title}','{$link}','{$user}','{$content}','{$class}','{$tags}')";
+    values({$article_id},'{$title}','{$link}','{$user}','{$content}','{$class}','{$tags}')";    
+  }else{
+    $query= "update article set title='{$title}',link='{$link}',class='{$class}',keywords='${tags}'
+    ,content='${content}' where article_id='${article_id}'";
+
+  }
     $result=$conn->query($query);
     if(!$result){
       echo "false";
     }else{
       echo "true";
     }
-    exit();
 }
 function get_article_id(){
     @$date= date("Ymd");
@@ -234,10 +268,10 @@ function get_article_id(){
     $article_id= $date.$article_id;
     return $article_id;
 }
-function get_article_link($article_id,$file_name){
+function get_article_link($file_name){
     @$year= date("Y");
     @$month= date("m");
-    $link= "/blog/page/{$year}/{$month}/{$file_name}";
+    $link= "/blog/page/{$year}/{$month}/{$file_name}.html";
     return $link;   
 }
 ?>

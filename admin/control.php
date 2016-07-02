@@ -34,6 +34,8 @@ if($action=='insert_article'){
 	@$class= $_REQUEST['class'];
 	@$tags= $_REQUEST['tags'];
 	@$content= $_REQUEST['content'];
-	insert_article($title,$file_name,$class,$tags,$content);
+	@$new= $_REQUEST['new'];
+	@$id= $_REQUEST['id'];
+	insert_article($title,$file_name,$class,$tags,$content,$new,$id);
 }
 ?>
