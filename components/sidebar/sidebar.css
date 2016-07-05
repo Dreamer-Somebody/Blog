@@ -114,6 +114,7 @@ ul.sublist.hide {
     left:160px;
     text-align: center;
     cursor: pointer;
+    box-shadow: 2px 0 6px rgba(0,0,0,0.4);
     background-color: #343434;
     transition: all 1s;
 }
