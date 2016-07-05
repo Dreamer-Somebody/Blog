@@ -31,12 +31,14 @@ jQuery(document).ready(function($) {
 					} else {
 						alert("删除失败，请重试！");
 						alert(msg);
-
 					}
+				if($url.indexOf('type=article')>=0){
 					get_page("article");
+				}else if($url.indexOf('type=comment')>=0){
+					get_page("comment");
 				}
-			});
-
+			}
+		});
 		});
 		$("body").off('click', '.recover').on('click', '.recover', function(event) {
 			event.preventDefault();
@@ -62,7 +64,7 @@ jQuery(document).ready(function($) {
 			$.ajax({
 				type: "POST",
 				url: $url,
-				data: $('form').serialize(), // 你的formid
+				data: $('form').serialize(),
 				error: function(request) {
 					alert("连接服务器失败");
 				},

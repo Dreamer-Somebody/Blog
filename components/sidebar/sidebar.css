@@ -104,3 +104,25 @@ ul#tech {
 ul.sublist.hide {
     height: 0 !important;
 }
+
+.menu{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    top: 50%;
+    left:160px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #343434;
+    transition: all 1s;
+}
+
+#sidebar .icon-menu{
+    transition: all 0.3s;
+    margin: 0;
+}
+
+#sidebar .icon-menu:hover{
+    transform: rotate(180deg); 
+}

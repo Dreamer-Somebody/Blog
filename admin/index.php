@@ -8,20 +8,20 @@
 </head>
 <body>
 <?php
-include_once("admin_fn.php");
-@$action= $_GET['action']||'';
- if($action == 'log-out') {
+include_once "admin_fn.php";
+@$action = $_GET['action'] || '';
+if ($action == 'log-out') {
     unset($action);
-    $_SESSION=array();
+    $_SESSION = array();
     session_destroy();
-  }
-if(!check_valid_user()){
-	echo "<p>没有登录，请登录！<a href='Login.html'>登陆<a/></p>";
-	die();
+}
+if (!check_valid_user()) {
+    echo "<p>没有登录，请登录！<a href='Login.html'>登陆<a/></p>";
+    die();
 }
 ?>
-	<div id="header">        
-	<div><p>管理员：<?php echo "{$_SESSION['user']}"?></p>
+	<div id="header">
+	<div><p>管理员：<?php echo "{$_SESSION['user']}" ?></p>
 	<a href="index.php?action='log-out'"><i class="icon-switch"></i>退出登陆</a></div>
 	</div>
     <div id="sidebar">

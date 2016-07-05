@@ -34,6 +34,7 @@
                 </li>
             </ul>
         </div>
+        <div class="menu"><i class="icon-menu"></i></div>
     </div>
     <script src="/blog/common/jquery.js"></script>
     <script src="/blog/components/sidebar/sidebar.js"></script>
