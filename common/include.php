@@ -1,4 +1,9 @@
 <?php
-include_once "common/db_fns.php";
-include_once "components/sidebar/sidebar.php";
-include_once "common/common_fn.php";
+$root = $_SERVER['DOCUMENT_ROOT'];
+$root .= "/blog";
+$db      = "{$root}" . "/common/db_fns.php";
+$sidebar = "{$root}" . "/components/sidebar/sidebar.php";
+$common  = "{$root}" . "/common/common_fn.php";
+include_once $db;
+include_once $sidebar;
+include_once $common;
