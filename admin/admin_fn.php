@@ -81,11 +81,24 @@ function get_page($id)
     }
 }
 
+function get_table_data($table = '', $col = 'count(*)')
+{
+    $conn = db_connect();
+    if (!$conn) {
+        echo "连接数据库失败！";
+        exit();
+    }
+    $query  = "select " . $col . " data from " . $table;
+    $result = $conn->query($query);
+    $row    = $result->fetch_array();
+    return $row['data'];
+}
+
 function get_index_page()
 {
     $string = "<h1>信息摘要</h1>";
     $string .= "<table id='index_table'>";
-    $string .= "<tr><th colspan='2'>信息统计</th><tr>";
+    $string .= "<tr><th colspan='2'>信息统计</th></tr>";
     $string .= "<tr><td>当前用户：</td><td>{$_SESSION['user']}</td></tr>";
     $string .= "<tr><td>文章总数：</td><td>" . get_table_data('article') . "</td></tr>";
     $string .= "<tr><td>评论总数：</td><td>" . get_table_data('comment') . "</td></tr>";
@@ -169,7 +182,7 @@ function get_edit_page($extra = '')
     $string = "<h1>文章管理</h1>";
     $string .= "<form action='control.php?action=insert_article' method='post'>";
     $string .= "标题：<input type='text' name='title' value='{$title_value}'></input></br>";
-    $string .= "文件名：<input type='text' name='file_name' value='{$file_name_value}'></input>" . ".html</br>";
+    $string .= "文件名(只能输入英文)：<input type='text' name='file_name' value='{$file_name_value}'></input>" . ".html</br>";
     $string .= "分类：<input type= 'text' name='class' value='{$class_value}'></input>";
     $string .= "标签名：<input type= 'text' name='tags' value='{$tags_value}'></input>";
     $string .= "<input type='hidden' name='new' value='{$new}'></input>";
@@ -183,6 +196,9 @@ function get_edit_page($extra = '')
     <script type='text/javascript' src='/blog/components/ueditor/utf8-php/ueditor.config.js'></script>
     <!-- 编辑器源码文件 -->
     <script type='text/javascript 'src='/blog/components/ueditor/utf8-php/ueditor.all.js'></script>
+    <link rel='stylesheet' href='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCoreDefault.css' />
+    <script src='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCore.js'></script>
+    <script src='/blog/common/jquery.js'></script>
     <!-- 实例化编辑器 -->
     <script type='text/javascript'>
         var ue = UE.getEditor('container');
@@ -219,6 +235,7 @@ function get_article_comment_page($extra)
 {
     $article_id = $extra[2];
     $string     = "<h1>评论管理</h1>";
+    $string .= "<a href='###' id='comment'>返回上一页</a>";
     $string .= "<table><tr><th>序号</th><th>评论编号</th><th>内容</th><th>评论用户</th><th>发表时间</th><th colspan=2>操作</th></tr>";
     $conn   = db_connect();
     $result = $conn->query("select comment_id,content,user,pub_time from comment where article_id= '{$article_id}' order by pub_time desc ");
@@ -237,18 +254,6 @@ function get_article_comment_page($extra)
     echo "$string";
 }
 
-function get_table_data($table = '', $col = 'count(*)')
-{
-    $conn = db_connect();
-    if (!$conn) {
-        echo "连接数据库失败！";
-        exit();
-    }
-    $query  = "select " . $col . " data from " . $table;
-    $result = $conn->query($query);
-    $row    = $result->fetch_array();
-    return $row['data'];
-}
 //$real 是彻底删除的意思。
 
 function del_article($id, $type, $real = false)
@@ -322,6 +327,12 @@ function insert_article($title = '未命名文章', $file_name = 'untitled.html'
         echo "true";
     }
 }
+
+function createFile($name)
+{
+
+}
+
 function get_article_id()
 {
     @$date      = date("Ymd");

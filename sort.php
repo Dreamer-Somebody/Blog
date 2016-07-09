@@ -10,7 +10,7 @@ include_once "common/include.php";
 	<meta charset="UTF-8" />
 	<title>天边的博客</title>
 	<link rel="stylesheet" href="/blog/index.css" />
-	<link rel="stylesheet" href="/blog/common/article.css" />
+	<link rel="stylesheet" href="/blog/common/blog.css" />
 </head>
 <body>
 <div id="container">

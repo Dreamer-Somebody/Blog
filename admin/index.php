@@ -41,9 +41,6 @@ if (!check_valid_user()) {
                 <li>
                     <a href="###" id="comment"><i class="icon-life"></i>评论管理</a>
                 </li>
-                <li>
-                    <a href="###" id="file"><i class="icon-file-text"></i>文件管理</a>
-                </li>
                   <li>
                     <a href="/blog/index.php"><i class="icon-news"></i>返回网站</a>
                 </li>
