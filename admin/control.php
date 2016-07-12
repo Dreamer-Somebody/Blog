@@ -39,3 +39,7 @@ if ($action == 'insert_article') {
     @$id        = $_REQUEST['id'];
     insert_article($title, $file_name, $class, $tags, $content, $new, $id);
 }
+if ($action == 'like') {
+    $id = $_REQUEST['article_id'];
+    add_like($id);
+}

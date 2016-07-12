@@ -358,3 +358,15 @@ function get_article_link($file_name)
     $link   = "/blog/page/{$year}/{$month}/{$file_name}";
     return $link;
 }
+
+function add_like($id)
+{
+    $conn   = db_connect();
+    $query  = "update article set fav=fav+1 where article_id={$id}";
+    $result = $conn->query($query);
+    if (!$result) {
+        echo "false";
+    } else {
+        echo "true";
+    }
+}
