@@ -1,9 +1,10 @@
 <?php
 include_once "../../../common/include.php";
-$conn   = db_connect();
-$result = $conn->query("select title,user,content,class,keywords,pub_time,upd_time,click,comment
+$conn    = db_connect();
+$result1 = $conn->query("update article set click=click+1 where article_id='2016070801'");
+$result2 = $conn->query("select title,user,content,class,keywords,pub_time,upd_time,click,comment
 	,fav,avatar from article,user where article_id= '2016070801' and article.user=user.username");
-$row = $result->fetch_array();
+$row = $result2->fetch_array();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,9 +44,9 @@ echo "<div id='like'><div id='like-button' data-id='2016070801'><i class='icon-g
 ?>
 		</div>
 	<?php
-echo "<div id='article_list'>";
-echo "<ul id='list_nav'><li>相关文章</li><li>热门文章</li><li>推荐文章</li></ul>";
-echo "<ul id='similar' class='show sublist'>";
+echo "<div id='list'>";
+echo "<ul id='list_nav'><li class='similar now'>相关文章</li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul>";
+echo "<ul class='show sublist similar'>";
 foreach ($keywords as $keyword) {
     $conn   = db_connect();
     $len    = intval(5 / count($keywords));
@@ -54,30 +55,38 @@ foreach ($keywords as $keyword) {
     $rows   = $result->num_rows;
     for (; $rows > 0; $rows--) {
         $row = $result->fetch_array();
-        echo "<li><a href='{$row['link']}'>{$row['title']}</a><li>相同关键字：{$keyword}</li></li>";
+        echo "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
     }
 }
 echo "</ul>";
-echo "<ul id='popular' class='sublist'>";
+echo "<ul class='sublist popular'>";
 $conn   = db_connect();
 $query  = "select title,link,click from article order by click desc limit 0,5";
 $result = $conn->query($query);
 $rows   = $result->num_rows;
 for (; $rows > 0; $rows--) {
     $row = $result->fetch_array();
-    echo "<li><a href='{$row['link']}'>{$row['title']}</a><li>阅读数：{$row['click']}</li></li>";
+    echo "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
 }
 echo "</ul>";
-echo "<ul id='recommended' class='sublist'>";
+echo "<ul class='sublist recommended'>";
 $conn   = db_connect();
 $query  = "select title,link,fav from article order by fav desc limit 0,5";
 $result = $conn->query($query);
 $rows   = $result->num_rows;
 for (; $rows > 0; $rows--) {
     $row = $result->fetch_array();
-    echo "<li><a href='{$row['link']}'>{$row['title']}</a><li>支持数：{$row['fav']}</li></li>";
+    echo "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
 }
 echo "</ul>";
+echo "</div>";
+
+echo "<div id='comment'>";
+echo "<h1>评论</h1>";
+echo "<form><div id='pic'><img src='/blog/img/avatar/skyside2.jpg' name='avatar'/></div>
+<input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...' name='content'></textarea><div id='emoji'></div>
+<button type='submit'/>发表</button>
+</form>";
 echo "</div>";
 ?>
 	</div>

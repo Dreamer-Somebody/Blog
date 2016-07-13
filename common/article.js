@@ -35,4 +35,13 @@ jQuery(document).ready(function($) {
             }
         });
     });
+$("#list_nav li").on('click', function(event) {
+	event.preventDefault();
+	$this= $(this);
+	$this.parent().find('li').removeClass('now');	
+	$class= $this.attr('class');	
+	$this.addClass('now');	
+	$(".sublist").removeClass('show');
+	$('ul.'+$class).addClass('show');
+});
 });
