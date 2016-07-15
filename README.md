@@ -1,2 +1,2 @@
 # Blog
-My personal blog and it is also my first project.
+personal blog,also my first project.
