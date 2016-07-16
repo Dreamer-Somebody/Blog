@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 include_once "../../../common/include.php";
 $conn    = db_connect();
 $result1 = $conn->query("update article set click=click+1 where article_id='2016070801'");
-$result2 = $conn->query("select title,user,content,class,keywords,pub_time,upd_time,click,comment
+$result2 = $conn->query("select title,user,content,class,keywords,pub_time,click,comment
 	,fav,avatar from article,user where article_id= '2016070801' and article.user=user.username");
 $row = $result2->fetch_array();
 ?>
@@ -24,7 +24,7 @@ $row = $result2->fetch_array();
 echo "<h1>{$row['title']}</h1>";
 echo "<div id='post-info'>";
 echo "<a href='###'><img src='/blog/img/avatar/{$row['avatar']}'/>天边</a>";
-echo "<span id='time'>{$row['pub_time']}</span>";
+echo "<span class='time'>{$row['pub_time']}</span>";
 echo "</div>";
 ?>
 	</div>
@@ -80,13 +80,15 @@ for (; $rows > 0; $rows--) {
 }
 echo "</ul>";
 echo "</div>";
-
 echo "<div id='comment'>";
 echo "<h1>评论</h1>";
-echo "<form><div id='pic'><img src='/blog/img/avatar/skyside2.jpg' name='avatar'/></div>
-<input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...' name='content'></textarea><div id='emoji'></div>
+echo "<form id='comment_form'><div class='pic'><img src='/blog/img/avatar/skyside2.jpg' name='avatar'/></div>
+<input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
+name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='skyside2.jpg'/>
+<input type='hidden' name='article_id' value='2016070801'/><input type='hidden' id='comment_parent' name='comment_parent'/>
 <button type='submit'/>发表</button>
 </form>";
+echo "<div id='comment_list'></div>";
 echo "</div>";
 ?>
 	</div>

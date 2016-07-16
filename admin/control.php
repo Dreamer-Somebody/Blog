@@ -1,7 +1,7 @@
 <?php
 include_once "admin_fn.php";
 include_once "../common/db_fns.php";
-@$action = $_GET['action'];
+@$action = $_REQUEST['action'];
 if ($action == 'login') {
     if (!get_magic_quotes_gpc()) {
         //过滤输入
@@ -42,4 +42,18 @@ if ($action == 'insert_article') {
 if ($action == 'like') {
     $id = $_REQUEST['article_id'];
     add_like($id);
+}
+
+if ($action == 'get_comment') {
+    $id = $_REQUEST['article_id'];
+    get_comment($id);
+}
+
+if ($action == 'insert_comment') {
+    $id      = $_REQUEST['article_id'];
+    $pic     = $_REQUEST['pic'];
+    $user    = $_REQUEST['nickname'];
+    $content = $_REQUEST['content'];
+    $parent  = isset($_REQUEST['comment_parent']) ? $_REQUEST['comment_parent'] : null;
+    insert_comment($id, $pic, $user, $content, $parent);
 }
