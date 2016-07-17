@@ -396,10 +396,11 @@ function insert_comment($id, $pic, $user, $content, $parent)
     $conn    = db_connect();
     $result  = $conn->query("insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
                '{$parent}','{$pic}','{$content}')");
-    if ($parent !== null) {
+    if ($parent !== null && $parent !== '') {
         $children = ($conn->insert_id) . ',';
         $conn->query("update comment set children= concat(children,'$children') where comment_id={$parent}");
     }
+    $conn->query("update article set comment=comment+1 where article_id={$id}");
     if ($result) {
         echo "true";
     } else {

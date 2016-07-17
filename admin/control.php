@@ -53,7 +53,7 @@ if ($action == 'insert_comment') {
     $id      = $_REQUEST['article_id'];
     $pic     = $_REQUEST['pic'];
     $user    = $_REQUEST['nickname'];
-    $content = $_REQUEST['content'];
+    $content = isset($_REQUEST['comment_html']) && $_REQUEST['comment_html'] !== '' ? $_REQUEST['comment_html'] : $_REQUEST['content'];
     $parent  = isset($_REQUEST['comment_parent']) ? $_REQUEST['comment_parent'] : null;
     insert_comment($id, $pic, $user, $content, $parent);
 }

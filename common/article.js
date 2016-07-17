@@ -1,4 +1,4 @@
-﻿jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {
     //点赞开始
 
     $("#like-button").on('mouseleave', function(event) {
@@ -86,25 +86,25 @@
 
         function make_up(obj, index) {
             var now = obj[index];
-            if ((tag[now.comment_id] != 1) && ((now.parent === null)||(now.parent==='')|| (now.parent !== null&&now.parent!==''&& 
-                tag[obj[now.parent].comment_id] == 1))) {
-                html += "<div class='user_comment " + (now.parent !== null&&now.parent!=='' ? 'children' : '') + 
-            "'id='comment" + now.comment_id + "'>";
+            if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
+                    tag[obj[now.parent].comment_id] == 1))) {
+                html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
+                    "'id='comment" + now.comment_id + "'>";
                 html += "<div class='pic'>";
                 html += "<img src='/blog/img/avatar/" + now.user_pic + "' name='avatar' /></div>";
-                html += "<div class='wrapper'><span>" + now.user_name + "</span><span class='time'>" + 
-                now.pub_time + "</span>";
-                html += "<p class='comment_content'>"+ now.content + "</p></div>";
-                html+="<div class='comment_actions'><a href='#comment_form' class='call' data-id='"+
-                now.comment_id+"' data-user='"+now.user_name+"' data-parent='"+now.parent+"'>@TA</a><a href='#comment_form' class='reply' data-id='"+now.comment_id+"' data-user='"+now.user_name+"' data-parent='"+(now.parent===null?now.comment_id:now.parent)+"'>回复</a></div>";
+                html += "<div class='wrapper'><span>" + now.user_name + "</span><span class='time'>" +
+                    now.pub_time + "</span>";
+                html += "<p class='comment_content'>" + now.content + "</p></div>";
+                html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
+                    now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id + "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
                 html += "</div>";
                 start = true;
                 tag[now.comment_id] = 1;
-                if (now.children !== null) {
-                    now.children= $.trim(now.children);
-                    var arr= now.children.split(",");
+                if (now.children !== null && now.children !== '') {
+                    now.children = $.trim(now.children);
+                    var arr = now.children.split(",");
                     for (var i = 0; i <= arr.length - 2; i++) {
-                        arguments.callee(obj,arr[i]);
+                        arguments.callee(obj, arr[i]);
                     }
                 }
             }
@@ -115,6 +115,10 @@
 
     $("body").on('submit', 'form', function(event) {
         event.preventDefault();
+        if ($("#comment_html").val() !== 'undefined' && $("#comment_html").val() !== '') {
+            $string = $("textarea").val();
+            $("#comment_html").val(replace_word($string, $("#comment_html").val()));
+        }
         $.ajax({
             type: "POST",
             url: '/blog/admin/control.php?action=insert_comment',
@@ -129,26 +133,54 @@
                     alert("评论失败！");
                     console.log(msg);
                 }
+                $("textarea").val('');
             }
         });
     });
 
-//由于“@TA”和“回复”都是动态生成的节点，直接绑定事件不能成功，必须绑定到父级节点上。
+    //由于“@TA”和“回复”都是动态生成的节点，直接绑定事件不能成功，必须绑定到父级节点上。
     $("body").on('click', '.call', function(event) {
         event.preventDefault();
-        id=this.dataset.id;
-        user=this.dataset.user;
+        id = this.dataset.id;
+        user = this.dataset.user;
         $("textarea").focus();
-        $("textarea").val($('textarea').val()+"<a href='#comment"+id+"'><span>@"+user+"</span></a>");
+        $("textarea").val($('textarea').val() + "@" + user);
+        $value = typeof $('#comment_html').val() === 'undefined' ? '' : ($('#comment_html').val() + ',');
+        $("#comment_html").val($value + "@" + user + "&<a href='#comment" + id + "'><span>@" + user + "</span></a>");
     });
 
     $("body").on('click', '.reply', function(event) {
         event.preventDefault();
-        id=this.dataset.id;
-        user=this.dataset.user;
-        parent=this.dataset.parent;
+        id = this.dataset.id;
+        user = this.dataset.user;
+        parent = this.dataset.parent;
         $("#comment_parent").val(parent);
         $("textarea").focus();
-        $("textarea").val("回复<a href=#comment"+id+"><span>@"+user+"</span></a>：");
+        $("textarea").val("回复@" + user + "：");
+        $("#comment_html").val("回复@" + user + "：&回复<a href=#comment" + id + "><span>@" + user + "</span></a>：");
     });
+
+    $("body").on('mouseover', '.user_comment', function(event) {
+        event.preventDefault();
+        $(this).find(".comment_actions").addClass('show');
+    }).on('mouseout', '.user_comment', function(event) {
+        event.preventDefault();
+        $(this).find(".comment_actions").removeClass('show');
+    });;
+
+    function replace_word($string, $repalce) {
+        var $arr = $repalce.split(",");
+        var $replace = [];
+        var len = $arr.length;
+        for (i = 0; i < len; i++) {
+            $replace[i] = [];
+            for (j = 0; j < 2; j++) {
+                $replace[i][j] = $arr[i].split("&")[j];
+            }
+        }
+        for (var $key in $replace) {
+            $string = $string.replace($replace[$key][0], $replace[$key][1]);
+        }
+        return $string;
+    }
 });
