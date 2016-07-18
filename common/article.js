@@ -134,6 +134,8 @@ jQuery(document).ready(function($) {
                     console.log(msg);
                 }
                 $("textarea").val('');
+                $("#comment_html").val('');
+                $("#comment_parent").val('');
             }
         });
     });
@@ -145,7 +147,7 @@ jQuery(document).ready(function($) {
         user = this.dataset.user;
         $("textarea").focus();
         $("textarea").val($('textarea').val() + "@" + user);
-        $value = typeof $('#comment_html').val() === 'undefined' ? '' : ($('#comment_html').val() + ',');
+        $value = (typeof $('#comment_html').val() === 'undefined'||$('#comment_html').val()==='') ? '' : ($('#comment_html').val() + ',');
         $("#comment_html").val($value + "@" + user + "&<a href='#comment" + id + "'><span>@" + user + "</span></a>");
     });
 
@@ -166,10 +168,10 @@ jQuery(document).ready(function($) {
     }).on('mouseout', '.user_comment', function(event) {
         event.preventDefault();
         $(this).find(".comment_actions").removeClass('show');
-    });;
+    });
 
-    function replace_word($string, $repalce) {
-        var $arr = $repalce.split(",");
+    function replace_word($string, $replacement) {
+        var $arr = $replacement.split(",");
         var $replace = [];
         var len = $arr.length;
         for (i = 0; i < len; i++) {

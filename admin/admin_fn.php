@@ -280,8 +280,14 @@ function del_article($id, $type, $real = false)
         }
     }
     if ($type == 'comment') {
-        $query  = "update article set comment=comment-1 where article_id= (select article_id from comment where comment_id={$id})";
-        $result = $conn->query($query);
+        $query2   = "select children,comment_id from comment where comment_id=(select parent from comment where comment_id={$id})";
+        $result   = $conn->query($query2);
+        $row      = $result->fetch_array();
+        $children = $row['children'];
+        $parent   = $row['comment_id'];
+        $children = str_replace($id . ',', '', $children);
+        $query3   = "update comment set children='{$children}' where comment_id={$parent}";
+        $conn->query($query3);
     }
     $query2  = "delete from {$type} where {$type}_id={$id}";
     $result2 = $conn->query($query2);

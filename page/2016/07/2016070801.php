@@ -82,10 +82,20 @@ echo "</ul>";
 echo "</div>";
 echo "<div id='comment'>";
 echo "<h1>评论</h1>";
-
-echo "<form id='comment_form'><div class='pic'><img src='/blog/img/avatar/skyside2.jpg' name='avatar'/></div>
+$dir = '../../../img/avatar';
+if ($handle = opendir($dir)) {
+    $random = rand(1, count(scandir($dir)) - 2);
+    for ($i = 0; $i < 2; $i++) {
+        $file = readdir($handle);
+    }
+    for ($i = 1; $i <= $random; $i++) {
+        $file = readdir($handle);
+    }
+    closedir($handle);
+}
+echo "<form id='comment_form'><div class='pic'><img src='/blog/img/avatar/{$file}' name='avatar'/></div>
 <input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
-name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='skyside2.jpg'/>
+name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='{$file}'/>
 <input type='hidden' name='article_id' value='2016070801'/><input type='hidden' id='comment_parent' name='comment_parent'/>
 <input type= 'hidden' name='comment_html' id='comment_html'/>
 <button type='submit'/>发表</button>
