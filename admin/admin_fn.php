@@ -280,14 +280,35 @@ function del_article($id, $type, $real = false)
         }
     }
     if ($type == 'comment') {
+        $query = "update article set comment=comment-1 where article_id= (select article_id from comment where comment_id={$id})";
+        $conn->query($query);
         $query2   = "select children,comment_id from comment where comment_id=(select parent from comment where comment_id={$id})";
         $result   = $conn->query($query2);
         $row      = $result->fetch_array();
         $children = $row['children'];
         $parent   = $row['comment_id'];
-        $children = str_replace($id . ',', '', $children);
-        $query3   = "update comment set children='{$children}' where comment_id={$parent}";
-        $conn->query($query3);
+        if ($parent !== null && $parent !== '') {
+            $children = str_replace($id . ',', '', $children);
+            $query3   = "update comment set children='{$children}' where comment_id={$parent}";
+            $conn->query($query3);
+        }
+        $query4   = "select children from comment where comment_id={$id}";
+        $result   = $conn->query($query4);
+        $row      = $result->fetch_array();
+        $children = $row['children'];
+        if ($children !== null && $children !== '') {
+            $delete   = [];
+            $children = explode(',', $children);
+            $len      = count($children);
+            for ($i = 0; $i < $len; $i++) {
+                if ($children[$i] !== null && $children[$i] !== '') {
+                    $delete[$i] = $children[$i];
+                }
+            }
+            $delete = implode(',', $delete);
+            $query5 = "delete from comment where comment_id in ({$delete})";
+            $conn->query($query5);
+        }
     }
     $query2  = "delete from {$type} where {$type}_id={$id}";
     $result2 = $conn->query($query2);
@@ -386,7 +407,8 @@ function get_comment($id)
         $rows = $result->num_rows;
         for ($i = 1; $i <= $rows; $i++) {
             $row            = $result->fetch_array();
-            $row['content'] = html_entity_decode($row['content']);
+            $row['user']    = html_entity_decode($row['user'], ENT_QUOTES);
+            $row['content'] = html_entity_decode($row['content'], ENT_QUOTES);
             $comment        = array("comment_id" => $row['comment_id'], "user_pic" => $row['avatar'], "user_name" => $row['user'],
                 "pub_time"                           => $row['pub_time'], "content"    => $row['content'], "parent"   => $row['parent'], "children" => $row['children']);
             // array_push($comments, $comment);
@@ -398,6 +420,7 @@ function get_comment($id)
 
 function insert_comment($id, $pic, $user, $content, $parent)
 {
+    $user    = htmlentities($user, ENT_QUOTES);
     $content = htmlentities($content, ENT_QUOTES);
     $conn    = db_connect();
     $result  = $conn->query("insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',

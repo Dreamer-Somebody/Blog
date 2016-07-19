@@ -93,17 +93,21 @@ if ($handle = opendir($dir)) {
     }
     closedir($handle);
 }
-echo "<form id='comment_form'><div class='pic'><img src='/blog/img/avatar/{$file}' name='avatar'/></div>
+echo "<form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
+<div class='mask'><i class='icon-loop'></i></div><img src='/blog/img/avatar/{$file}' name='avatar'/></div>
 <input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
 name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='{$file}'/>
 <input type='hidden' name='article_id' value='2016070801'/><input type='hidden' id='comment_parent' name='comment_parent'/>
 <input type= 'hidden' name='comment_html' id='comment_html'/>
 <button type='submit'/>发表</button>
+<div id='result'></div>
 </form>";
-echo "<div id='comment_list'></div>";
+echo "<div id='choose'><div id='final_choice'><img src=''/></div>";
+echo "<div id='choices'><div id='buttons'><div id='true'>确认</div><div id='false'>取消</div></div></div>";
 echo "</div>";
+echo "<div id='comment_list'></div>";
+echo "</div></div>";
 ?>
-	</div>
 	<script>
 	uParse('#content',{
 	});

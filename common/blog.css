@@ -138,12 +138,11 @@ ul#page_select li {
     margin: 5px;
     border: 1px solid #ddd;
     overflow: hidden;
-    transition: border .3s
+    transition: transform .3s
 }
 ul#page_select li:hover {
     border-color: #999;
     transform: scale(1.4, 1.4);
-    transition: .3s
 }
 ul#page_select a, ul#page_select span {
     display: inline-block;

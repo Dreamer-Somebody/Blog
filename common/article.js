@@ -1,19 +1,12 @@
 jQuery(document).ready(function($) {
     //点赞开始
 
-    $("#like-button").on('mouseleave', function(event) {
+    $("#like-button").on('click', function(event) {
         event.preventDefault();
-        $("#thanks").css({
-            transform: 'translateY(0px)',
-            opacity: '0'
-        });
-    }).on('click', function(event) {
-        event.preventDefault();
-        if ($("#thanks").attr('fav') == 1) {
-            $("#thanks").html("(*￣3￣)╭你已经支持过啦，</br>不能重复支持哦。。。").css({
-                transform: 'translateY(-20px)',
-                opacity: '1'
-            });
+        $thanks=$("#thanks");
+        if ($thanks.attr('fav') == 1) {
+            $thanks.html("(*￣3￣)╭你已经支持过啦，</br>不能重复支持哦。。。");
+            move($thanks);
             return;
         }
         article_id = this.dataset.id;
@@ -23,20 +16,19 @@ jQuery(document).ready(function($) {
                 action: 'like',
                 article_id: article_id
             },
+            error: function() {
+                $thanks.html("(╥╯^╰╥)点赞失败，，，</br>请重试。。。");
+                move($thanks);
+            },
             success: function(msg) {
                 if (msg == "true") {
                     $number = parseInt($("#likes-count").text()) + 1;
                     $("#likes-count").text($number);
-                    $("#thanks").attr('fav', 1).html("=￣ω￣=感谢您的支持，</br>我会继续努力的！").css({
-                        transform: 'translateY(-20px)',
-                        opacity: '1'
-                    });
+                    $thanks.attr('fav', 1).html("=￣ω￣=感谢您的支持，</br>我会继续努力的！");
                 } else {
-                    $("#thanks").html("(╥╯^╰╥)点赞失败，，，</br>请重试。。。").css({
-                        transform: 'translateY(-20px)',
-                        opacity: '1'
-                    });
+                    $thanks.html("(╥╯^╰╥)点赞失败，，，</br>请重试。。。");
                 }
+                move($thanks);
             }
         });
     });
@@ -112,9 +104,21 @@ jQuery(document).ready(function($) {
     })();
 
     //获取评论并展示结束
-
+    $("#nickname").on('focus', function(event) {
+        move($("#tips"));
+    });
+    function move($obj){
+        event.preventDefault();
+        $obj.addClass("move");
+        setTimeout(function() {
+        $obj.removeClass("move");
+        }, 2500);
+    }
     $("body").on('submit', 'form', function(event) {
         event.preventDefault();
+        if (!check()) {
+            return false;
+        }
         if ($("#comment_html").val() !== 'undefined' && $("#comment_html").val() !== '') {
             $string = $("textarea").val();
             $("#comment_html").val(replace_word($string, $("#comment_html").val()));
@@ -124,30 +128,32 @@ jQuery(document).ready(function($) {
             url: '/blog/admin/control.php?action=insert_comment',
             data: $('form').serialize(),
             error: function(request) {
-                alert("连接服务器失败");
+               show("<i class='icon-cancel'></i>连接服务器失败");
             },
             success: function(msg) {
+                var html = '';
                 if (msg == "true") {
-                    alert("评论成功！");
+                    $("#result").addClass("success");
+                    html = "<i class='icon-check_circle'></i>评论成功！";
+                    $("textarea").val('');
+                    $("#comment_html").val('');
+                    $("#comment_parent").val('');
                 } else {
-                    alert("评论失败！");
-                    console.log(msg);
+                    html = "<i class='icon-cancel'></i>评论失败！请重试。";
                 }
-                $("textarea").val('');
-                $("#comment_html").val('');
-                $("#comment_parent").val('');
+                show(html);
             }
         });
     });
 
-    //由于“@TA”和“回复”都是动态生成的节点，直接绑定事件不能成功，必须绑定到父级节点上。
+    //由于“@TA”和“回复”都是动态生成的节点，直接绑定事件不能成功，必须使用事件委托。
     $("body").on('click', '.call', function(event) {
         event.preventDefault();
         id = this.dataset.id;
         user = this.dataset.user;
         $("textarea").focus();
         $("textarea").val($('textarea').val() + "@" + user);
-        $value = (typeof $('#comment_html').val() === 'undefined'||$('#comment_html').val()==='') ? '' : ($('#comment_html').val() + ',');
+        $value = (typeof $('#comment_html').val() === 'undefined' || $('#comment_html').val() === '') ? '' : ($('#comment_html').val() + ',');
         $("#comment_html").val($value + "@" + user + "&<a href='#comment" + id + "'><span>@" + user + "</span></a>");
     });
 
@@ -170,6 +176,26 @@ jQuery(document).ready(function($) {
         $(this).find(".comment_actions").removeClass('show');
     });
 
+    function check() {
+        var $name = $("#nickname").val();
+        var $content = $("textarea").val();
+        var $wrong = ($name === '' ? "昵称不能为空！" : '') + ($content === '' ? "评论不能为空！" : '');
+        if ($wrong !== '') {
+            show("<i class='icon-cancel'></i>" + $wrong);
+            return false;
+        }
+        return true;
+    }
+
+    function show(html) {
+        clearTimeout(show);
+        $("#result").html(html);
+        $("#result").addClass('show');
+        var show = setTimeout(function() {
+            $("#result").attr('class', '');
+        }, 3000);
+    }
+
     function replace_word($string, $replacement) {
         var $arr = $replacement.split(",");
         var $replace = [];
@@ -185,4 +211,7 @@ jQuery(document).ready(function($) {
         }
         return $string;
     }
+    $("form .pic").on('click', function(event) {
+        $("#big_mask").addClass('show');
+    });
 });
