@@ -61,3 +61,7 @@ if ($action == 'insert_comment') {
     $parent = isset($_REQUEST['comment_parent']) && $_REQUEST['comment_parent'] !== '' ? $_REQUEST['comment_parent'] : null;
     insert_comment($id, $pic, $user, $content, $parent);
 }
+
+if ($action == 'get_avatar') {
+    get_avatar();
+}

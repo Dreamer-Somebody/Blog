@@ -102,11 +102,13 @@ name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' 
 <button type='submit'/>发表</button>
 <div id='result'></div>
 </form>";
-echo "<div id='choose'><div id='final_choice'><img src=''/></div>";
-echo "<div id='choices'><div id='buttons'><div id='true'>确认</div><div id='false'>取消</div></div></div>";
-echo "</div>";
 echo "<div id='comment_list'></div>";
 echo "</div></div>";
+echo "<div id='choose'>";
+echo "<div id='choices'><div id='avatar_pics'></div><div id='button'><div id='true'>确认</div></div></div>";
+echo "<div id='cancel'><i class='icon-cancel'></i></div>";
+echo "</div>";
+echo "<div id='big_mask'></div>";
 ?>
 	<script>
 	uParse('#content',{

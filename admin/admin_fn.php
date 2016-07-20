@@ -437,3 +437,18 @@ function insert_comment($id, $pic, $user, $content, $parent)
                '{$parent}','{$pic}','{$content}')";
     }
 }
+
+function get_avatar()
+{
+    $dir    = '../img/avatar/';
+    $avatar = '';
+    if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if ($file != "." && $file != "..") {
+                $avatar .= "<img src='/blog/img/avatar/{$file}'/>";
+            }
+        }
+        closedir($handle);
+    }
+    echo $avatar;
+}

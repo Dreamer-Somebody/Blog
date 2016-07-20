@@ -1,4 +1,4 @@
-ul {
+﻿ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -134,7 +134,7 @@ ul {
 .icon-good {
     margin-right: 7px;
 }
-p#thanks,p#tips {
+p#thanks, p#tips {
     color: #fff;
     position: absolute;
     left: -30px;
@@ -149,11 +149,11 @@ p#thanks,p#tips {
     border-radius: 16px;
     transition: all .3s;
 }
-p#tips{
+p#tips {
     left: -50px;
     width: 150px;
 }
-p#thanks:before,p#tips:before {
+p#thanks:before, p#tips:before {
     content: '';
     position: absolute;
     left: 100px;
@@ -161,10 +161,10 @@ p#thanks:before,p#tips:before {
     border: 15px solid;
     border-color: #28282E transparent  transparent transparent;
 }
-p#tips:before{
+p#tips:before {
     left: 70px;
 }
-p#thanks.move,p#tips.move{
+p#thanks.move, p#tips.move {
     transform: translateY(-20px);
     opacity: 1;
 }
@@ -208,7 +208,7 @@ p#thanks.move,p#tips.move{
     color: #D93641;
     border-color: #D93641;
 }
-.sublist li:hover{
+.sublist li:hover {
     width: 300px;
 }
 .sublist a:hover {
@@ -234,7 +234,7 @@ p#thanks.move,p#tips.move{
 #comment h1 {
     text-align: center;
 }
-form,#comment_list {
+form, #comment_list {
     position: relative;
     margin: 50px auto;
     width: 620px;
@@ -249,7 +249,7 @@ form,#comment_list {
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
     overflow: hidden;
 }
-.mask{
+.mask {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.58);
     width: 100%;
@@ -257,52 +257,52 @@ form,#comment_list {
     opacity: 0;
     text-align: center;
     vertical-align: middle;
-    transition:all .5s;
+    transition: all .5s;
 }
-.mask i{
+.mask i {
     position: absolute;
     left: 27px;
     top: 27px;
     color: rgba(255, 255, 255, 0.84);
 }
-@keyframes rotate{
-    from{
+@keyframes rotate {
+    from {
         transform: rotate(0deg);
     }
-    to{
+    to {
         transform: rotate(360deg);
     }
 }
-@-webkit-keyframes rotate{
-    from{
+@-webkit-keyframes rotate {
+    from {
         transform: rotate(0deg);
     }
-    to{
+    to {
         transform: rotate(360deg);
     }
 }
-.mask:hover>i{
-    -webkit-animation:rotate 1.5s infinite linear;
-    animation:rotate 1.5s infinite linear;
+.mask:hover>i {
+    -webkit-animation: rotate 1.5s infinite linear;
+    animation: rotate 1.5s infinite linear;
 }
-.pic:hover>.mask{
+.pic:hover>.mask {
     opacity: 1;
 }
-.user_comment .pic{
+.user_comment .pic {
     top: 20px;
     width: 70px;
     height: 70px;
     left: 25px;
     border-radius: 50%
 }
-.pic img{
+.pic img, #final_choice img {
     width: 100%;
     height: 100%;
 }
-textarea,input,button{
+textarea, input, button {
     font-family: monospace;
 }
-textarea{
+textarea {
     position: relative;
     background-color: #fff;
     border: 1px solid #fff;
@@ -315,13 +315,13 @@ textarea{
     resize: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
 }
-textarea:focus,form input:focus{
+textarea:focus, form input:focus {
     outline: 0;
 }
-#nickname{
+#nickname {
     position: relative;
     left: 90px;
-    display: inline-block;    
+    display: inline-block;
     background: #fff;
     width: 180px;
     box-sizing: border-box;
@@ -329,21 +329,21 @@ textarea:focus,form input:focus{
     padding: 0 10px;
     margin-bottom: 10px;
     border: 1px solid #EEE;
-    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
 }
-button{
+button {
     position: absolute;
     right: 35px;
     top: 150px;
     height: 60px;
     width: 60px;
     border-radius: 50%;
-    background-color: #E45862;
+    background-color: #FF5E53;
     border: none;
     color: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
 }
-#result{
+#result {
     opacity: 0;
     width: 270px;
     height: 30px;
@@ -357,41 +357,39 @@ button{
     transition: all .3s;
     text-align: center;
 }
-#result i{
+#result i {
     vertical-align: middle;
     margin-right: 5px;
 }
-#result.success{
+#result.success {
     background-color: rgba(0, 128, 0, 0.64);
 }
-.user_comment{
+.user_comment {
     position: relative;
     padding: 20px;
     margin: 0 auto;
     border-top: 1px solid #ccc;
 }
-.user_comment.children{
+.user_comment.children {
     left: 40px;
     width: 80%;
     padding: 10px;
 }
-.children .pic{
+.children .pic {
     width: 50px;
     height: 50px;
     left: 35px;
     top: 12px;
-
 }
-.wrapper{
+.wrapper {
     position: relative;
     left: 90px;
     width: 530px;
 }
-#comment_list span,.comment_actions a{
+#comment_list span, .comment_actions a {
     color: #D93641;
 }
-
-.comment_actions{
+.comment_actions {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -399,14 +397,13 @@ button{
     opacity: 0;
     transition: all .5s;
 }
-.children .comment_actions{
+.children .comment_actions {
     top: 10px;
 }
-.comment_actions a{
+.comment_actions a {
     margin: 0 5px;
 }
-
-.big_mask{
+#big_mask {
     position: fixed;
     left: 0;
     top: 0;
@@ -414,10 +411,80 @@ button{
     height: 100%;
     background-color: rgba(0, 0, 0, 0.58);
     opacity: 0;
-    transition:all .5s;
+    display: none;
+    transition: all .5s;
     z-index: 1000;
 }
-
-#choose{
-    display: none;
+#choose {
+    position: fixed;
+    width: 800px;
+    left: 25%;
+    top: 20%;
+    margin: 0 auto;
+    z-index: 2000;
+    transform: scale(0, 0);
+    transition: all .5s;
+}
+#choose.zoom {
+    transform: scale(1, 1);
+}
+#button div {
+    display: inline-block;
+}
+#choices {
+    margin: 0 auto;
+    width: 574px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+#button {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin: 20px auto 0;
+    text-align: center;
+}
+#button div {
+    width: 100px;
+    height: 30px;
+    padding: 2px;
+    line-height: 30px;
+    color: #fff;
+    background: #FF5E53;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 40px;
+    border: 1px solid #FF5E53;
+    border-radius: 6px;
+    transition: all .3s;
+}
+#button div:hover{
+    transform: scale(1.2,1.2);
+}
+#choices img {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    margin: 5px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+#cancel {
+    position: absolute;
+    right: 78px;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    top: -18px;
+    font-size: 36px;
+    cursor: pointer;
+    color: #FF5E53;
+    background-color: #fff;
+    border-radius: 50%;
+}
+#cancel:hover {
+    -webkit-animation: rotate 1.5s infinite linear;
+    animation: rotate 1.5s infinite linear;
 }

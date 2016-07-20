@@ -212,6 +212,26 @@ jQuery(document).ready(function($) {
         return $string;
     }
     $("form .pic").on('click', function(event) {
+        event.preventDefault();
         $("#big_mask").addClass('show');
+        $("#choose").addClass('zoom');
+        $.ajax({
+          url: '/blog/admin/control.php',
+          data: {action : 'get_avatar'},
+          success: function(data) {
+            console.log(data);
+            $("#avatar_pics").html(data);
+          },
+        });
+    });
+    $("#big_mask").on('click',  function(event) {
+        event.preventDefault();
+        $("#big_mask").removeClass('show');
+        $("#choose").removeClass('zoom');
+    });
+    $("#cancel").on('click', function(event) {
+        event.preventDefault();
+        $("#big_mask").removeClass('show');
+        $("#choose").removeClass('zoom');
     });
 });
