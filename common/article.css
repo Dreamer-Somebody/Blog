@@ -334,11 +334,12 @@ textarea:focus, form input:focus {
 button {
     position: absolute;
     right: 35px;
-    top: 150px;
-    height: 60px;
-    width: 60px;
+    top: 140px;
+    height: 70px;
+    width: 70px;
     border-radius: 50%;
     background-color: #FF5E53;
+    cursor: pointer;
     border: none;
     color: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
@@ -433,7 +434,7 @@ button {
 }
 #choices {
     margin: 0 auto;
-    width: 574px;
+    width: 590px;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -461,7 +462,7 @@ button {
     transition: all .3s;
 }
 #button div:hover{
-    transform: scale(1.2,1.2);
+    transform: scale(1.1,1.1);
 }
 #choices img {
     display: inline-block;
@@ -469,11 +470,18 @@ button {
     height: 70px;
     margin: 5px;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    transition: all .5s;
+}
+#choices img:hover,#choices img.selected{
+    border: 2px solid #FF5E53;
+    transform: scale(1.1,1.1);
 }
 #cancel {
     position: absolute;
-    right: 78px;
+    right: 68px;
     width: 36px;
     height: 36px;
     line-height: 36px;

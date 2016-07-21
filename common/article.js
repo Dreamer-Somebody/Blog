@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 
     $("#like-button").on('click', function(event) {
         event.preventDefault();
-        $thanks=$("#thanks");
+        $thanks = $("#thanks");
         if ($thanks.attr('fav') == 1) {
             $thanks.html("(*￣3￣)╭你已经支持过啦，</br>不能重复支持哦。。。");
             move($thanks);
@@ -65,53 +65,56 @@ jQuery(document).ready(function($) {
                 $("#comment_list").append(html);
             }
         });
-        var html = '';
+    })();
+    var html = '';
 
-        function make_comment(arr, obj) {
-            for (var index in obj) {
-                make_up(arr, obj[index]);
-            }
-            return html;
+    function make_comment(arr, obj) {
+        for (var index in obj) {
+            make_up(arr, obj[index]);
         }
-        var start = false;
-        var tag = [];
+        return html;
+    }
+    var start = false;
+    var tag = [];
 
-        function make_up(obj, index) {
-            var now = obj[index];
-            if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
-                    tag[obj[now.parent].comment_id] == 1))) {
-                html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
-                    "'id='comment" + now.comment_id + "'>";
-                html += "<div class='pic'>";
-                html += "<img src='/blog/img/avatar/" + now.user_pic + "' name='avatar' /></div>";
-                html += "<div class='wrapper'><span>" + now.user_name + "</span><span class='time'>" +
-                    now.pub_time + "</span>";
-                html += "<p class='comment_content'>" + now.content + "</p></div>";
-                html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
-                    now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id + "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
-                html += "</div>";
-                start = true;
-                tag[now.comment_id] = 1;
-                if (now.children !== null && now.children !== '') {
-                    now.children = $.trim(now.children);
-                    var arr = now.children.split(",");
-                    for (var i = 0; i <= arr.length - 2; i++) {
-                        arguments.callee(obj, arr[i]);
-                    }
+    function make_up(obj, index) {
+        var now = obj[index];
+        if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
+                tag[obj[now.parent].comment_id] == 1))) {
+            html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
+                "'id='comment" + now.comment_id + "'>";
+            html += "<div class='pic'>";
+            html += "<img src='" + now.user_pic + "' name='avatar' /></div>";
+            html += "<div class='wrapper'><span>" + now.user_name + "</span><span class='time'>" +
+                now.pub_time + "</span>";
+            html += "<p class='comment_content'>" + now.content + "</p></div>";
+            html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
+                now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id + "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
+            html += "</div>";
+            start = true;
+            tag[now.comment_id] = 1;
+            if (now.children !== null && now.children !== '') {
+                now.children = $.trim(now.children);
+                var arr = now.children.split(",");
+                for (var i = 0; i <= arr.length - 2; i++) {
+                    arguments.callee(obj, arr[i]);
                 }
             }
         }
-    })();
+        return html;
+    }
+
 
     //获取评论并展示结束
     $("#nickname").on('focus', function(event) {
         move($("#tips"));
     });
-    function move($obj){
+
+    function move($obj) {
         event.preventDefault();
         $obj.addClass("move");
         setTimeout(function() {
-        $obj.removeClass("move");
+            $obj.removeClass("move");
         }, 2500);
     }
     $("body").on('submit', 'form', function(event) {
@@ -128,16 +131,18 @@ jQuery(document).ready(function($) {
             url: '/blog/admin/control.php?action=insert_comment',
             data: $('form').serialize(),
             error: function(request) {
-               show("<i class='icon-cancel'></i>连接服务器失败");
+                show("<i class='icon-cancel'></i>连接服务器失败");
             },
-            success: function(msg) {
+            success: function(comment_id) {
                 var html = '';
-                if (msg == "true") {
+                if (comment_id !== "false") {
                     $("#result").addClass("success");
                     html = "<i class='icon-check_circle'></i>评论成功！";
+                    insert(comment_id);
                     $("textarea").val('');
                     $("#comment_html").val('');
                     $("#comment_parent").val('');
+
                 } else {
                     html = "<i class='icon-cancel'></i>评论失败！请重试。";
                 }
@@ -196,6 +201,36 @@ jQuery(document).ready(function($) {
         }, 3000);
     }
 
+    function insert(comment_id) {
+        var obj = {};
+        var date = new Date();
+        var $parent = $("input[name='comment_parent']").val();
+        var $user_pic = $("input[name='pic']").val();
+        var $user_name = $("input[name='nickname']").val();
+        var pub_time = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        var $content = $("#comment_html").val() === (null || '') ? $("textarea").val() : $("#comment_html").val();
+        var html = '';
+        html += "<div class='user_comment " + ($parent !== null && $parent !== '' ? 'children' : '') +
+            "'id='comment" + comment_id + "'>";
+        html += "<div class='pic'>";
+        html += "<img src='" + $user_pic + "' name='avatar' /></div>";
+        html += "<div class='wrapper'><span>" + $user_name + "</span><span class='time'>" +
+            pub_time + "</span>";
+        html += "<p class='comment_content'>" + $content + "</p></div>";
+        html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
+            comment_id + "' data-user='" + $user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + comment_id +
+             "' data-user='" + $user_name + "' data-parent='" + ($parent === null || $parent === '' ? comment_id : $parent) + "'>回复</a></div>";
+        html += "</div>";
+        var $lastChild = $("a[data-parent='" + $parent + "']:last");
+        $parent = ".user_comment#comment" + $("input[name='comment_parent']").val();
+        var $pos = $lastChild.length === 0 ? ($($parent).length===0)?$("#comment_list"):$($parent) : $lastChild.parent().parent();
+        if($pos.attr('id')=='comment_list'){
+            $pos.prepend(html);
+        }else{
+        $pos.after(html);
+        }
+    }
+
     function replace_word($string, $replacement) {
         var $arr = $replacement.split(",");
         var $replace = [];
@@ -216,21 +251,29 @@ jQuery(document).ready(function($) {
         $("#big_mask").addClass('show');
         $("#choose").addClass('zoom');
         $.ajax({
-          url: '/blog/admin/control.php',
-          data: {action : 'get_avatar'},
-          success: function(data) {
-            console.log(data);
-            $("#avatar_pics").html(data);
-          },
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_avatar'
+            },
+            success: function(data) {
+                $("#avatar_pics").html(data);
+            },
         });
     });
-    $("#big_mask").on('click',  function(event) {
+    $("#big_mask,#cancel").on('click', function(event) {
         event.preventDefault();
         $("#big_mask").removeClass('show');
         $("#choose").removeClass('zoom');
     });
-    $("#cancel").on('click', function(event) {
+    $("body").on('click', '#choices img', function(event) {
         event.preventDefault();
+        $("#choices img").removeClass('selected');
+        $(this).addClass('selected');
+    });
+    $("body").on('click', '#true', function(event) {
+        event.preventDefault();
+        $("#photo").attr('src', $(".selected").attr('src'));
+        $("input[name='pic']").val($(".selected").attr('src'));
         $("#big_mask").removeClass('show');
         $("#choose").removeClass('zoom');
     });

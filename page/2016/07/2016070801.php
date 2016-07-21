@@ -94,9 +94,9 @@ if ($handle = opendir($dir)) {
     closedir($handle);
 }
 echo "<form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
-<div class='mask'><i class='icon-loop'></i></div><img src='/blog/img/avatar/{$file}' name='avatar'/></div>
+<div class='mask'><i class='icon-loop'></i></div><img src='/blog/img/avatar/{$file}' name='avatar' id='photo'/></div>
 <input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
-name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='{$file}'/>
+name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value='/blog/img/avatar/{$file}'/>
 <input type='hidden' name='article_id' value='2016070801'/><input type='hidden' id='comment_parent' name='comment_parent'/>
 <input type= 'hidden' name='comment_html' id='comment_html'/>
 <button type='submit'/>发表</button>
