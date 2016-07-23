@@ -1,4 +1,5 @@
 <?php
+define("ROOT", "http://" . $_SERVER['SERVER_NAME']);
 include_once "../common/db_fns.php";
 session_start();
 
@@ -352,12 +353,88 @@ function insert_article($title = '未命名文章', $file_name = 'untitled.html'
         echo "false";
     } else {
         echo "true";
+        return $article_id;
     }
 }
 
-function createFile($name)
+function create_file($id)
 {
+    $conn   = db_connect();
+    $query  = "select article.*,avatar from article,user where article_id={$id} and article.user=username";
+    $result = $conn->query($query);
+    $row    = $result->fetch_array();
+    $html   = "";
+    $html .= get_sidebar();
+    $html .= get_article($row);
+    $url = $_SERVER['DOCUMENT_ROOT'] . $row['link'];
+    write_file($url, $html);
+}
 
+function get_sidebar()
+{
+    return file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/blog/components/sidebar/sidebar.php');
+}
+function get_article($row)
+{
+    $html = '';
+    $html .= "
+<html>
+<head>
+    <meta charset='UTF-8' />
+    <title>{$row['title']}</title>
+    <link rel='stylesheet' href='/blog/index.css' />
+    <link rel='stylesheet' href='/blog/common/article.css' />
+    <script src='/blog/components/ueditor/utf8-php/ueditor.parse.js'></script>
+    <link rel='stylesheet' href='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCoreDefault.css' />
+    <script src='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCore.js'></script>
+</head>
+<body>
+    <div id='article'>
+    <div id='title'><h1>{$row['title']}</h1>
+    <div id='post-info'><a href='###'><img src='/blog/img/avatar/{$row['avatar']}'/>{$row['user']}</a>
+    <span class='time'>{$row['pub_time']}</span></div></div><div id='content'>{$row['content']}<div
+    id='addition'>" . get_keywords($row['keywords']) . "</div><div id='share'>分享到： <a class='circle-weibo'><i class=
+    'icon-weibo'></i></a><a class='circle-qzone'>
+<i class='icon-github'></i></a><a class='circle-wechat'><i class='icon-bubbles'></i></a></div><div id='like'>
+<div id='like-button' data-id={$row['article_id']}><i class='icon-good'></i>支持<span id='likes-count'>
+</span></div><p id='thanks' fav=0></p></div></div><div id='list'><ul id='list_nav'><li class='similar now'>相关文章
+</li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul></div><div id='comment'><h1>评论</h1>
+<form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
+<div class='mask'><i class='icon-loop'></i></div><img src='' name='avatar' id='photo'/></div>
+<input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
+name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value=''/>
+<input type='hidden' name='article_id' value={$row['article_id']}><input type='hidden' id='comment_parent' name='comment_parent'/>
+<input type= 'hidden' name='comment_html' id='comment_html'/>
+<button type='submit'/>发表</button>
+<div id='result'></div>
+</form><div id='comment_list'></div></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
+<div id='button'><div id='true'>确认</div></div></div><div id='cancel'><i class='icon-cancel'></i></div></div>
+<div id='big_mask'></div><script>
+    uParse('#content',{
+    });
+    </script>
+    <script src='/blog/common/article.js'></script>
+</body>
+</html>
+    ";
+    return $html;
+}
+
+function write_file($url, $html)
+{
+    $fp = fopen($url, 'wb');
+    fwrite($fp, $html);
+    fclose($fp);
+}
+
+function get_keywords($keywords)
+{
+    $html     = '';
+    $keywords = explode(',', $keywords);
+    foreach ($keywords as $keyword) {
+        $html .= "<a href='/blog/sort.php?key=keywords&value={$keyword}' class='keyword'>{$keyword} +</a>";
+    }
+    return $html;
 }
 
 function get_article_id()
@@ -423,14 +500,16 @@ function insert_comment($id, $pic, $user, $content, $parent)
     $user    = htmlentities($user, ENT_QUOTES);
     $content = htmlentities($content, ENT_QUOTES);
     $conn    = db_connect();
-    $result  = $conn->query("insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
+    $query   = "insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
+               '{$parent}','{$pic}','{$content}')";
+    $result = $conn->query("insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
                '{$parent}','{$pic}','{$content}')");
     $comment_id = $conn->insert_id;
     if ($parent !== null && $parent !== '') {
         $children = $comment_id . ',';
         $conn->query("update comment set children= concat(children,'$children') where comment_id={$parent}");
     }
-    $conn->query("update article set comment=comment+1 where article_id={$id}");
+    $conn->query("update article set comment =comment+1 where article_id={$id}");
     if ($result) {
         echo "$comment_id";
     } else {
@@ -451,4 +530,104 @@ function get_avatar()
         closedir($handle);
     }
     echo $avatar;
+}
+
+function get_likes_count($id)
+{
+    $conn   = db_connect();
+    $query  = "select fav from article where article_id={$id}";
+    $result = $conn->query($query);
+    $row    = $result->fetch_array();
+    echo $row['fav'];
+}
+
+function get_random_avatar()
+{
+    $dir = '../img/avatar';
+    if ($handle = opendir($dir)) {
+        $random = rand(1, count(scandir($dir)) - 2);
+        for ($i = 0; $i < 2; $i++) {
+            $file = readdir($handle);
+        }
+        for ($i = 1; $i <= $random; $i++) {
+            $file = readdir($handle);
+        }
+        closedir($handle);
+    }
+    echo ROOT . "/blog/img/avatar/" . $file;
+}
+
+function get_article_list($id)
+{
+    $html = '';
+    $html .= get_sublist_similar($id);
+    $html .= get_sublist_popular();
+    $html .= get_sublist_recommended();
+    echo $html;
+}
+
+function get_sublist_similar($id)
+{
+    $html     = '';
+    $keywords = get_article_keywords($id);
+    $len      = intval(5 / count($keywords));
+    $html .= "<ul class='show sublist similar'>";
+    foreach ($keywords as $keyword) {
+        $conn   = db_connect();
+        $query  = "select title,link from article where keywords like '%{$keyword}%' limit 0,{$len}";
+        $result = $conn->query($query);
+        $rows   = $result->num_rows;
+        for (; $rows > 0; $rows--) {
+            $row = $result->fetch_array();
+            $html .= "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
+        }
+    }
+    $html .= "</ul>";
+    return $html;
+}
+
+function get_article_keywords($id)
+{
+    $conn     = db_connect();
+    $result   = $conn->query("select keywords from article where article_id={$id}");
+    $row      = $result->fetch_array();
+    $keywords = explode(',', $row['keywords']);
+    return $keywords;
+}
+
+function get_sublist_popular()
+{
+    $html = '';
+    $html .= "<ul class='sublist popular'>";
+    $conn   = db_connect();
+    $query  = "select title,link,click from article order by click desc limit 0,5";
+    $result = $conn->query($query);
+    $rows   = $result->num_rows;
+    for (; $rows > 0; $rows--) {
+        $row = $result->fetch_array();
+        $html .= "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
+    }
+    $html .= "</ul>";
+    return $html;
+}
+
+function get_sublist_recommended()
+{
+    $html = '';
+    $html .= "<ul class='sublist recommended'>";
+    $conn   = db_connect();
+    $query  = "select title,link,fav from article order by fav desc limit 0,5";
+    $result = $conn->query($query);
+    $rows   = $result->num_rows;
+    for (; $rows > 0; $rows--) {
+        $row = $result->fetch_array();
+        $html .= "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
+    }
+    return $html;
+}
+
+function add_click($id)
+{
+    $conn   = db_connect();
+    $result = $conn->query("update article set click=click+1 where article_id={$id}");
 }

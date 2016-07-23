@@ -1,7 +1,64 @@
 jQuery(document).ready(function($) {
     //点赞开始
 
-    $("#like-button").on('click', function(event) {
+    $like_button = $("#like-button");
+    $article_id = $like_button.data("id");
+    $count = $("#likes-count");
+    (function add_click() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'add_click',
+                article_id: $article_id
+            }
+        });
+    })();
+    (function get_likes_count() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_likes_count',
+                article_id: $article_id
+            },
+            success: function(data) {
+                $count.html(data);
+            },
+            error: function() {
+                $count.html("获取失败");
+            }
+        });
+    })();
+    (function get_random_avatar() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_random_avatar',
+                article_id: $article_id
+            },
+            success: function(data) {
+                $("#photo").attr('src', data);
+                $("input[name='pic']").val(data);
+            }
+        });
+
+    })();
+    (function get_article_list() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_article_list',
+                article_id: $article_id
+            },
+            success: function(data) {
+                $("#list").append(data);
+            },
+            error: function() {
+                $("#list").append("获取数据失败");
+            }
+        });
+    })();
+
+    $like_button.on('click', function(event) {
         event.preventDefault();
         $thanks = $("#thanks");
         if ($thanks.attr('fav') == 1) {
@@ -9,12 +66,12 @@ jQuery(document).ready(function($) {
             move($thanks);
             return;
         }
-        article_id = this.dataset.id;
+
         $.ajax({
             url: '/blog/admin/control.php',
             data: {
                 action: 'like',
-                article_id: article_id
+                article_id: $article_id
             },
             error: function() {
                 $thanks.html("(╥╯^╰╥)点赞失败，，，</br>请重试。。。");
@@ -52,7 +109,7 @@ jQuery(document).ready(function($) {
             url: '/blog/admin/control.php',
             data: {
                 action: 'get_comment',
-                article_id: '2016070801'
+                article_id: $article_id
             },
             success: function(data) {
                 //解析JSON时，数据被正序排序好了。
@@ -219,15 +276,15 @@ jQuery(document).ready(function($) {
         html += "<p class='comment_content'>" + $content + "</p></div>";
         html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
             comment_id + "' data-user='" + $user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + comment_id +
-             "' data-user='" + $user_name + "' data-parent='" + ($parent === null || $parent === '' ? comment_id : $parent) + "'>回复</a></div>";
+            "' data-user='" + $user_name + "' data-parent='" + ($parent === null || $parent === '' ? comment_id : $parent) + "'>回复</a></div>";
         html += "</div>";
         var $lastChild = $("a[data-parent='" + $parent + "']:last");
         $parent = ".user_comment#comment" + $("input[name='comment_parent']").val();
-        var $pos = $lastChild.length === 0 ? ($($parent).length===0)?$("#comment_list"):$($parent) : $lastChild.parent().parent();
-        if($pos.attr('id')=='comment_list'){
+        var $pos = $lastChild.length === 0 ? ($($parent).length === 0) ? $("#comment_list") : $($parent) : $lastChild.parent().parent();
+        if ($pos.attr('id') == 'comment_list') {
             $pos.prepend(html);
-        }else{
-        $pos.after(html);
+        } else {
+            $pos.after(html);
         }
     }
 

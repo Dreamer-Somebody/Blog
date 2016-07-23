@@ -37,7 +37,13 @@ if ($action == 'insert_article') {
     @$content   = $_REQUEST['content'];
     @$new       = $_REQUEST['new'];
     @$id        = $_REQUEST['id'];
-    insert_article($title, $file_name, $class, $tags, $content, $new, $id);
+    $id         = insert_article($title, $file_name, $class, $tags, $content, $new, $id);
+    create_file($id);
+
+}
+if ($action == 'add_click') {
+    $id = $_REQUEST['article_id'];
+    add_click($id);
 }
 if ($action == 'like') {
     $id = $_REQUEST['article_id'];
@@ -64,4 +70,15 @@ if ($action == 'insert_comment') {
 
 if ($action == 'get_avatar') {
     get_avatar();
+}
+if ($action == 'get_likes_count') {
+    $id = $_REQUEST['article_id'];
+    get_likes_count($id);
+}
+if ($action == 'get_random_avatar') {
+    get_random_avatar();
+}
+if ($action == 'get_article_list') {
+    $id = $_REQUEST['article_id'];
+    get_article_list($id);
 }

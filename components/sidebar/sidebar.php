@@ -39,5 +39,4 @@
     <script src="/blog/common/jquery.js"></script>
     <script src="/blog/components/sidebar/sidebar.js"></script>
 </body>
-
 </html>
