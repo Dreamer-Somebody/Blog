@@ -268,7 +268,10 @@ function del_article($id, $type, $real = false)
             $query1 = "delete from recycle ";
             if ($id != 'none') {
                 $query1 .= "where article_id={$id}";
+                $query2 = "delete from comment where article_id={$id}";
+                $conn->query($query2);
             }
+
             $result1 = $conn->query($query1);
         }
         if ($id == 'none') {
@@ -393,9 +396,7 @@ function get_article($row)
     <div id='title'><h1>{$row['title']}</h1>
     <div id='post-info'><a href='###'><img src='/blog/img/avatar/{$row['avatar']}'/>{$row['user']}</a>
     <span class='time'>{$row['pub_time']}</span></div></div><div id='content'>{$row['content']}<div
-    id='addition'>" . get_keywords($row['keywords']) . "</div><div id='share'>分享到： <a class='circle-weibo'><i class=
-    'icon-weibo'></i></a><a class='circle-qzone'>
-<i class='icon-github'></i></a><a class='circle-wechat'><i class='icon-bubbles'></i></a></div><div id='like'>
+    id='addition'>" . get_keywords($row['keywords']) . "</div><div id='like'>
 <div id='like-button' data-id={$row['article_id']}><i class='icon-good'></i>支持<span id='likes-count'>
 </span></div><p id='thanks' fav=0></p></div></div><div id='list'><ul id='list_nav'><li class='similar now'>相关文章
 </li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul></div><div id='comment'><h1>评论</h1>
@@ -409,7 +410,7 @@ name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' 
 <div id='result'></div>
 </form><div id='comment_list'></div></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
 <div id='button'><div id='true'>确认</div></div></div><div id='cancel'><i class='icon-cancel'></i></div></div>
-<div id='big_mask'></div><script>
+<div id='big_mask'></div><div id='toTop'></div><script>
     uParse('#content',{
     });
     </script>

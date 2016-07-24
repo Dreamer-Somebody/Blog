@@ -27,10 +27,13 @@
                     <a href="/blog/sort.php?key=keywords&value=生活"><i class="icon-life"></i>生活</a>
                 </li>
                 <li>
-                    <a href="/blog"><i class="icon-file-text"></i>留言板</a>
+                    <a href=""><i class="icon-switch"></i>实验室</a>
                 </li>
                 <li>
-                    <a href=""><i class="icon-switch"></i>关于</a>
+                    <a href="/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-account_circle"></i>关于</a>
                 </li>
             </ul>
         </div>

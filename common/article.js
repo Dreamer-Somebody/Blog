@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
     //点赞开始
 
     $like_button = $("#like-button");
-    $article_id = $like_button.data("id");
+    $article_id = $("input[name='article_id']").val();
     $count = $("#likes-count");
     (function add_click() {
         $.ajax({
@@ -133,9 +133,10 @@ jQuery(document).ready(function($) {
     }
     var start = false;
     var tag = [];
-
+    var floor = 0;
     function make_up(obj, index) {
         var now = obj[index];
+        var length= Object.keys(obj).length;
         if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
                 tag[obj[now.parent].comment_id] == 1))) {
             html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
@@ -146,10 +147,13 @@ jQuery(document).ready(function($) {
                 now.pub_time + "</span>";
             html += "<p class='comment_content'>" + now.content + "</p></div>";
             html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
-                now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id + "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
+                now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id +
+                 "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
+            html+="<div class='comment_actions show'><p>"+(length-floor)+"#</p></div>";
             html += "</div>";
             start = true;
             tag[now.comment_id] = 1;
+            floor+=1;
             if (now.children !== null && now.children !== '') {
                 now.children = $.trim(now.children);
                 var arr = now.children.split(",");
@@ -192,16 +196,17 @@ jQuery(document).ready(function($) {
             },
             success: function(comment_id) {
                 var html = '';
+                var $content_type=($article_id!='0'?"评论":"留言");
                 if (comment_id !== "false") {
                     $("#result").addClass("success");
-                    html = "<i class='icon-check_circle'></i>评论成功！";
+                    html = "<i class='icon-check_circle'></i>"+$content_type+"成功！";
                     insert(comment_id);
                     $("textarea").val('');
                     $("#comment_html").val('');
                     $("#comment_parent").val('');
 
                 } else {
-                    html = "<i class='icon-cancel'></i>评论失败！请重试。";
+                    html = "<i class='icon-cancel'></i>"+$content_type+"失败！请重试。";
                 }
                 show(html);
             }
@@ -232,16 +237,17 @@ jQuery(document).ready(function($) {
 
     $("body").on('mouseover', '.user_comment', function(event) {
         event.preventDefault();
-        $(this).find(".comment_actions").addClass('show');
+        $(this).find(".comment_actions").toggleClass('show');
     }).on('mouseout', '.user_comment', function(event) {
         event.preventDefault();
-        $(this).find(".comment_actions").removeClass('show');
+        $(this).find(".comment_actions").toggleClass('show');
     });
 
     function check() {
         var $name = $("#nickname").val();
         var $content = $("textarea").val();
-        var $wrong = ($name === '' ? "昵称不能为空！" : '') + ($content === '' ? "评论不能为空！" : '');
+        var $content_type=($article_id!='0'?"评论":"留言");
+        var $wrong = ($name === '' ? "昵称不能为空！" : '') + ($content === '' ? $content_type+"不能为空！" : '');
         if ($wrong !== '') {
             show("<i class='icon-cancel'></i>" + $wrong);
             return false;

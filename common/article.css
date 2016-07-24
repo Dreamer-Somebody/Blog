@@ -387,7 +387,7 @@ button {
     left: 90px;
     width: 530px;
 }
-#comment_list span, .comment_actions a {
+#comment_list span, .comment_actions a, #comment .comment_actions p {
     color: #D93641;
 }
 .comment_actions {
@@ -401,7 +401,7 @@ button {
 .children .comment_actions {
     top: 10px;
 }
-.comment_actions a {
+.comment_actions a,.comment_actions p {
     margin: 0 5px;
 }
 #big_mask {

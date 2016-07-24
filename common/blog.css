@@ -1,7 +1,10 @@
+body{
+    background-color: #f5f6f9;
+}
 #container {
     position: relative;
     width: 1130px;
-    left: 200px;
+    left: 208px;
     border-radius: 5px;
     -webkit-transition: -webkit-transform 1s;
     transition: transform 1s
@@ -30,7 +33,7 @@ div#show_article img{
     width: 100px;
     height: 100px;
     margin: 10px;
-    border: 1px solid #000;
+    border: 1px solid #A9A2A2;
 }
 div#classify {
     align-self: flex-start;
