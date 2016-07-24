@@ -81,6 +81,7 @@ ul#nav>li {
 li.active,
 ul#nav li:hover {
     background-color: #FF5E53;
+    padding-left: 7px;
 }
 
 

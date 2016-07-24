@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/blog/common/base.css" />
+    <link rel="stylesheet" href="/blog/components/sidebar/sidebar.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div id="head">
+            <div id="avatar"></div>
+            <p>天边的博客</p>
+            <p id="size_small">Sing it for the people like us.</p>
+        </div>
+        <div id="body">
+            <ul id="nav">
+                <li class="active"><a href="/blog/index.php"><i class="icon-home3"></i>首页</a></li>
+                <li>
+                    <a href="/blog/sort.php?key=keywords&value=技术"><i class="icon-code"></i>技术<i class="icon-fold" data-type="tech"></i></a>
+                </li>
+                    <ul id="tech" class="sublist hide">
+                        <li><a href="/blog/sort.php?key=keywords&value=html">Html</a></li>
+                        <li><a href="/blog/sort.php?key=keywords&value=css">Css</a></li>
+                        <li><a href="/blog/sort.php?key=keywords&value=js">JavaScript</a></li>
+                    </ul>
+                <li>
+                    <a href="/blog/sort.php?key=keywords&value=生活"><i class="icon-life"></i>生活</a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-switch"></i>实验室</a>
+                </li>
+                <li>
+                    <a href="/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
+                </li>
+                <li>
+                    <a href=""><i class="icon-account_circle"></i>关于</a>
+                </li>
+            </ul>
+        </div>
+        <div class="menu"><i class="icon-menu"></i></div>
+    </div>
+    <script src="/blog/common/jquery.js"></script>
+    <script src="/blog/components/sidebar/sidebar.js"></script>
+</body>
+</html>
+
+<html>
+<head>
+    <meta charset='UTF-8' />
+    <title>新样式测试</title>
+    <link rel='stylesheet' href='/blog/index.css' />
+    <link rel='stylesheet' href='/blog/common/article.css' />
+    <script src='/blog/components/ueditor/utf8-php/ueditor.parse.js'></script>
+    <link rel='stylesheet' href='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCoreDefault.css' />
+    <script src='/blog/components/ueditor/utf8-php/third-party/SyntaxHighlighter/shCore.js'></script>
+</head>
+<body>
+    <div id='article'>
+    <div id='title'><h1>新样式测试</h1>
+    <div id='post-info'><a href='###'><img src='/blog/img/avatar/skyside.png'/>天边</a>
+    <span class='time'>2016-07-25 01:10:39</span></div></div><div id='content'><p>新样式测试。</p><pre class="brush:css;toolbar:false">#article&nbsp;#title&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;text-align:&nbsp;center;
+}
+#article&nbsp;#title,&nbsp;#article&nbsp;#content{
+&nbsp;&nbsp;&nbsp;&nbsp;padding-bottom:&nbsp;40px;
+&nbsp;&nbsp;&nbsp;&nbsp;border-bottom:&nbsp;1px&nbsp;solid&nbsp;#ccc;
+}
+h1&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;color:&nbsp;#6d6d6d;
+&nbsp;&nbsp;&nbsp;&nbsp;font-size:&nbsp;40px;
+&nbsp;&nbsp;&nbsp;&nbsp;padding:&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;margin-bottom:&nbsp;25px;
+}
+#post-info&nbsp;a&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;color:&nbsp;#D93641;
+}</pre><p><br/></p><div
+    id='addition'><a href='/blog/sort.php?key=keywords&value=测试' class='keyword'>测试 +</a></div><div id='like'>
+<div id='like-button' data-id=2016072402><i class='icon-good'></i>支持<span id='likes-count'>
+</span></div><p id='thanks' fav=0></p></div></div><div id='list'><ul id='list_nav'><li class='similar now'>相关文章
+</li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul></div></div><div id='comment'><h1>评论</h1>
+<form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
+<div class='mask'><i class='icon-loop'></i></div><img src='' name='avatar' id='photo'/></div>
+<input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
+name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value=''/>
+<input type='hidden' name='article_id' value=2016072402><input type='hidden' id='comment_parent' name='comment_parent'/>
+<input type= 'hidden' name='comment_html' id='comment_html'/>
+<button type='submit'/>发表</button>
+<div id='result'></div>
+</form><div id='comment_list'></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
+<div id='button'><div id='true'>确认</div></div></div><div id='cancel'><i class='icon-cancel'></i></div></div>
+<div id='big_mask'></div><div id='toTop'></div><script>
+    uParse('#content',{
+    });
+    </script>
+    <script src='/blog/common/article.js'></script>
+</body>
+</html>
+    

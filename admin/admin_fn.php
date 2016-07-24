@@ -399,7 +399,7 @@ function get_article($row)
     id='addition'>" . get_keywords($row['keywords']) . "</div><div id='like'>
 <div id='like-button' data-id={$row['article_id']}><i class='icon-good'></i>支持<span id='likes-count'>
 </span></div><p id='thanks' fav=0></p></div></div><div id='list'><ul id='list_nav'><li class='similar now'>相关文章
-</li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul></div><div id='comment'><h1>评论</h1>
+</li><li class='popular'>热门文章</li><li class='recommended'>推荐文章</li></ul></div></div><div id='comment'><h1>评论</h1>
 <form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
 <div class='mask'><i class='icon-loop'></i></div><img src='' name='avatar' id='photo'/></div>
 <input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
@@ -408,7 +408,7 @@ name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' 
 <input type= 'hidden' name='comment_html' id='comment_html'/>
 <button type='submit'/>发表</button>
 <div id='result'></div>
-</form><div id='comment_list'></div></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
+</form><div id='comment_list'></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
 <div id='button'><div id='true'>确认</div></div></div><div id='cancel'><i class='icon-cancel'></i></div></div>
 <div id='big_mask'></div><div id='toTop'></div><script>
     uParse('#content',{
