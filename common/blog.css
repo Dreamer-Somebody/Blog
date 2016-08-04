@@ -1,4 +1,4 @@
-body {
+body{
     background-color: #f5f6f9;
 }
 #container {
@@ -28,7 +28,7 @@ div#show_article, div#classify {
 div#show_article {
     flex: 1 1 72%
 }
-div#show_article img {
+div#show_article img{
     float: left;
     width: 100px;
     height: 100px;
@@ -70,18 +70,13 @@ div.article a.tags {
 div.article a.tags, div#classify a {
     position: relative;
     left: 0;
-    width: 100%;
-    height: 24px;
-    line-height: 24px;
     font-size: 12px;
     padding: 5px 6px;
     color: #FFF;
     background-color: #FF5E53;
+    line-height: 14px;
     border-radius: 2px;
     transition: all 0.3s
-}
-div#classify a {
-    display: block;
 }
 div.article a.tags::after {
     content: '';
@@ -105,7 +100,7 @@ p.info2 {
 p.info2 i {
     margin: 0 5px
 }
-a.content {
+a.content{
     display: block;
     margin: 10px;
 }
@@ -124,31 +119,16 @@ div.article a.title:hover, div.article a.content:hover {
     text-decoration: underline
 }
 div#classify ul {
-    padding: 0;
-}
-div#classify .hot{
-    display: block;
+    margin-left: 14px;
+    padding: 0
 }
 div#classify ul li {
-    display: inline-block;
-    margin: 9px 12px;
+    padding: 5px;
+    margin: 5px 5px;
     font-size: 12px;
-    width: 70px;
-    height: 24px;
     border-radius: 4px;
     list-style-type: none;
-    text-align: center;
-}
-div#classify .hot li{
-    display: block;
-    width: 183px;
-    margin: 9px 12px;
-    text-align: left;
-    height: 34px;
-    text-indent: 4px;
-}
-#classify .hot a{
-    width: 90%;
+    display: inline-block
 }
 ul#page_select {
     list-style-type: none;
