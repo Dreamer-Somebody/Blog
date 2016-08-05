@@ -25,17 +25,20 @@ jQuery(document).ready(function($) {
         event.preventDefault();
         $sidebar =$("div#sidebar");
         $container =$("div#container");
+        $menu_part =$("div.menu_part");
         if($i++%2===0){
             $sidebar.css('transform', 'translate(-160px) translateZ(0)');
             $sidebar.css('-moz-transform', 'translate(-160px) translateZ(0)');
             $container.css('transform', 'translate(-85px) translateZ(0)');
             $container.css('-moz-transform', 'translate(-85px) translateZ(0)');
+            $menu_part.addClass('fold');
         }
         else{
             $sidebar.css('transform', 'translate(0px) translateZ(0)');
             $sidebar.css('-moz-transform', 'translate(0px) translateZ(0)');
             $container.css('transform', 'translate(0px) translateZ(0)');
             $container.css('-moz-transform', 'translate(0px) translateZ(0)');
+            $menu_part.removeClass('fold');
         }
     }); 
 });

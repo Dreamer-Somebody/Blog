@@ -21,8 +21,7 @@ function show_article_list($query, $page = 1, $sub_query = '', $num = 10)
                 $row['content'] = substr($row['content'], 0, 411) . "...";
             }
             echo "<a href='{$row['link']}' class='content'><p>{$row['content']}</p></a>";
-            echo "<p class='info2'><i class='icon-eye'></i>阅读({$row['click']}) <i class='icon-bubbles'></i>评论({$row['comment']})
-				<i class='icon-good'></i>赞({$row['fav']})<i class='icon-price-tag'></i>标签: {$row['keywords']}</p>";
+            echo "<p class='info2'><i class='icon-eye'></i>阅读({$row['click']}) <i class='icon-bubbles'></i>评论({$row['comment']})<i class='icon-good'></i>赞({$row['fav']})<i class='icon-price-tag'></i>标签: {$row['keywords']}</p>";
             echo "</div>";
         }
 

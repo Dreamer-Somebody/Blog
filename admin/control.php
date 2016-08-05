@@ -41,6 +41,9 @@ if ($action == 'insert_article') {
     create_file($id);
 
 }
+if ($action == 'get_sidebar') {
+    echo get_sidebar();
+}
 if ($action == 'add_click') {
     $id = $_REQUEST['article_id'];
     add_click($id);

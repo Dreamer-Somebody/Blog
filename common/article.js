@@ -1,9 +1,19 @@
 jQuery(document).ready(function($) {
-    //点赞开始
-
     $like_button = $("#like-button");
     $article_id = $("input[name='article_id']").val();
     $count = $("#likes-count");
+    (function get_sidebar(){
+        $.ajax({
+          url: '/blog/admin/control.php',
+          data: {
+            action: 'get_sidebar'
+        },
+          success: function(data) {
+            $("body").prepend(data);
+          }
+        });
+        
+    })();
     (function add_click() {
         $.ajax({
             url: '/blog/admin/control.php',
@@ -90,7 +100,6 @@ jQuery(document).ready(function($) {
         });
     });
 
-    //点赞结束
 
     $("#list_nav li").on('click', function(event) {
         event.preventDefault();
@@ -131,12 +140,21 @@ jQuery(document).ready(function($) {
         }
         return html;
     }
+    function getTotalFloor(obj){
+        var length=0;
+        for(var index in obj){
+            if(obj[index].parent===''||obj[index].parent===null){
+                length++;
+            }
+        }
+        return length;
+    }
     var start = false;
     var tag = [];
     var floor = 0;
     function make_up(obj, index) {
         var now = obj[index];
-        var length= Object.keys(obj).length;
+        var length = getTotalFloor(obj);
         if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
                 tag[obj[now.parent].comment_id] == 1))) {
             html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
@@ -148,12 +166,15 @@ jQuery(document).ready(function($) {
             html += "<p class='comment_content'>" + now.content + "</p></div>";
             html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
                 now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id +
-                 "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
-            html+="<div class='comment_actions show'><p>"+(length-floor)+"#</p></div>";
+                "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + "'>回复</a></div>";
+            if (now.parent === null || now.parent === '') {
+                html += "<div class='comment_actions show'><p>" + (length - floor) + "#</p></div>";
+                floor += 1;
+            }
             html += "</div>";
             start = true;
             tag[now.comment_id] = 1;
-            floor+=1;
+
             if (now.children !== null && now.children !== '') {
                 now.children = $.trim(now.children);
                 var arr = now.children.split(",");
@@ -196,17 +217,17 @@ jQuery(document).ready(function($) {
             },
             success: function(comment_id) {
                 var html = '';
-                var $content_type=($article_id!='0'?"评论":"留言");
+                var $content_type = ($article_id != '0' ? "评论" : "留言");
                 if (comment_id !== "false") {
                     $("#result").addClass("success");
-                    html = "<i class='icon-check_circle'></i>"+$content_type+"成功！";
+                    html = "<i class='icon-check_circle'></i>" + $content_type + "成功！";
                     insert(comment_id);
                     $("textarea").val('');
                     $("#comment_html").val('');
                     $("#comment_parent").val('');
 
                 } else {
-                    html = "<i class='icon-cancel'></i>"+$content_type+"失败！请重试。";
+                    html = "<i class='icon-cancel'></i>" + $content_type + "失败！请重试。";
                 }
                 show(html);
             }
@@ -246,8 +267,8 @@ jQuery(document).ready(function($) {
     function check() {
         var $name = $("#nickname").val();
         var $content = $("textarea").val();
-        var $content_type=($article_id!='0'?"评论":"留言");
-        var $wrong = ($name === '' ? "昵称不能为空！" : '') + ($content === '' ? $content_type+"不能为空！" : '');
+        var $content_type = ($article_id != '0' ? "评论" : "留言");
+        var $wrong = ($name === '' ? "昵称不能为空！" : '') + ($content === '' ? $content_type + "不能为空！" : '');
         if ($wrong !== '') {
             show("<i class='icon-cancel'></i>" + $wrong);
             return false;

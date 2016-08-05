@@ -255,6 +255,22 @@ function get_article_comment_page($extra)
     echo "$string";
 }
 
+function del_relative($id)
+{
+    $conn    = db_connect();
+    $query   = "select link from article where article_id='{$id}'";
+    $query1  = "select link from recycle where article_id='{$id}'";
+    $result  = $conn->query($query);
+    $result1 = $conn->query($query1);
+    $res     = ($result->num_rows) ? $result : $result1;
+    $row     = $res->fetch_array();
+    $link    = $row['link'];
+    $url     = $_SERVER['DOCUMENT_ROOT'] . $link;
+    unlink($url);
+    $query2 = "delete from comment where article_id={$id}";
+    $conn->query($query2);
+
+}
 //$real 是彻底删除的意思。
 
 function del_article($id, $type, $real = false)
@@ -265,22 +281,20 @@ function del_article($id, $type, $real = false)
             $query  = "insert into recycle select * from article where article_id={$id}";
             $result = $conn->query($query);
         } else {
-            $query1 = "delete from recycle ";
             if ($id != 'none') {
-                $query1 .= "where article_id={$id}";
-                $query2 = "delete from comment where article_id={$id}";
-                $conn->query($query2);
-            }
-
-            $result1 = $conn->query($query1);
-        }
-        if ($id == 'none') {
-            if (!$result1) {
-                echo "false";
+                $query1 = "delete from recycle where article_id={$id}";
+                del_relative($id);
             } else {
-                echo "true";
+                $query1 = "delete from recycle";
+                $query2 = "select article_id from recycle";
+                $result = $conn->query($query2);
+                $rows   = $result->num_rows;
+                for ($i = 0; $i < $rows; $i++) {
+                    $row = $result->fetch_array();
+                    del_relative($row['id']);
+                }
             }
-            exit();
+            $result1 = $conn->query($query1);
         }
     }
     if ($type == 'comment') {
@@ -341,13 +355,13 @@ function insert_article($title = '未命名文章', $file_name = 'untitled.html'
 {
     $user       = isset($_SESSION['user']) ? $_SESSION['user'] : '天边';
     $article_id = ($id == '') ? get_article_id() : $id;
-    $link       = get_article_link($file_name);
     $conn       = db_connect();
     if ($new == '1') {
+        $link  = get_article_link($file_name);
         $query = "insert into article(article_id,title,link,user,content,class,keywords)
     values({$article_id},'{$title}','{$link}','{$user}','{$content}','{$class}','{$tags}')";
     } else {
-        $query = "update article set title='{$title}',link='{$link}',class='{$class}',keywords='${tags}'
+        $query = "update article set title='{$title}',class='{$class}',keywords='${tags}'
     ,content='${content}' where article_id='${article_id}'";
 
     }
@@ -367,7 +381,6 @@ function create_file($id)
     $result = $conn->query($query);
     $row    = $result->fetch_array();
     $html   = "";
-    $html .= get_sidebar();
     $html .= get_article($row);
     $url = $_SERVER['DOCUMENT_ROOT'] . $row['link'];
     write_file($url, $html);
@@ -414,6 +427,7 @@ name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' 
     uParse('#content',{
     });
     </script>
+    <script src='/blog/common/jquery.js'></script>
     <script src='/blog/common/article.js'></script>
 </body>
 </html>
@@ -423,7 +437,7 @@ name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' 
 
 function write_file($url, $html)
 {
-    $fp = fopen($url, 'wb');
+    $fp = fopen($url, "w+b");
     fwrite($fp, $html);
     fclose($fp);
 }
@@ -460,7 +474,12 @@ function get_article_link($file_name)
 {
     @$year  = date("Y");
     @$month = date("m");
+    $dir    = $_SERVER['DOCUMENT_ROOT'] . "/blog/page/{$year}/{$month}";
     $link   = "/blog/page/{$year}/{$month}/{$file_name}";
+    if (!is_dir($dir)) {
+        mkdir($dir);
+    }
+
     return $link;
 }
 

@@ -105,14 +105,23 @@ ul#tech {
 ul.sublist.hide {
     height: 0 !important;
 }
-
+.menu_part{
+    position: absolute;
+    left: 160px;
+    width: 120px;
+    height: 100%;
+    top: 0;
+    transition: all 1s;
+}
+.menu_part.fold:not(:hover){
+    opacity: 0;
+}
 .menu{
     position: absolute;
     width: 40px;
     height: 40px;
     line-height: 40px;
     top: 50%;
-    left:160px;
     text-align: center;
     cursor: pointer;
     box-shadow: 2px 0 6px rgba(0,0,0,0.4);
@@ -122,6 +131,9 @@ ul.sublist.hide {
 
 #sidebar .icon-menu{
     transition: all 0.3s;
+    position: absolute;
+    top: 25%;
+    left: 25%;
     margin: 0;
 }
 
