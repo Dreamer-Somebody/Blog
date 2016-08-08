@@ -4,7 +4,7 @@ body {
 #container {
     position: relative;
     width: 1130px;
-    left: 208px;
+    left: 195px;
     border-radius: 5px;
     -webkit-transition: -webkit-transform 1s;
     transition: transform 1s
@@ -37,8 +37,8 @@ div#show_article img {
 }
 div#classify {
     align-self: flex-start;
-    margin-left: 50px;
-    flex: 1 0 18%
+    margin-left: 40px;
+    flex: 1 0 16%
 }
 p#header {
     font-size: 18px

@@ -4,27 +4,23 @@ div#sidebar {
     height: 100%;
     z-index: 20;
     background-color: #343434;
-    box-shadow: 2px 0 6px rgba(0,0,0,0.4);
-    transition:all 1s;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.4);
+    transition: all 1s;
 }
-
-div#sidebar ul,div#sidebar li {
+div#sidebar ul, div#sidebar li {
     margin: 0;
     padding: 0;
 }
-div#sidebar,div#head{
+div#sidebar, div#head {
     left: 0px;
     top: 0px;
 }
-
-
 div#head {
     padding: 20px 0 30px;
     text-align: center;
     background-color: #28282E;
     color: #fff;
 }
-
 div#avatar {
     width: 90px;
     height: 90px;
@@ -34,7 +30,6 @@ div#avatar {
     overflow: hidden;
     background: url("/blog/img/avatar/skyside.png");
 }
-
 p#size_small {
     display: block;
     width: 90%;
@@ -43,69 +38,42 @@ p#size_small {
     font-family: consolas, Microsoft YaHei;
     color: rgba(255, 255, 255, .6);
 }
-
-div#body,
-div#head,
-div#avatar,
-i.icon-unfold,
-i.icon-fold {
+div#body, div#head, div#avatar, i.icon-unfold, i.icon-fold {
     position: relative;
-    transition: all .3s;
 }
-
-i.icon-fold.rotate{
+i.icon-fold.rotate {
     transform: rotate(-180deg);
 }
-
-
 div#body li {
     font-size: 14px;
     overflow: hidden;
     list-style-type: none;
     transition: all 0.3s;
 }
-
 ul#nav>li {
     border-bottom: 1px solid rgba(124, 117, 117, .2);
 }
-
 #body a {
-    padding:12px;
-    width:100%;
+    padding: 12px;
+    width: 100%;
     display: inline-block;
     font-size: 14px;
     text-decoration: none;
     color: rgb(255, 255, 255);
 }
-
-li.active,
-ul#nav li:hover {
+li.active, ul#nav li:hover {
     background-color: #FF5E53;
     padding-left: 7px;
 }
-
-
 #sidebar i {
     color: #fff;
     display: inline-block;
     margin: 0 20px;
 }
-
-#sidebar ul.sublist {
-    background-color: rgba(23, 23, 23, .4);
-    text-align: center;
-    overflow: hidden;
-    transition: height 0.3s;
-}
-
-ul#tech {
-    height: 132px;
-}
-
 ul.sublist.hide {
     height: 0 !important;
 }
-.menu_part{
+.menu_part {
     position: absolute;
     left: 160px;
     width: 120px;
@@ -113,10 +81,10 @@ ul.sublist.hide {
     top: 0;
     transition: all 1s;
 }
-.menu_part.fold:not(:hover){
+.menu_part.fold:not(:hover) {
     opacity: 0;
 }
-.menu{
+.menu {
     position: absolute;
     width: 40px;
     height: 40px;
@@ -124,19 +92,17 @@ ul.sublist.hide {
     top: 50%;
     text-align: center;
     cursor: pointer;
-    box-shadow: 2px 0 6px rgba(0,0,0,0.4);
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.4);
     background-color: #343434;
     transition: all 1s;
 }
-
-#sidebar .icon-menu{
+#sidebar .icon-menu {
     transition: all 0.3s;
     position: absolute;
     top: 25%;
     left: 25%;
     margin: 0;
 }
-
-#sidebar .icon-menu:hover{
-    transform: rotate(180deg); 
+#sidebar .icon-menu:hover {
+    transform: rotate(180deg);
 }

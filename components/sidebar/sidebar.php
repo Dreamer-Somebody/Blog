@@ -16,13 +16,8 @@
             <ul id="nav">
                 <li class="active"><a href="/blog/index.php"><i class="icon-home3"></i>首页</a></li>
                 <li>
-                    <a href="/blog/sort.php?key=keywords&value=技术"><i class="icon-code"></i>技术<i class="icon-fold" data-type="tech"></i></a>
+                    <a href="/blog/sort.php?key=keywords&value=技术"><i class="icon-code"></i>技术</a>
                 </li>
-                    <ul id="tech" class="sublist hide">
-                        <li><a href="/blog/sort.php?key=keywords&value=html">Html</a></li>
-                        <li><a href="/blog/sort.php?key=keywords&value=css">Css</a></li>
-                        <li><a href="/blog/sort.php?key=keywords&value=js">JavaScript</a></li>
-                    </ul>
                 <li>
                     <a href="/blog/sort.php?key=keywords&value=生活"><i class="icon-life"></i>生活</a>
                 </li>
@@ -37,9 +32,17 @@
                 </li>
             </ul>
         </div>
-        <div class="menu_part"><div class="menu"><i class="icon-menu"></i></div></div>
     </div>
     <script src="/blog/common/jquery.js"></script>
-    <script src="/blog/components/sidebar/sidebar.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+        $("ul#nav a").click(function(event) {
+            var $target = event.target;
+            $("ul#nav li").removeClass("active");
+            $($target.parentNode).addClass('active');
+        });
+        var $i=0;
+    });
+    </script>
 </body>
 </html>
