@@ -62,7 +62,10 @@ div.article {
     border-bottom: 1px solid #ddd
 }
 div.article a {
-    color: #555
+    color: #555;
+    height: 67px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 div.article a.tags {
     margin-right: 15px
@@ -95,7 +98,8 @@ div.article a.tags::after {
 p.info1, p.info2 {
     padding: 5px 0;
     font-size: 12px;
-    color: #999
+    color: #999;
+    margin: 12px 20px;
 }
 p.info2 {
     position: absolute;
@@ -107,7 +111,7 @@ p.info2 i {
 }
 a.content {
     display: block;
-    margin: 10px;
+    margin: 10px 20px 20px;
 }
 a.content:after {
     content: '';
@@ -118,7 +122,9 @@ a.content:after {
 a.content p {
     text-indent: 2em;
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.8)
+    color: rgba(0, 0, 0, 0.8);
+    margin: 0;
+    word-break: break-all;
 }
 div.article a.title:hover, div.article a.content:hover {
     text-decoration: underline

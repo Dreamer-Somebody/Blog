@@ -104,7 +104,7 @@ echo "</ul>";
 			<div class="hot">
 				<h3>推荐文章</h3>
 				<?php
-$query  = "select title,link from article order by click,fav desc limit 0,7;";
+$query  = "select title,link from article order by click desc,fav desc limit 0,7;";
 $result = $conn->query($query);
 $rows   = $result->num_rows;
 echo "<ul class='hot'>";

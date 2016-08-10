@@ -13,13 +13,12 @@ function show_article_list($query, $page = 1, $sub_query = '', $num = 10)
         for ($i = 1; $i <= $rows; $i++) {
             $row = $result->fetch_array();
             echo "<div class='article'>";
-            echo "<a class='tags' href=''>{$row['class']}</a>";
+            echo "<a class='tags' href='/blog/sort.php?key=class&value={$row['class']}'>{$row['class']}</a>";
             echo "<a href='{$row['link']}' class='title'><strong>{$row['title']}</strong></a>";
             echo "<p class='info1'>{$row['user']} 发表于 {$row['pub_time']}</p>";
             //411是137个汉字
-            if (strlen($row['content']) > 411) {
-                $row['content'] = substr($row['content'], 0, 411) . "...";
-            }
+            $row['content'] = strip_tags($row['content']);
+            $row['content'] = preg_replace("/&nbsp;/", "", $row['content']);
             echo "<a href='{$row['link']}' class='content'><p>{$row['content']}</p></a>";
             echo "<p class='info2'><i class='icon-eye'></i>阅读({$row['click']}) <i class='icon-bubbles'></i>评论({$row['comment']})<i class='icon-good'></i>赞({$row['fav']})<i class='icon-price-tag'></i>标签: {$row['keywords']}</p>";
             echo "</div>";

@@ -10,7 +10,7 @@
     transition: transform 1s;
     background-color: #fff;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-    margin: 50px 215px;
+    margin: 30px 215px;
     padding: 40px 80px 80px;
 }
 .syntaxhighlighter {
@@ -231,15 +231,15 @@ p#thanks.move, p#tips.move {
 }
 #comment {
     background-color: #EEE;
-    padding: 20px;
+    margin: 20px 300px;
 }
 #comment h1 {
     text-align: center;
 }
-form, #comment_list {
+form{
     position: relative;
-    margin: 50px auto;
-    width: 650px;
+    margin: 50px;
+    width: 750px;
 }
 .pic {
     position: absolute;
@@ -309,7 +309,7 @@ textarea {
     position: relative;
     background-color: #fff;
     border: 1px solid #fff;
-    width: 550px;
+    width: 750px;
     height: 160px;
     left: 90px;
     padding: 10px 10px 0;
@@ -334,7 +334,7 @@ textarea {
 }
 button {
     position: absolute;
-    right: 35px;
+    right: -60px;
     top: 170px;
     height: 70px;
     width: 70px;
@@ -366,6 +366,11 @@ button {
 #result.success {
     background-color: rgba(0, 128, 0, 0.64);
 }
+#comment_list {
+    position: relative;
+    margin: 50px 100px;
+    width: 800px;
+}
 .user_comment {
     position: relative;
     padding: 20px;
@@ -385,7 +390,7 @@ button {
 }
 .wrapper {
     position: relative;
-    left: 90px;
+    left: 105px;
     width: 530px;
 }
 #comment_list span, .comment_actions a, #comment .comment_actions p {
