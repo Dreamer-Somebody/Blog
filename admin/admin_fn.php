@@ -1,6 +1,6 @@
 <?php
 define("ROOT", "http://" . $_SERVER['SERVER_NAME']);
-include_once "../common/db_fns.php";
+@include_once "../common/db_fns.php";
 session_start();
 
 function login($username, $password)
@@ -16,6 +16,7 @@ function login($username, $password)
     }
     if ($result->num_rows > 0) {
         $_SESSION['user'] = "{$username}";
+        setcookie("author", "true", time() + 60 * 60 * 24 * 7, "/");
         echo "登陆成功！";
     } else {
         echo "账号或密码错误，请重试...";
@@ -75,6 +76,9 @@ function get_page($id)
             break;
         case 'article_comment':
             get_article_comment_page($extra);
+            break;
+        case 'feedback':
+            get_feedback_page();
             break;
         default:
             echo "获取页面出错!";
@@ -181,19 +185,104 @@ function get_edit_page($extra = '')
         $new             = 0;
     }
     $string = "<h1>文章管理</h1>";
-    $string .= "<form action='control.php?action=insert_article' method='post'>";
-    $string .= "标题：<input type='text' name='title' value='{$title_value}'></input></br>";
+    $string .= "<form action='control.php?action=insert_article' method='post' enctype='multipart/form-data'>";
+    $string .= "标题：<input type='text' name='title' value='{$title_value}'></input> ";
     $string .= "文件名(只能输入英文)：<input type='text' name='file_name' value='{$file_name_value}'></input>" . ".html</br>";
-    $string .= "分类：<input type= 'text' name='class' value='{$class_value}'></input>";
-    $string .= "标签名：<input type= 'text' name='tags' value='{$tags_value}'></input>";
-    $string .= "<input type='hidden' name='new' value='{$new}'></input>";
-    $string .= "<input type='hidden' name='id' value='{$id}'></input>";
+    $string .= "分类：<input type='text' name='class' id='class'/ value='{$class_value}'>";
+    $string .= "<input type='button' id='button1'/ value='选择分类'><ul class='sub_menu' id='menu1'>";
+    $class = get_all_class();
+    while (list(, $val) = each($class)) {
+        $string .= "<li value='$val'>$val</li>";
+    }
+    $string .= "<li>取消</li>";
+    $string .= "</ul>";
+    $string .= " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 标签名：<input type= 'text' name='tags' id='tags' value='{$tags_value}'/>";
+    $string .= "<input type='button' id='button2'/ value='添加标签'><ul class='sub_menu' id='menu2'>";
+    $tags = get_all_tags();
+    while (list(, $val) = each($tags)) {
+        $string .= "<li value='$val'>$val</li>";
+    }
+    $string .= "<li>取消</li>";
+    $string .= "</ul>";
+    $string .= "<input type='file' name='upload'/>";
+    $string .= "<input type='hidden' name='new' value='{$new}'/>";
+    $string .= "<input type='hidden' name='id' value='{$id}'/>";
     $string .= "<script id='container' name='content' type='text/plain'>
   {$content}
   </script>
   <input type='submit' />
 </form>
-  <!-- 配置文件 -->
+  <style>
+  form .sub_menu{
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    width: 216px;
+    padding: 0;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    color: #423E3E;
+    background-color: #FEF8EF;
+  }
+  form .sub_menu li{
+    list-style-type: none;
+    cursor: pointer;
+    padding: 5px;
+    display: inline-table;
+    width: 60px;
+    text-align: center;
+    font-size: 12px;
+    overflow: hidden;
+    margin: 1px;
+}
+form .sub_menu li:hover{
+    background-color: #6D4A4A;
+    color: #fff;
+}
+  </style>
+  <script>
+  var button1=$('#button1');
+  var menu1=$('#menu1');
+  button1.on('click',function(event){
+    event.preventDefault();
+    menu1.css('display','block');
+    $('#menu1').css({'left':event.clientX-10,'top':event.clientY-10});
+});
+  $('#menu1 li').on('click',function(event){
+    menu1.css('display','none');
+    value= $(this).attr('value');
+    if(value){
+    $('#class').val($(this).attr('value'));
+    }
+});
+  var button2=$('#button2');
+  var menu2=$('#menu2');
+  button2.on('click',function(event){
+    event.preventDefault();
+    menu2.css('display','block');
+    $('#menu2').css({'left':event.clientX-10,'top':event.clientY-10});
+});
+  $('#menu2 li').on('click',function(event){
+    menu2.css('display','none');
+    value= $(this).attr('value');
+    var val=$('#tags').val();
+    if( value && val.indexOf(value)<0 ){
+        if(val){
+            val+=' ';
+        }
+    val+= $(this).attr('value');
+    $('#tags').val(val);
+    }
+});
+  $('form').on('submit',function(event){
+    if($('input[name=\'title\']').val()===''||$('input[name=\'file_name\']').val()===''||
+    $('input[name=\'class\']').val()===''||$('input[name=\'tags\']').val()===''){
+       alert('输入不完整，请检查！');
+       return false;
+    }
+  });
+  </script>
+    <!-- 配置文件 -->
     <script type='text/javascript' src='/blog/components/ueditor/utf8-php/ueditor.config.js'></script>
     <!-- 编辑器源码文件 -->
     <script type='text/javascript 'src='/blog/components/ueditor/utf8-php/ueditor.all.js'></script>
@@ -202,9 +291,64 @@ function get_edit_page($extra = '')
     <script src='/blog/common/jquery.js'></script>
     <!-- 实例化编辑器 -->
     <script type='text/javascript'>
-        var ue = UE.getEditor('container');
+        var ue = UE.getEditor('container',{
+            toolbars: [[
+            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+             'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','|',
+            'link', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            'simpleupload', 'insertimage', 'emotion', 'insertvideo', 'music', 'attachment', 'insertframe', 'insertcode', 'pagebreak', 'template', 'background', '|',
+            'horizontal',   '|',
+            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+            'preview', 'searchreplace', 'drafts',
+        ]],
+           initialFrameHeight:320
+           });
+
     </script>";
     echo "$string";
+}
+
+function get_all_class()
+{
+    $class  = [];
+    $conn   = db_connect();
+    $result = $conn->query("select distinct class from article");
+    $rows   = $result->num_rows;
+    for ($i = 1; $i <= $rows; $i++) {
+        $row = $result->fetch_array();
+        array_push($class, $row['class']);
+    }
+    return $class;
+}
+
+function get_all_tags()
+{
+    $conn     = db_connect();
+    $query    = "select keywords from article";
+    $result   = $conn->query($query);
+    $rows     = $result->num_rows;
+    $tags     = array();
+    $tags_row = $rows;
+    for ($i = 0, $num = 0; ($i < $rows) && ($num < $tags_row); $i++) {
+        $row = $result->fetch_array();
+        if ($row['keywords'] == null) {
+            continue;
+        }
+        $tagss = explode(' ', $row['keywords']);
+        $len   = count($tagss);
+        for ($j = 0; $j < $len; $j++) {
+            if (@is_null($tags[$tagss[$j]])) {
+                $tags[$tagss[$j]] = $tagss[$j];
+                $num++;
+            }
+        }
+
+    }
+    return $tags;
 }
 
 function get_comment_page()
@@ -212,7 +356,7 @@ function get_comment_page()
     $string = "<h1>评论管理</h1>";
     $string .= "<table><tr><th>序号</th><th>文章ID</th><th>文章标题</th><th>评论总数</th><th colspan=1>操作</th></tr>";
     $conn   = db_connect();
-    $result = $conn->query("select article_id,title,comment from article order by article_id desc");
+    $result = $conn->query("select article_id,title,comment from article where comment>0 order by article_id desc");
     $rows   = $result->num_rows;
     for ($i = 1; $i <= $rows; $i++) {
         $row = $result->fetch_array();
@@ -220,11 +364,7 @@ function get_comment_page()
         $string .= "<td>" . $row['article_id'] . "</td>";
         $string .= "<td>" . $row['title'] . "</td>";
         $string .= "<td>" . $row['comment'] . "</td>";
-        if ($row['comment'] != 0) {
-            $string .= "<td><a href='###' id='article_comment?article_id={$row['article_id']}'>查看</a></td>";
-        } else {
-            $string .= "<td><span>查看</span></td>";
-        }
+        $string .= "<td><a href='###' id='article_comment?article_id={$row['article_id']}'>查看</a></td>";
         $string .= "</tr>";
 
     }
@@ -255,6 +395,39 @@ function get_article_comment_page($extra)
     echo "$string";
 }
 
+function get_feedback_page()
+{
+    $string = "<h1>留言管理</h1>";
+    $string .= "<table><tr><th>序号</th><th>留言编号</th><th>内容</th><th>用户</th><th>发表时间</th><th colspan=2>操作</th></tr>";
+    $conn   = db_connect();
+    $result = $conn->query("select comment_id,content,user,pub_time from comment where article_id= 0 order by pub_time desc ");
+    $rows   = $result->num_rows;
+    for ($i = 1; $i <= $rows; $i++) {
+        $row = $result->fetch_array();
+        $string .= "<tr><td>{$i}</td>";
+        $string .= "<td>" . $row['comment_id'] . "</td>";
+        $string .= "<td>" . $row['content'] . "</td>";
+        $string .= "<td>" . $row['user'] . "</td>";
+        $string .= "<td>" . $row['pub_time'] . "</td>";
+        $string .= "<td><a href='/blog/admin/control.php?action=del&id={$row['comment_id']}&type=feedback' class='del'>删除</a></td>";
+        $string .= "</tr>";
+    }
+    $string .= "</table>";
+    echo "$string";
+}
+
+function dir_is_empty($dir)
+{
+    if ($handle = opendir($dir)) {
+        while (false !== ($item = readdir($handle))) {
+            if ($item != "." && $item != "..") {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 function del_relative($id)
 {
     $conn    = db_connect();
@@ -266,7 +439,11 @@ function del_relative($id)
     $row     = $res->fetch_array();
     $link    = $row['link'];
     $url     = $_SERVER['DOCUMENT_ROOT'] . $link;
+    $path    = dirname($url);
     unlink($url);
+    if (dir_is_empty($path)) {
+        rmdir($path);
+    }
     $query2 = "delete from comment where article_id={$id}";
     $conn->query($query2);
 
@@ -328,6 +505,9 @@ function del_article($id, $type, $real = false)
             $conn->query($query5);
         }
     }
+    if ($type == 'feedback') {
+        $type = "comment";
+    }
     $query2  = "delete from {$type} where {$type}_id={$id}";
     $result2 = $conn->query($query2);
     if (!$result2) {
@@ -354,16 +534,17 @@ function recover_article($id)
 function insert_article($title = '未命名文章', $file_name = 'untitled.html', $class, $tags, $content, $new, $id)
 {
     $user       = isset($_SESSION['user']) ? $_SESSION['user'] : '天边';
-    $article_id = ($id == '') ? get_article_id() : $id;
+    $article_id = $id ? $id : get_article_id();
     $conn       = db_connect();
+    $head_pic   = upload_head_pic($article_id);
+    $head_pic   = $head_pic ? $head_pic : '/blog/img/title/default.png';
     if ($new == '1') {
         $link  = get_article_link($file_name);
-        $query = "insert into article(article_id,title,link,user,content,class,keywords)
-    values({$article_id},'{$title}','{$link}','{$user}','{$content}','{$class}','{$tags}')";
+        $query = "insert into article(article_id,title,link,user,content,head_pic,class,keywords)
+    values({$article_id},'{$title}','{$link}','{$user}','{$content}','{$head_pic}','{$class}','{$tags}')";
     } else {
         $query = "update article set title='{$title}',class='{$class}',keywords='${tags}'
-    ,content='${content}' where article_id='${article_id}'";
-
+    ,content='${content}',head_pic='{$head_pic}' where article_id='${article_id}'";
     }
     $result = $conn->query($query);
     if (!$result) {
@@ -372,6 +553,43 @@ function insert_article($title = '未命名文章', $file_name = 'untitled.html'
         echo "true";
         return $article_id;
     }
+}
+
+function upload_head_pic($id)
+{
+    if ($_FILES['upload']['error'] > 0) {
+        if ($_FILES['upload']['error'] == 4) {
+            return false;
+        }
+        echo "出错了：" . $_FILES['upload']['error'];
+        switch ($_FILES['upload']['error']) {
+            case 1:echo "文件超过系统大小限制！";
+                break;
+            case 2:echo "文件超过表单大小限制！";
+                break;
+            case 3:echo "文件上传不完整！";
+                break;
+            case 6:echo "没有指定临时目录！";
+                break;
+            case 7:echo "不能写入磁盘！";
+                break;
+        }
+        exit();
+    }
+    $id     = substr($id, 0, 8);
+    $path   = "../img/upload/{$id}/";
+    $upfile = $path . $_FILES['upload']['name'];
+    if (!is_dir($path)) {
+        if (!mkdir($path)) {
+            echo "创建路径失败！";
+            exit();
+        }
+    }
+    if (!move_uploaded_file($_FILES['upload']['tmp_name'], $upfile)) {
+        echo "出错了：不能将文件移到目标目录！";
+        exit();
+    }
+    return $url = "/blog/img/upload/{$id}/" . $_FILES['upload']['name'];
 }
 
 function create_file($id)
@@ -416,7 +634,7 @@ function get_article($row)
 <form id='comment_form'><p id='tips'><(￣v￣)/点击头像</br>可以更换头像</p><div class='pic'>
 <div class='mask'><i class='icon-loop'></i></div><img src='' name='avatar' id='photo'/></div>
 <input type='text' id='nickname' name='nickname' placeholder='昵称'/><textarea placeholder='评论...'
-name='content'></textarea><div id='emoji'></div><input type='hidden' name='pic' value=''/>
+name='content'></textarea><div id='toolbar'><i class='icon-sentiment_satisfied' id='face'></i>" . get_emoji() . "</div><input type='hidden' name='pic' value=''/>
 <input type='hidden' name='article_id' value={$row['article_id']}><input type='hidden' id='comment_parent' name='comment_parent'/>
 <input type= 'hidden' name='comment_html' id='comment_html'/>
 <button type='submit'/>发表</button>
@@ -442,10 +660,32 @@ function write_file($url, $html)
     fclose($fp);
 }
 
+function get_emoji()
+{
+    $string = "<div id='emoji_list'>";
+    $string .= "<img class='emoji' src='/blog/img/emoji/smile.png' data-emoji='smile' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/soso.png' data-emoji='soso' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/grin.png' data-emoji='grin' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/happy.png' data-emoji='happy' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/muse.png' data-emoji='muse' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/shock.png' data-emoji='shock' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/cold.png' data-emoji='cold' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/careless.png' data-emoji='careless' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/cry.png' data-emoji='cry' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/eye.png' data-emoji='eye' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/cool.png' data-emoji='cool' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/fear.png' data-emoji='fear' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/sweat.png' data-emoji='sweat' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/xx.png' data-emoji='xx' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/lol.png' data-emoji='lol' />";
+    $string .= "</div>";
+    return $string;
+}
+
 function get_keywords($keywords)
 {
     $html     = '';
-    $keywords = explode(',', $keywords);
+    $keywords = explode(' ', $keywords);
     foreach ($keywords as $keyword) {
         $html .= "<a href='/blog/sort.php?key=keywords&value={$keyword}' class='keyword'>{$keyword} +</a>";
     }
@@ -454,7 +694,7 @@ function get_keywords($keywords)
 
 function get_article_id()
 {
-    @$date      = date("Ymd");
+    $date       = date("Ymd");
     $conn       = db_connect();
     $query1     = "select count(*) from article where article.article_id like '{$date}%'";
     $query2     = "select count(*) from recycle where recycle.article_id like '{$date}%'";
@@ -522,8 +762,7 @@ function insert_comment($id, $pic, $user, $content, $parent)
     $conn    = db_connect();
     $query   = "insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
                '{$parent}','{$pic}','{$content}')";
-    $result = $conn->query("insert into comment(article_id,user,parent,avatar,content) values({$id},'{$user}',
-               '{$parent}','{$pic}','{$content}')");
+    $result     = $conn->query($query);
     $comment_id = $conn->insert_id;
     if ($parent !== null && $parent !== '') {
         $children = $comment_id . ',';
@@ -590,17 +829,21 @@ function get_sublist_similar($id)
 {
     $html     = '';
     $keywords = get_article_keywords($id);
-    $len      = intval(5 / count($keywords));
     $html .= "<ul class='show sublist similar'>";
-    foreach ($keywords as $keyword) {
-        $conn   = db_connect();
-        $query  = "select title,link from article where keywords like '%{$keyword}%' limit 0,{$len}";
-        $result = $conn->query($query);
-        $rows   = $result->num_rows;
-        for (; $rows > 0; $rows--) {
-            $row = $result->fetch_array();
-            $html .= "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
+    $conn  = db_connect();
+    $query = "select title,link,pub_time from article where ";
+    for ($i = 0; $i < count($keywords); $i++) {
+        if ($keywords[$i]) {
+            $query .= $i !== 0 ? "or" : '';
+            $query .= " keywords like '%{$keywords[$i]}%' ";
         }
+    }
+    $query .= " and article_id!={$id} order by pub_time desc";
+    $result = $conn->query($query);
+    $rows   = $result->num_rows;
+    for ($i = 0; $i < 5 && $rows > 0; $i++, $rows--) {
+        $row = $result->fetch_array();
+        $html .= "<li><i class='icon-link'></i><a href='{$row['link']}'>{$row['title']}</a></li>";
     }
     $html .= "</ul>";
     return $html;
@@ -611,7 +854,7 @@ function get_article_keywords($id)
     $conn     = db_connect();
     $result   = $conn->query("select keywords from article where article_id={$id}");
     $row      = $result->fetch_array();
-    $keywords = explode(',', $row['keywords']);
+    $keywords = explode(' ', $row['keywords']);
     return $keywords;
 }
 

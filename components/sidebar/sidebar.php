@@ -14,21 +14,18 @@
         </div>
         <div id="body">
             <ul id="nav">
-                <li class="active"><a href="/blog/index.php"><i class="icon-home3"></i>首页</a></li>
+                <li><a href="/blog/index.php"><i class="icon-home3"></i>首页</a></li>
                 <li>
-                    <a href="/blog/sort.php?key=keywords&value=技术"><i class="icon-code"></i>技术</a>
+                    <a href="/blog/sort.php"><i class="icon-code"></i>分类</a>
                 </li>
-                <li>
-                    <a href="/blog/sort.php?key=keywords&value=生活"><i class="icon-life"></i>生活</a>
-                </li>
-                <li>
-                    <a href=""><i class="icon-switch"></i>实验室</a>
-                </li>
+<!--                 <li>
+                    <a href="/blog/lab.php"><i class="icon-switch"></i>实验室</a>
+                </li> -->
                 <li>
                     <a href="/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
                 </li>
                 <li>
-                    <a href=""><i class="icon-account_circle"></i>关于</a>
+                    <a href="/blog/about.php"><i class="icon-account_circle"></i>关于</a>
                 </li>
             </ul>
         </div>
@@ -36,12 +33,13 @@
     <script src="/blog/common/jquery.js"></script>
     <script>
     jQuery(document).ready(function($) {
-        $("ul#nav a").click(function(event) {
-            var $target = event.target;
-            $("ul#nav li").removeClass("active");
-            $($target.parentNode).addClass('active');
-        });
-        var $i=0;
+        $path= document.location.pathname;
+        if($("#nav a[href*='"+$path+"']").length>0){
+            $("#nav li").removeClass("active");
+            $("#nav a[href*='"+$path+"']").parent().addClass('active');
+        }else{
+            $("#nav li:first-child").addClass('active');
+        }
     });
     </script>
 </body>

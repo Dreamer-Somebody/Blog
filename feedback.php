@@ -1,5 +1,6 @@
 <?php
 include_once "common/include.php";
+include_once "admin/admin_fn.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@ include_once "common/include.php";
              <div class='mask'><i class='icon-loop'></i></div><img src='' name='avatar' id='photo' /></div>
             <input type='text' id='nickname' name='nickname' placeholder='昵称' />
             <textarea placeholder='留言...' name='content'></textarea>
+            <div id='toolbar'><i class='icon-sentiment_satisfied' id='face'></i><?php echo get_emoji() ?></div>
             <div id='emoji'></div>
             <input type='hidden' name='pic' value='' />
             <input type='hidden' name='article_id' value='0'>
@@ -33,5 +35,4 @@ include_once "common/include.php";
 <div id='big_mask'></div>
 <script src="/blog/common/article.js"></script>
 </body>
-
 </html>

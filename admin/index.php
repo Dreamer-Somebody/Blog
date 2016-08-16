@@ -41,6 +41,9 @@ if (!check_valid_user()) {
                 <li>
                     <a href="###" id="comment"><i class="icon-life"></i>评论管理</a>
                 </li>
+                <li>
+                    <a href="###" id="feedback"><i class="icon-file-text"></i>留言管理</a>
+                </li>
                   <li>
                     <a href="/blog/index.php"><i class="icon-news"></i>返回网站</a>
                 </li>
@@ -49,7 +52,16 @@ if (!check_valid_user()) {
     </div>
     <div id="content"></div>
     <script src="/blog/common/jquery.js"></script>
-    <script src="/blog/components/sidebar/sidebar.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+        $("ul#nav a").click(function(event) {
+            var $target = event.target;
+            $("ul#nav li").removeClass("active");
+            $($target.parentNode).addClass('active');
+        });
+        var $i=0;
+    });
+    </script>
     <script src="js/index.js"></script>
 </body>
 </html>

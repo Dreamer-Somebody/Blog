@@ -36,6 +36,8 @@ jQuery(document).ready(function($) {
 					get_page("article");
 				}else if($url.indexOf('type=comment')>=0){
 					get_page("comment");
+				}else if($url.indexOf('type=feedback')>=0){
+					get_page("feedback");
 				}
 			}
 		});
@@ -64,18 +66,22 @@ jQuery(document).ready(function($) {
 			$.ajax({
 				type: "POST",
 				url: $url,
-				data: $('form').serialize(),
+				cache: false,
+				data: new FormData($('form')[0]),
+				processData: false,
+				contentType: false,
 				error: function(request) {
 					alert("连接服务器失败");
 				},
 				success: function(msg) {
 					if (msg == "true") {
 						alert("插入成功！");
+						get_page("article");
 					} else {
 						alert("插入失败！");
 						alert(msg);
 					}
-					get_page("article");
+					
 				}
 			});
 		});

@@ -63,6 +63,7 @@ if ($action == 'insert_comment') {
     $pic     = $_REQUEST['pic'];
     $user    = $_REQUEST['nickname'];
     $content = isset($_REQUEST['comment_html']) && $_REQUEST['comment_html'] !== '' ? $_REQUEST['comment_html'] : $_REQUEST['content'];
+    $content = htmlentities($content, ENT_QUOTES);
     if ($user === '' || $content === '') {
         echo "false";
         exit();
