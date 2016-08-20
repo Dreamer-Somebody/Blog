@@ -8,7 +8,7 @@ include_once "common/include.php";
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>天边的博客</title>
+	<title>文章分类--天边的博客</title>
 	<link rel="stylesheet" href="/blog/index.css" />
 	<link rel="stylesheet" href="/blog/common/blog.css" />
 	<style>
@@ -28,8 +28,9 @@ include_once "common/include.php";
 	p#tips{
 		text-align:center;
 		font-size:18px;
+		font-weight: 600;
 		background-color: #fff;
-		padding: 10px;
+		padding: 20px;
 		border-radius: 6px;
 		box-shadow: 0 2px 10px rgba(0,0,0,.25);
 	}

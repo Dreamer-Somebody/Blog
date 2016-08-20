@@ -18,9 +18,9 @@
                 <li>
                     <a href="/blog/sort.php"><i class="icon-code"></i>分类</a>
                 </li>
-<!--                 <li>
-                    <a href="/blog/lab.php"><i class="icon-switch"></i>实验室</a>
-                </li> -->
+                <li>
+                    <a href="/blog/lab.html"><i class="icon-camera"></i>作品集</a>
+                </li>
                 <li>
                     <a href="/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
                 </li>

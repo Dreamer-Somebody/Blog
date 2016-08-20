@@ -72,6 +72,14 @@ if ($action == 'insert_comment') {
     insert_comment($id, $pic, $user, $content, $parent);
 }
 
+if ($action == 'insert_works') {
+    $id          = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
+    $name        = $_REQUEST['name'];
+    $description = $_REQUEST['description'];
+    $url         = $_REQUEST['url'];
+    insert_works($id, $name, $description, $url);
+}
+
 if ($action == 'get_avatar') {
     get_avatar();
 }
@@ -85,4 +93,7 @@ if ($action == 'get_random_avatar') {
 if ($action == 'get_article_list') {
     $id = $_REQUEST['article_id'];
     get_article_list($id);
+}
+if ($action == 'mark_as_read') {
+    mark_as_read();
 }

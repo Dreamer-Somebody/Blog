@@ -6,7 +6,7 @@ include_once "admin/admin_fn.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>留言板</title>
+    <title>留言板--天边的博客</title>
     <link rel="stylesheet" href="/blog/common/article.css">
 </head>
 <body>

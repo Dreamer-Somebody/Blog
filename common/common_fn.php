@@ -8,7 +8,7 @@ function show_article_list($query, $page = 1, $sub_query = '', $num = 10)
     if ($result) {
         $rows = $result->num_rows;
         if ($rows == 0) {
-            echo "<p id='tips'>请选择正确的分类信息。。。</p>";
+            echo "<p id='tips'>请选择上面的分类选项</p>";
             return;
         }
         for ($i = 1; $i <= $rows; $i++) {
@@ -104,26 +104,27 @@ function show_classify($all = 0)
         echo "<li><a href='/blog/sort.php?key=article_id'>更多 &nbsp;&gt;&gt;</a></li>";
     }
     echo "</ul></div><div class='category'><h3>文章分类</h3>";
-    $query  = "select distinct class from article";
+    $query  = "select class,count(class) num from article group by class";
     $result = $conn->query($query);
     $rows   = $result->num_rows;
     echo "<ul class='category'>";
     $category_rows = ($all == 1 || $rows < 7 ? $rows : 7);
     for ($i = 1; $i <= $category_rows; $i++) {
         $row = $result->fetch_array();
-        echo "<li><a href='/blog/sort.php?key=class&value={$row['class']}'>{$row['class']}</a></li>";
+        echo "<li><a href='/blog/sort.php?key=class&value={$row['class']}'>{$row['class']}({$row['num']})</a></li>";
     }
     if ($all == 0) {
         echo "<li><a href='/blog/sort.php?key=class'>更多 &nbsp;&gt;&gt;</a></li>";
     }
     echo "</ul></div><div class='tags'><h3>标签分类</h3>";
-    $query  = "select keywords from article";
-    $result = $conn->query($query);
-    $rows   = $result->num_rows;
-    $tags   = array();
+    $query    = "select keywords from article";
+    $result   = $conn->query($query);
+    $rows     = $result->num_rows;
+    $tags     = array();
+    $tags_num = array();
     echo "<ul class='tags'>";
     $tags_row = ($all == 1 ? $rows : 11);
-    for ($i = 0, $num = 0; ($i < $rows) && ($num < $tags_row); $i++) {
+    for ($i = 0; $i < $rows; $i++) {
         $row = $result->fetch_array();
         if ($row['keywords'] == null) {
             continue;
@@ -132,14 +133,19 @@ function show_classify($all = 0)
         $len   = count($tagss);
         for ($j = 0; $j < $len; $j++) {
             if (@is_null($tags[$tagss[$j]])) {
-                $tags[$tagss[$j]] = $tagss[$j];
-                $num++;
+                $tags[$tagss[$j]]     = $tagss[$j];
+                $tags_num[$tagss[$j]] = 1;
+            } else {
+                $tags_num[$tagss[$j]]++;
             }
         }
-
     }
-    while (list($val) = each($tags)) {
-        echo "<li><a href='/blog/sort.php?key=keywords&value={$val}'>{$val}</a></li>";
+    while ((list($val) = each($tags)) && $tags_row--) {
+        echo "<li><a href='/blog/sort.php?key=keywords&value={$val}'>{$val}";
+        // if ($all == 1) {
+        echo "({$tags_num[$val]})";
+        // }
+        echo "</a></li>";
     }
     if ($all == 0) {
         echo "<li><a href='/blog/sort.php?key=keywords'>更多 &nbsp;&gt;&gt;</a></li>";

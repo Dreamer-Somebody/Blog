@@ -36,6 +36,9 @@ body {
 #content {
     margin: 50px 10px 0 190px
 }
+#content a{
+    margin-right: 30px;
+}
 table, tr, th, td {
     border: 1px solid #ddd;
     border-collapse: collapse;
@@ -48,3 +51,4 @@ table, tr, th, td {
 th, tr:nth-child(odd) {
     background-color: #F4F4F4
 }
+

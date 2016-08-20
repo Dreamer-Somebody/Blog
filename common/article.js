@@ -2,17 +2,17 @@ jQuery(document).ready(function($) {
     $like_button = $("#like-button");
     $article_id = $("input[name='article_id']").val();
     $count = $("#likes-count");
-    (function get_sidebar(){
+    (function get_sidebar() {
         $.ajax({
-          url: '/blog/admin/control.php',
-          data: {
-            action: 'get_sidebar'
-        },
-          success: function(data) {
-            $("body").prepend(data);
-          }
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_sidebar'
+            },
+            success: function(data) {
+                $("body").prepend(data);
+            }
         });
-        
+
     })();
     (function add_click() {
         $.ajax({
@@ -63,10 +63,32 @@ jQuery(document).ready(function($) {
                 $("#list").append(data);
             },
             error: function() {
-                $("#list").append("获取数据失败");
+                $("#list").append("获取数据失败，请刷新页面。");
             }
         });
     })();
+
+    $window_height = window.screen.availHeight;
+    $(window).on('scroll', function(event) {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        var timeout = setTimeout(function() {
+            event.preventDefault();
+            if ($(window).scrollTop() > $window_height) {
+                $("#toTop").css('opacity', '1');
+            } else {
+                $("#toTop").css('opacity', '0');
+            }
+        }, 50);
+
+    });
+
+    $("body").append("<div id='toTop'><i class='icon-fold'></i></div>");
+    $("body").on('click', '#toTop', function(event) {
+        event.preventDefault();
+        $("body,html").animate({ scrollTop: 0 }, 500);
+    });
 
     $like_button.on('click', function(event) {
         event.preventDefault();
@@ -113,19 +135,18 @@ jQuery(document).ready(function($) {
 
     $("#face").on('click', function(event) {
         event.preventDefault();
+        event.stopPropagation();
         $("#emoji_list").toggleClass('display');
     });
 
     $(".emoji").on('click', function(event) {
         event.preventDefault();
-        $emoji= $(this).data('emoji');
-        $("textarea").val($("textarea").val() + "[:"+$emoji+":]");
+        $emoji = $(this).data('emoji');
+        $("textarea").val($("textarea").val() + "[:" + $emoji + ":]");
         $("textarea").focus();
-        $("#emoji_list").removeClass('display');
     });
 
-    $("#emoji_list").on('blur', function(event) {
-        event.preventDefault();
+    $("body").on('click', function(event) {
         $("#emoji_list").removeClass('display');
     });
 
@@ -158,10 +179,11 @@ jQuery(document).ready(function($) {
         }
         return html;
     }
-    function getTotalFloor(obj){
-        var length=0;
-        for(var index in obj){
-            if(obj[index].parent===''||obj[index].parent===null){
+
+    function getTotalFloor(obj) {
+        var length = 0;
+        for (var index in obj) {
+            if (obj[index].parent === '' || obj[index].parent === null) {
                 length++;
             }
         }
@@ -170,27 +192,28 @@ jQuery(document).ready(function($) {
     var start = false;
     var tag = [];
     var floor = 0;
+
     function make_up(obj, index) {
         var now = obj[index];
         var length = getTotalFloor(obj);
         if ((tag[now.comment_id] != 1) && ((now.parent === null) || (now.parent === '') || (now.parent !== null && now.parent !== '' &&
                 tag[obj[now.parent].comment_id] == 1))) {
             html += "<div class='user_comment " + (now.parent !== null && now.parent !== '' ? 'children' : '') +
-                "'id='comment" + now.comment_id + "'>";
+                "'id='comment" + now.comment_id + "' name='comment"+now.comment_id+"'>";
             html += "<div class='pic'>";
             html += "<img src='" + now.user_pic + "' name='avatar' /></div>";
             html += "<div class='wrapper'><span>" + now.user_name + "</span>";
-            if(now.content.indexOf("&lt;author==true&gt;")>=0){
+            if (now.content.indexOf("&lt;author==true&gt;") >= 0) {
                 html += "<span class='author'>作者</span>";
-                now.content= now.content.replace("&lt;author==true&gt;",""); 
+                now.content = now.content.replace("&lt;author==true&gt;", "");
             }
-            now.content= now.content.replace(/@@@(\d+)-([^@]+)@@/g,"<a href='#comment"+"$1"+"'><span>@"+"$2"+"</span></a>");
-            now.content= now.content.replace(/\[:(\w+):\]/g,"<img class='emoji' src='/blog/img/emoji/$1.png'/>");
-            html +="<span class='time'>" + now.pub_time + "</span>";
+            now.content = now.content.replace(/@@@(\d+)-([^@]+)@@/g, "<a href='#comment" + "$1" + "'><span>@" + "$2" + "</span></a>");
+            now.content = now.content.replace(/\[:(\w+):\]/g, "<img class='emoji' src='/blog/img/emoji/$1.png'/>");
+            html += "<span class='time'>" + now.pub_time + "</span>";
             html += "<p class='comment_content'>" + now.content + "</p></div>";
             html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
                 now.comment_id + "' data-user='" + now.user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + now.comment_id +
-                "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) + 
+                "' data-user='" + now.user_name + "' data-parent='" + (now.parent === null || now.parent === '' ? now.comment_id : now.parent) +
                 "'><i class='icon-undo'></i>回复</a></div>";
             if (now.parent === null || now.parent === '') {
                 html += "<div class='comment_actions show'><p>" + (length - floor) + "#</p></div>";
@@ -229,8 +252,8 @@ jQuery(document).ready(function($) {
         if (!check()) {
             return false;
         }
-        if(is_author()){
-            $("textarea").val("<author==true>"+$("textarea").val());
+        if (is_author()) {
+            $("textarea").val("<author==true>" + $("textarea").val());
         }
         if ($("#comment_html").val() !== 'undefined' && $("#comment_html").val() !== '') {
             $string = $("textarea").val();
@@ -281,7 +304,7 @@ jQuery(document).ready(function($) {
         $("#comment_parent").val(parent);
         $("textarea").focus();
         $("textarea").val("回复@" + user + "：");
-        $("#comment_html").val("回复@"+user+"&回复@@@" + id + "-" + user + "@@");
+        $("#comment_html").val("回复@" + user + "&回复@@@" + id + "-" + user + "@@");
     });
 
     $("body").on('mouseover', '.user_comment', function(event) {
@@ -313,12 +336,14 @@ jQuery(document).ready(function($) {
         }, 3000);
     }
 
-    function is_author(){
-        return document.cookie.indexOf("author=true")>=0;
+    function is_author() {
+        return document.cookie.indexOf("author=true") >= 0;
     }
-    function escapeHTML(a){
-        return a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/ /g,"&nbsp;").replace(/"/g,"&#34;").replace(/'/g,"&#39;");
+
+    function escapeHTML(a) {
+        return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/ /g, "&nbsp;").replace(/"/g, "&#34;").replace(/'/g, "&#39;");
     }
+
     function insert(comment_id) {
         var obj = {};
         var date = new Date();
@@ -333,14 +358,14 @@ jQuery(document).ready(function($) {
         html += "<div class='pic'>";
         html += "<img src='" + $user_pic + "' name='avatar' /></div>";
         html += "<div class='wrapper'><span>" + $user_name + "</span>";
-        if(is_author()){
-            html+="<span class='author'>作者</span>";
-            $content= $content.replace("<author==true>","");
+        if (is_author()) {
+            html += "<span class='author'>作者</span>";
+            $content = $content.replace("<author==true>", "");
         }
-        html += "<span class='time'>" +pub_time + "</span>";
-        $content= escapeHTML($content);
-        $content= $content.replace(/@@@(\d+)-([^@]+)@@/g,"<a href='#comment"+"$1"+"'><span>@"+"$2"+"</span></a>");
-        $content= $content.replace(/\[:(\w+):\]/g,"<img class='emoji' src='/blog/img/emoji/$1.png'/>");
+        html += "<span class='time'>" + pub_time + "</span>";
+        $content = escapeHTML($content);
+        $content = $content.replace(/@@@(\d+)-([^@]+)@@/g, "<a href='#comment" + "$1" + "'><span>@" + "$2" + "</span></a>");
+        $content = $content.replace(/\[:(\w+):\]/g, "<img class='emoji' src='/blog/img/emoji/$1.png'/>");
         html += "<p class='comment_content'>" + $content + "</p></div>";
         html += "<div class='comment_actions'><a href='#comment_form' class='call' data-id='" +
             comment_id + "' data-user='" + $user_name + "'>@TA</a><a href='#comment_form' class='reply' data-id='" + comment_id +

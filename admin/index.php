@@ -44,6 +44,9 @@ if (!check_valid_user()) {
                 <li>
                     <a href="###" id="feedback"><i class="icon-file-text"></i>留言管理</a>
                 </li>
+                <li>
+                    <a href="###" id="works"><i class="icon-camera"></i>作品集管理</a>
+                </li>
                   <li>
                     <a href="/blog/index.php"><i class="icon-news"></i>返回网站</a>
                 </li>

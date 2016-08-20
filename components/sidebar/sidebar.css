@@ -38,11 +38,8 @@ p#size_small {
     font-family: consolas, Microsoft YaHei;
     color: rgba(255, 255, 255, .6);
 }
-div#body, div#head, div#avatar, i.icon-unfold, i.icon-fold {
+div#body, div#head, div#avatar {
     position: relative;
-}
-i.icon-fold.rotate {
-    transform: rotate(-180deg);
 }
 div#body li {
     font-size: 14px;

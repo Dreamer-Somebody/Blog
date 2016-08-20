@@ -51,7 +51,8 @@ function get_page($id)
 {
     $string = preg_split('/[?=]+/i', $id);
     $page   = $string[0];
-    @$extra = $string[2] ? $string : '';
+    $extra  = isset($string[2]) ? $string : '';
+
     switch ($page) {
         case 'index':
             get_index_page();
@@ -61,6 +62,9 @@ function get_page($id)
             break;
         case 'comment':
             get_comment_page();
+            break;
+        case 'new_comment':
+            get_new_comment_page();
             break;
         case 'file':
             get_file_page();
@@ -79,6 +83,16 @@ function get_page($id)
             break;
         case 'feedback':
             get_feedback_page();
+            break;
+        case 'works':
+            get_works_page();
+            break;
+        case 'edit_works':
+            if ($extra) {
+                get_edit_works_page($extra[2]);
+            } else {
+                get_edit_works_page();
+            }
             break;
         default:
             echo "获取页面出错!";
@@ -354,6 +368,7 @@ function get_all_tags()
 function get_comment_page()
 {
     $string = "<h1>评论管理</h1>";
+    $string .= "<a href='###' id='new_comment'>+ 查看未读评论</a>";
     $string .= "<table><tr><th>序号</th><th>文章ID</th><th>文章标题</th><th>评论总数</th><th colspan=1>操作</th></tr>";
     $conn   = db_connect();
     $result = $conn->query("select article_id,title,comment from article where comment>0 order by article_id desc");
@@ -370,6 +385,41 @@ function get_comment_page()
     }
     $string .= "</table>";
     echo "$string";
+}
+
+function get_new_comment_page()
+{
+    $string = "<h1>未读评论管理</h1>";
+    $string .= "<a href='###' id='comment'>返回上一页</a>";
+    $string .= "<a href='###' class='mark_as_read'>全部标为已读</a>";
+    $string .= "<table><tr><th>序号</th><th>评论编号</th><th>内容</th><th>评论用户</th><th>发表时间</th><th>评论链接</th></tr>";
+    $conn   = db_connect();
+    $result = $conn->query("select article.article_id,comment_id,comment.content,comment.user,link,title,comment.pub_time
+        from article,comment where have_read=0 and article.article_id=comment.article_id order by article.article_id desc");
+    $rows = $result->num_rows;
+    for ($i = 1; $i <= $rows; $i++) {
+        $row = $result->fetch_array();
+        $string .= "<tr><td>{$i}</td>";
+        $string .= "<td>" . $row['comment_id'] . "</td>";
+        $string .= "<td>" . $row['content'] . "</td>";
+        $string .= "<td>" . $row['user'] . "</td>";
+        $string .= "<td>" . $row['pub_time'] . "</td>";
+        $link = "{$row['link']}#comment{$row['comment_id']}";
+        $string .= "<td><a href='{$link}' target='_blank'>查看</a></td>";
+        $string .= "</tr>";
+    }
+    $string .= "</table>";
+    echo "$string";
+}
+
+function mark_as_read()
+{
+    $conn   = db_connect();
+    $query  = "update comment set have_read=1 where have_read=0";
+    $result = $conn->query($query);
+    if ($result) {
+        echo "true";
+    }
 }
 
 function get_article_comment_page($extra)
@@ -416,6 +466,74 @@ function get_feedback_page()
     echo "$string";
 }
 
+function get_works_page()
+{
+    $string = "<h1>作品集管理</h1>";
+    $string .= "<a href='###' id='edit_works'>添加作品</a>";
+    $string .= "<table><tr><th>作品编号</th><th>作品名</th><th>描述</th><th>链接</th><th>头图</th><th colspan=2>操作</th></tr>";
+    $conn   = db_connect();
+    $result = $conn->query("select * from works");
+    $rows   = $result->num_rows;
+    for ($i = 1; $i <= $rows; $i++) {
+        $row = $result->fetch_array();
+        $string .= "<tr><td>{$row['works_id']}</td>";
+        $string .= "<td>" . $row['name'] . "</td>";
+        $string .= "<td>" . $row['description'] . "</td>";
+        $string .= "<td>" . $row['url'] . "</td>";
+        $string .= "<td>" . $row['head_pic'] . "</td>";
+        $string .= "<td><a href='###' id='edit_works?id={$row['works_id']}'>编辑</a></td>";
+        $string .= "<td><a href='/blog/admin/control.php?action=del&id={$row['works_id']}&type=works' class='del'>删除</a></td>";
+        $string .= "</tr>";
+    }
+    $string .= "</table>";
+    echo "$string";
+}
+
+function get_edit_works_page($id = null, $name = '', $description = '', $url = '', $head_pic = '')
+{
+    if (isset($id)) {
+        $conn        = db_connect();
+        $result      = $conn->query("select * from works where works_id='{$id}'");
+        $row         = $result->fetch_array();
+        $name        = $row['name'];
+        $description = $row['description'];
+        $url         = $row['url'];
+        $head_pic    = $row['head_pic'];
+    }
+    $string = "<h1>作品编辑</h1>";
+    $string .= "<a href='###' id='works'>返回上一页</a>";
+    $string .= "<form action='control.php?action=insert_works' method='post' enctype='multipart/form-data'>";
+    $string .= "作品名：<input type='text' name='name' value='{$name}'></input> ";
+    $string .= "描述：<input type='text' name='description' value='{$description}'></input></br>";
+    $string .= "链接：<input type='text' name='url' id='class' value='{$url}'/>";
+    $string .= "头图：<input type='file' name='upload' value='{$head_pic}'/></br>";
+    if (isset($id)) {
+        $string .= "<input type='hidden' name='id' value='{$id}'/>";
+    }
+    $string .= "<input type='submit' value='提交'/></form>";
+    echo $string;
+}
+
+function insert_works($id = null, $name, $description, $url)
+{
+    $head_pic = upload_head_pic();
+    $head_pic = $head_pic ? $head_pic : '/blog/img/title/default.png';
+    if ($id === null) {
+        $query = "insert into works(name,description,url,head_pic) values('{$name}','{$description}','{$url}','{$head_pic}')";
+    } else {
+        $query = "update works set name='{$name}',description='{$description}',url='{$url}',head_pic='{$head_pic}' where works_id={$id}";
+        unlink_pic($id);
+    }
+    $conn   = db_connect();
+    $result = $conn->query($query);
+    if (!$result) {
+        echo "false";
+    } else {
+        echo "true";
+        create_lab_page();
+    }
+}
+
 function dir_is_empty($dir)
 {
     if ($handle = opendir($dir)) {
@@ -430,23 +548,45 @@ function dir_is_empty($dir)
 
 function del_relative($id)
 {
-    $conn    = db_connect();
-    $query   = "select link from article where article_id='{$id}'";
-    $query1  = "select link from recycle where article_id='{$id}'";
-    $result  = $conn->query($query);
-    $result1 = $conn->query($query1);
-    $res     = ($result->num_rows) ? $result : $result1;
-    $row     = $res->fetch_array();
-    $link    = $row['link'];
-    $url     = $_SERVER['DOCUMENT_ROOT'] . $link;
-    $path    = dirname($url);
+    $conn     = db_connect();
+    $query    = "select link,head_pic from article where article_id='{$id}'";
+    $query1   = "select link,head_pic from recycle where article_id='{$id}'";
+    $result   = $conn->query($query);
+    $result1  = $conn->query($query1);
+    $res      = ($result->num_rows) ? $result : $result1;
+    $row      = $res->fetch_array();
+    $link     = $row['link'];
+    $head_pic = $row['head_pic'];
+    $url      = $_SERVER['DOCUMENT_ROOT'] . $link;
+    $pic      = $_SERVER['DOCUMENT_ROOT'] . $head_pic;
+    $path     = dirname($url);
     unlink($url);
+    if (!head_pic_using($head_pic)) {
+        unlink($pic);
+    }
     if (dir_is_empty($path)) {
         rmdir($path);
     }
     $query2 = "delete from comment where article_id={$id}";
     $conn->query($query2);
 
+}
+
+function head_pic_using($head_pic)
+{
+    $conn   = db_connect();
+    $result = $conn->query("select * from article where head_pic='{$head_pic}'");
+    $rows1  = $result->num_rows;
+    $result = $conn->query("select * from recycle where head_pic='{$head_pic}'");
+    $rows2  = $result->num_rows;
+    $result = $conn->query("select * from works where head_pic='{$head_pic}'");
+    $rows3  = $result->num_rows;
+    $rows   = $rows1 + $rows2 + $rows3;
+    if ($rows > 1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 //$real 是彻底删除的意思。
 
@@ -508,12 +648,31 @@ function del_article($id, $type, $real = false)
     if ($type == 'feedback') {
         $type = "comment";
     }
+    if ($type == 'works') {
+        unlink_pic($id);
+    }
     $query2  = "delete from {$type} where {$type}_id={$id}";
     $result2 = $conn->query($query2);
+    if ($type == 'works') {
+        create_lab_page();
+    }
     if (!$result2) {
         echo "false";
     } else {
         echo "true";
+    }
+}
+
+function unlink_pic($id)
+{
+    $query1   = "select head_pic from works where works_id= {$id}";
+    $conn     = db_connect();
+    $result   = $conn->query($query1);
+    $row      = $result->fetch_array();
+    $head_pic = $row['head_pic'];
+    if (!head_pic_using($head_pic)) {
+        $pic = $_SERVER['DOCUMENT_ROOT'] . $head_pic;
+        unlink($pic);
     }
 }
 
@@ -555,7 +714,7 @@ function insert_article($title = '未命名文章', $file_name = 'untitled.html'
     }
 }
 
-function upload_head_pic($id)
+function upload_head_pic($id = null)
 {
     if ($_FILES['upload']['error'] > 0) {
         if ($_FILES['upload']['error'] == 4) {
@@ -576,8 +735,14 @@ function upload_head_pic($id)
         }
         exit();
     }
-    $id     = substr($id, 0, 8);
-    $path   = "../img/upload/{$id}/";
+    if ($id !== null) {
+        $id   = substr($id, 0, 8);
+        $path = "../img/upload/{$id}/";
+        $url  = "/blog/img/upload/{$id}/";
+    } else {
+        $path = "../img/title/";
+        $url  = "/blog/img/title/";
+    }
     $upfile = $path . $_FILES['upload']['name'];
     if (!is_dir($path)) {
         if (!mkdir($path)) {
@@ -589,7 +754,7 @@ function upload_head_pic($id)
         echo "出错了：不能将文件移到目标目录！";
         exit();
     }
-    return $url = "/blog/img/upload/{$id}/" . $_FILES['upload']['name'];
+    return $url .= $_FILES['upload']['name'];
 }
 
 function create_file($id)
@@ -641,7 +806,7 @@ name='content'></textarea><div id='toolbar'><i class='icon-sentiment_satisfied' 
 <div id='result'></div>
 </form><div id='comment_list'></div></div><div id='choose'><div id='choices'><div id='avatar_pics'></div>
 <div id='button'><div id='true'>确认</div></div></div><div id='cancel'><i class='icon-cancel'></i></div></div>
-<div id='big_mask'></div><div id='toTop'></div><script>
+<div id='big_mask'></div><script>
     uParse('#content',{
     });
     </script>
@@ -893,4 +1058,60 @@ function add_click($id)
 {
     $conn   = db_connect();
     $result = $conn->query("update article set click=click+1 where article_id={$id}");
+}
+
+function create_lab_page()
+{
+    $html = create_lab_html();
+    $url  = $_SERVER['DOCUMENT_ROOT'] . "/blog/lab.html";
+    write_file($url, $html);
+}
+function create_lab_html()
+{
+    $html = "";
+    $html .= "<!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <title>作品集--天边的博客</title>
+        <link rel='stylesheet' href='lab.css' />
+    </head>
+    <body>
+        <div id='container'>
+            <ul>";
+    $conn   = db_connect();
+    $result = $conn->query("select * from works order by works_id desc");
+    $rows   = $result->num_rows;
+    for ($i = 0; $i < $rows; $i++) {
+        $row = $result->fetch_array();
+        $html .= "<li>
+                <div class='wrapper'><img src='{$row['head_pic']}'/>
+                        <div class='name'>
+                            <div class='head'>{$row['name']}</div>
+                            <div class='content'>{$row['description']}</div>
+                            <a href='{$row['url']}' target='_blank'>查看</a>
+                        </div>
+                    </div>
+                </li>";
+    }
+    $html .= "</ul>
+        </div>
+        <script src='/blog/common/jquery.js'></script>
+        <script>
+        (function get_sidebar() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_sidebar'
+            },
+            success: function(data) {
+                $('body').prepend(data);
+            }
+        });
+
+    })();
+        </script>
+    </body>
+    </html>";
+    return $html;
 }

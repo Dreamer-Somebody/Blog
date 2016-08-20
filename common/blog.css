@@ -26,6 +26,10 @@ div#show_article {
 }
 div#show_article img {
     width: 100%;
+    transition: all 1s;
+}
+.head_pic:hover img{
+    transform: scale(1.2,1.2);
 }
 div#classify {
     align-self: flex-start;
@@ -86,6 +90,7 @@ div.article::after{
     font-size: 4em;
     color: #fff;
     text-align: center;
+    z-index: 300;
     transition: opacity .3s;
 }
 .head_pic:hover .more{
