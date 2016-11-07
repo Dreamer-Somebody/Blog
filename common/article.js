@@ -204,7 +204,7 @@ jQuery(document).ready(function($) {
             html += "<img src='" + now.user_pic + "' name='avatar' /></div>";
             html += "<div class='wrapper'><span>" + now.user_name + "</span>";
             if (now.content.indexOf("&lt;author==true&gt;") >= 0) {
-                html += "<span class='author'>作者</span>";
+                html += "<span class='author'>博主</span>";
                 now.content = now.content.replace("&lt;author==true&gt;", "");
             }
             now.content = now.content.replace(/@@@(\d+)-([^@]+)@@/g, "<a href='#comment" + "$1" + "'><span>@" + "$2" + "</span></a>");

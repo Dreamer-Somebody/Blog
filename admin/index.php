@@ -16,7 +16,7 @@ if ($action == 'log-out') {
     session_destroy();
 }
 if (!check_valid_user()) {
-    echo "<p>没有登录，请登录！<a href='Login.html'>登陆<a/></p>";
+    echo "<p>没有登录，请登录！<a href='login.html'>登陆<a/></p>";
     die();
 }
 ?>

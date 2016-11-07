@@ -19,7 +19,7 @@
                     <a href="/blog/sort.php"><i class="icon-code"></i>分类</a>
                 </li>
                 <li>
-                    <a href="/blog/lab.html"><i class="icon-camera"></i>作品集</a>
+                    <a href="/blog/lab.php"><i class="icon-camera"></i>作品集</a>
                 </li>
                 <li>
                     <a href="/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
@@ -34,12 +34,17 @@
     <script>
     jQuery(document).ready(function($) {
         $path= document.location.pathname;
-        if($("#nav a[href*='"+$path+"']").length>0){
+        if($("#nav a[href*='"+$path+"']").length>0&&$path!="/blog/"){
             $("#nav li").removeClass("active");
             $("#nav a[href*='"+$path+"']").parent().addClass('active');
         }else{
             $("#nav li:first-child").addClass('active');
         }
+        $("a[href*='about.php']").on('click', function(event) {
+            event.preventDefault();
+            alert("制作中 = v =");
+            event.stopPropagation();
+        });
     });
     </script>
 </body>

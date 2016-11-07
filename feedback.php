@@ -6,6 +6,8 @@ include_once "admin/admin_fn.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name='keywords 'content='天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php'/>
+<meta name='description' content='天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。'/>
     <title>留言板--天边的博客</title>
     <link rel="stylesheet" href="/blog/common/article.css">
 </head>

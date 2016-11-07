@@ -1,53 +1,39 @@
+<?php include_once "common/include.php";?>
 <!DOCTYPE html>
     <html lang='en'>
     <head>
         <meta charset='UTF-8' />
-        <title>Document</title>
+        <meta name="keywords" content="天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php"/>
+<meta name='description' content='天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。'/>
+        <title>作品集--天边的博客</title>
         <link rel='stylesheet' href='lab.css' />
     </head>
     <body>
         <div id='container'>
             <ul><li>
-                <div class='wrapper'><img src='/blog/img/title/js.jpg'/>
+                <div class='wrapper'><img src='/blog/img/title/0b2cf1273342800f8008fb0281e58469dc0c1eb5b11b-8aUTqX_fw658.png'/>
                         <div class='name'>
-                            <div class='head'>轮播图</div>
-                            <div class='content'>一个轮播图的demo</div>
+                            <div class='head'>轮播图demo</div>
+                            <div class='content'>这是第一次jquery实战的demo</div>
                             <a href='http://dreamer-somebody.github.io/demo/' target='_blank'>查看</a>
-                        </div>
-                    </div>
-                </li><li>
-                <div class='wrapper'><img src='/blog/img/title/ng2.jpg'/>
-                        <div class='name'>
-                            <div class='head'>新项目</div>
-                            <div class='content'>巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</div>
-                            <a href='...' target='_blank'>查看</a>
-                        </div>
-                    </div>
-                </li><li>
-                <div class='wrapper'><img src='/blog/img/title/default.png'/>
-                        <div class='name'>
-                            <div class='head'>新新新项目</div>
-                            <div class='content'>巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</div>
-                            <a href='...' target='_blank'>查看</a>
-                        </div>
-                    </div>
-                </li><li>
-                <div class='wrapper'><img src='/blog/img/title/jq.jpg'/>
-                        <div class='name'>
-                            <div class='head'>项目4</div>
-                            <div class='content'>项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4项目4</div>
-                            <a href='' target='_blank'>查看</a>
-                        </div>
-                    </div>
-                </li><li>
-                <div class='wrapper'><img src='/blog/img/title/html5.jpg'/>
-                        <div class='name'>
-                            <div class='head'>项目5</div>
-                            <div class='content'>项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5项目5</div>
-                            <a href='' target='_blank'>查看</a>
                         </div>
                     </div>
                 </li></ul>
         </div>
+        <script src='/blog/common/jquery.js'></script>
+        <script>
+        (function get_sidebar() {
+        $.ajax({
+            url: '/blog/admin/control.php',
+            data: {
+                action: 'get_sidebar'
+            },
+            success: function(data) {
+                $('body').prepend(data);
+            }
+        });
+
+    })();
+        </script>
     </body>
     </html>

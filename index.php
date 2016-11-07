@@ -5,6 +5,8 @@ include_once "common/include.php";
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
+	<meta name='keywords' content='天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php'/>
+<meta name='description' content='天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。'/>
 	<title>天边的博客</title>
 	<link rel="stylesheet" href="/blog/index.css" />
 	<link rel="stylesheet" href="/blog/common/blog.css" />
@@ -32,5 +34,6 @@ show_classify();
 	</div>
 	<script src="/blog/common/jquery.js"></script>
 	<script src="/blog/index.js"></script>
+	<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260446206'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260446206' type='text/javascript'%3E%3C/script%3E"));</script>
 </body>
 </html>

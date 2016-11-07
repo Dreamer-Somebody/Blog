@@ -780,7 +780,9 @@ function get_article($row)
 <html>
 <head>
     <meta charset='UTF-8' />
-    <title>{$row['title']}</title>
+    <meta name='keywords 'content='天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php'/>
+<meta name='description' content='天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。'/>
+    <title>{$row['title']} -天边的博客</title>
     <link rel='stylesheet' href='/blog/index.css' />
     <link rel='stylesheet' href='/blog/common/article.css' />
     <script src='/blog/components/ueditor/utf8-php/ueditor.parse.js'></script>
@@ -1073,6 +1075,8 @@ function create_lab_html()
     <html lang='en'>
     <head>
         <meta charset='UTF-8' />
+        <meta name='keywords' content='天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php'/>
+<meta name='description' content='天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。'/>
         <title>作品集--天边的博客</title>
         <link rel='stylesheet' href='lab.css' />
     </head>
