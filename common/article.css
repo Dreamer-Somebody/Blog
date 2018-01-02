@@ -5,12 +5,12 @@
 }
 #article {
     position: relative;
-    width: 900px;
+    width: 1100px;
     -webkit-transition: -webkit-transform 1s;
     transition: transform 1s;
     background-color: #fff;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-    margin: 15px 215px;
+    margin: 0 auto;
     padding: 40px 80px 80px;
 }
 .syntaxhighlighter {
@@ -203,7 +203,8 @@ p#thanks.move, p#tips.move {
     z-index: 100;
 }
 #comment {
-    margin: 20px 300px;
+    margin: 0 auto;
+    width: 1100px;
 }
 #comment h1 {
     text-align: center;
@@ -274,7 +275,7 @@ form{
     height: 100%;
 }
 textarea, input, button {
-    font-family: monospace;
+    font-family: consolas, Microsoft Yahei;
 }
 
 textarea {
@@ -325,7 +326,6 @@ textarea {
     display: inline-block;  
 }
 #toolbar .emoji {
-
     margin: 3px;
     vertical-align: middle;
     cursor: pointer;

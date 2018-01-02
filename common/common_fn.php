@@ -14,7 +14,7 @@ function show_article_list($query, $page = 1, $sub_query = '', $num = 10)
         for ($i = 1; $i <= $rows; $i++) {
             $row = $result->fetch_array();
             echo "<div class='article'>";
-            echo "<a class='head_pic' href='{$row['link']}'><div class='more'><i class='icon-control_point'></i></div><img src='{$row['head_pic']}'/></a>";
+            echo "<a class='head_pic' href='{$row['link']}'><div class='more'><i class='icon-control_point'></i></div><div class='headPic' style='background-image: url({$row['head_pic']})'></div></a>";
             echo "<a class='tags' href='/blog/sort.php?key=class&value={$row['class']}'>{$row['class']}</a>";
             echo "<a href='{$row['link']}' class='title'><h2>{$row['title']}</h2></a>";
             //411是137个汉字

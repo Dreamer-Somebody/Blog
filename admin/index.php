@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/blog/common/base.css" />
     <link rel="stylesheet" href="/blog/components/sidebar/sidebar.css">
     <link rel="stylesheet" href="css/index.css" />
+    <style>
+        #body a {
+            padding: 12px 20px;
+        }
+    </style>
 </head>
 <body>
 <?php

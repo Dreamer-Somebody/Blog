@@ -1,6 +1,6 @@
 div#sidebar {
     position: fixed;
-    width: 160px;
+    width: 200px;
     height: 100%;
     z-index: 20;
     background-color: #343434;
@@ -51,7 +51,7 @@ ul#nav>li {
     border-bottom: 1px solid rgba(124, 117, 117, .2);
 }
 #body a {
-    padding: 12px;
+    padding: 12px 28px;
     width: 100%;
     display: inline-block;
     font-size: 14px;
@@ -63,9 +63,9 @@ li.active, ul#nav li:hover {
     padding-left: 7px;
 }
 #sidebar i {
-    color: #fff;
     display: inline-block;
-    margin: 0 20px;
+    color: #fff;
+    margin: 0 34px 0 20px;
 }
 ul.sublist.hide {
     height: 0 !important;

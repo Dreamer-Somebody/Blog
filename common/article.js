@@ -39,6 +39,9 @@ jQuery(document).ready(function($) {
         });
     })();
     (function get_random_avatar() {
+        if(location.href.indexOf("feedback.php")>0){
+            return;
+        }
         $.ajax({
             url: '/blog/admin/control.php',
             data: {
