@@ -845,6 +845,15 @@ function get_emoji()
     $string .= "<img class='emoji' src='/blog/img/emoji/sweat.png' data-emoji='sweat' />";
     $string .= "<img class='emoji' src='/blog/img/emoji/xx.png' data-emoji='xx' />";
     $string .= "<img class='emoji' src='/blog/img/emoji/lol.png' data-emoji='lol' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/morning.png' data-emoji='morning' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/rainbow.png' data-emoji='rainbow' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/bling.png' data-emoji='bling' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/flower.png' data-emoji='flower' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/heart.png' data-emoji='heart' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/happySmile.png' data-emoji='happySmile' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/think.png' data-emoji='think' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/rain.png' data-emoji='rain' />";
+    $string .= "<img class='emoji' src='/blog/img/emoji/love.png' data-emoji='love' />";
     $string .= "</div>";
     return $string;
 }
